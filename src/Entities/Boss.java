@@ -12,6 +12,8 @@ public class Boss extends Monster implements Boss_interface{
 	private List<Stone> stones;
 	private int hp;
 	private final int HP_MAX=1000;
+	private int speed = 1;
+	
 	int t=0,k=0;
 	public Boss(int x, int y) {
 		super(x, y);
@@ -42,10 +44,10 @@ public class Boss extends Monster implements Boss_interface{
 		return stones;
 	}
 	public void move(int heroY) { // hàm move() có tham số >< move() kế thừa từ Monster
-		if (getDirect() == 1 ) { x+=MONSTER_SPEED ;loadImage("res/textures/img/bossright.png");}
-        else if (getDirect() == -1 ) { x-=MONSTER_SPEED; loadImage("res/textures/img/bossleft.png");}
-        else if (getDirect() == 2 )  { y-=MONSTER_SPEED; loadImage("res/textures/img/bossup.png");}
-        else if (getDirect() == -2 ) { y+=MONSTER_SPEED; loadImage("res/textures/img/bossdown.png");}
+		if (getDirect() == 1 ) { x+=speed ;loadImage("res/textures/img/bossright.png");}
+        else if (getDirect() == -1 ) { x-=speed; loadImage("res/textures/img/bossleft.png");}
+        else if (getDirect() == 2 )  { y-=speed; loadImage("res/textures/img/bossup.png");}
+        else if (getDirect() == -2 ) { y+=speed; loadImage("res/textures/img/bossdown.png");}
         timez+=1; 
         if (timez==100) { //cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
            setDirect(rd.nextInt(5)-2); // random hướng di chuyển  (0..5  -2 --> -2 ..2 hướng di chuyển đã quy định 0 tương ứng với đứng yên)
@@ -78,8 +80,8 @@ public class Boss extends Monster implements Boss_interface{
 		
         if (t<find_hero_speed) t++; // số chu kì tìm hero
         if (t==find_hero_speed) {
-           if (getY()-heroY>MONSTER_SPEED)  { y-= MONSTER_SPEED ; }
-           if (getY()-heroY<-MONSTER_SPEED) { y+= MONSTER_SPEED ; }
+           if (getY()-heroY>speed)  { y-= speed ; }
+           if (getY()-heroY<-speed) { y+= speed ; }
            t=0;
         }
         k++;

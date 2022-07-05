@@ -7,7 +7,7 @@ public class Main extends JFrame {
 	public Main() {
 		 add(new Board()); // noi dung
 	      pack();  // di kem voi setPreferredSize(); tao khung
-	      setResizable(true);
+	      setResizable(false);
 	      setTitle("Magic Cat");
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      setLocationRelativeTo(null);

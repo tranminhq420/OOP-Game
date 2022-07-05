@@ -10,8 +10,14 @@ public class Hero extends GameObjectDynamic {
 	private int dy;
     private List<Fire> fires ;       
     private int moving ;   
-    private final int shoot_force =50; // lực bắn
-    private int live =3;
+    private int life = 6; // health
+    private int maxLife = 6;
+    private int speed = 3;
+    private int maxMana = 10;
+    private int mana = 10;
+    private int attack = 2;
+    private int defense = 1;
+    
     public Hero(int x,int y) { 
          super(x,y);
          fires = new ArrayList<>(); 
@@ -28,16 +34,16 @@ public class Hero extends GameObjectDynamic {
     	if (y>Board.getSizeY()-this.height) {y=Board.getSizeY()-this.height;}
     	// ko cho đi xuyên tư�?ng
     	if(!Board.m.checkMapLeft(x,y,this.width,this.height)) {
-    		x=x+1;
+    		x=x+speed;
     	}
     	if(!Board.m.checkMapRight(x,y,this.width,this.height)) {
-    		x=x-1;
+    		x=x-speed;
     	}
     	if(!Board.m.checkMapUp(x,y,this.width,this.height)) {
-    		y=y+1;
+    		y=y+speed;
     	}
     	if(!Board.m.checkMapDown(x,y,this.width,this.height)) {
-    		y=y-1;
+    		y=y-speed;
     	}        
     }
     public List<Fire> getFires(){ 
@@ -56,10 +62,10 @@ public class Hero extends GameObjectDynamic {
     public void keyPressed(KeyEvent e) {
 	   int key = e.getKeyCode();
 	   if (key == KeyEvent.VK_SPACE) { tofire();} 
-	   if (key == KeyEvent.VK_LEFT)  { dx = -1; loadImage("res/textures/img/left.png") ; setDirect(-1);}
-	   if (key == KeyEvent.VK_RIGHT) { dx =  1; loadImage("res/textures/img/right.png") ; setDirect(1) ;}
-	   if (key == KeyEvent.VK_UP)    { dy = -1; loadImage("res/textures/img/up.png") ; setDirect(2) ;} 
-	   if (key == KeyEvent.VK_DOWN)  { dy =  1; loadImage("res/textures/img/down.png") ; setDirect(-2);}    	
+	   if (key == KeyEvent.VK_LEFT)  { dx = -speed; loadImage("res/textures/img/left.png") ; setDirect(-1);}
+	   if (key == KeyEvent.VK_RIGHT) { dx =  speed; loadImage("res/textures/img/right.png") ; setDirect(1) ;}
+	   if (key == KeyEvent.VK_UP)    { dy = -speed; loadImage("res/textures/img/up.png") ; setDirect(2) ;} 
+	   if (key == KeyEvent.VK_DOWN)  { dy =  speed; loadImage("res/textures/img/down.png") ; setDirect(-2);}    	
     }
    
 	public void keyReleased(KeyEvent e) {
@@ -70,16 +76,24 @@ public class Hero extends GameObjectDynamic {
 	   if (key == KeyEvent.VK_UP)    { dy = 0; }
 	   if (key == KeyEvent.VK_DOWN)  { dy = 0; }
     }
-	public int getShoot_force() {
-		return shoot_force;
-	}
-	public int getLive() {
-		return live;
-	}
-	public void setLive(int live) {
-		this.live = live;
-	}
 	
-	
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public int getMana() {
+		return mana;
+	}
+	public int getAttack() {
+		return attack;
+	}
+	public int getDefense() {
+		return defense;
+	}
 
 }

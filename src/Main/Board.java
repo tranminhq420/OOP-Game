@@ -76,7 +76,7 @@ public class Board extends JPanel implements ActionListener {
 	       if (boss_appared) updateStone() ;
 	       checkCollisions(); // kiem tra va chạm
 	       repaint(); // goi ra paintComponent
-//	       System.out.println(hero.getLive());
+//	       System.out.println(hero.getLife());
 		}
 		private void updateFires() {
 		   List<Fire> fires = hero.getFires() ;
@@ -128,9 +128,11 @@ public class Board extends JPanel implements ActionListener {
 			for (Monster monster : monsters) { //kiem tra quai dam vao ng choi
 				Rectangle ms = monster.getBounds();
 				if (hr.intersects(ms)) {  // 2 khung cham vao nhau
-					if (hero.getLive()==1) hero.setTontai(false);
-					else hero.setLive(hero.getLive()-1);
-					monster.setTontai(false);
+					hero.setLife(hero.getLife()-(monster.getAttack()-hero.getDefense()) );
+					if(hero.getLife()==0) hero.setTontai(false);
+					
+					monster.setLife(monster.getLife()-1);
+					if(monster.getLife()==0) monster.setTontai(false);
 				}
 			}
 			List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
@@ -140,12 +142,13 @@ public class Board extends JPanel implements ActionListener {
 			    	Rectangle ms = monster.getBounds(); // lay hinh tung con quai
 			    	if (ms.intersects(khung_fr)) { //va cham dan va quai
 			    		fr.setTontai(false);
-			    		monster.setTontai(false);
+			    		monster.setLife(monster.getLife()-hero.getAttack());
+						if(monster.getLife()==0)monster.setTontai(false);
 			    	}
 			    }
 			    Rectangle bs = boss.getBounds(); //va cham dan va boss
 			    if (khung_fr.intersects(bs)) {
-			    	boss.setHp(boss.getHp()-hero.getShoot_force());
+			    	boss.setHp(boss.getHp()-hero.getAttack());
 			    	fr.setTontai(false);
 			    };
 			}
@@ -154,15 +157,15 @@ public class Board extends JPanel implements ActionListener {
 			for (Stone st : stones) {
 				Rectangle st_rec = st.getBounds();
 				if (hr.intersects(st_rec)) {
-					if (hero.getLive()==1) hero.setTontai(false);
-		    	 	   else hero.setLive(hero.getLive()-1);
+					if (hero.getLife()==1) hero.setTontai(false);
+		    	 	   else hero.setLife(hero.getLife()-1);
 					st.setTontai(false);
 		    	}
 			}
 			Rectangle bs = boss.getBounds();
 			if (bs.intersects(hr)) {
-				if (hero.getLive()==1) hero.setTontai(false);
-	    	 	   else hero.setLive(hero.getLive()-1);		
+				if (hero.getLife()==1) hero.setTontai(false);
+	    	 	   else hero.setLife(hero.getLife()-1);		
 		        hero.setX(10); hero.setY(10);
 			}
 		}
@@ -243,8 +246,13 @@ public class Board extends JPanel implements ActionListener {
 		       }
 		       else
 		    	 
-		          g.drawString("Còn: "+ monsters.size()+" quái ",SIZE_X-100, SIZE_Y/4); // 10,10 : k/c tinh tu goc trai man hinh    
-		          g.drawString("IronMan: "+hero.getLive()+ " mạng", SIZE_X-120, SIZE_Y/4+50);
+		          g.drawString("Monsters: "+ monsters.size(),SIZE_X-100, SIZE_Y/4); // 10,10 : k/c tinh tu goc trai man hinh    
+		          g.drawString("Health: "+hero.getLife(), SIZE_X-100, SIZE_Y/4+50);
+		          g.drawString("Speed : "+hero.getSpeed(), SIZE_X-100, SIZE_Y/4+70);
+		          g.drawString("Mana : "+hero.getMana(), SIZE_X-100, SIZE_Y/4+90);
+		          g.drawString("Attack : "+hero.getAttack(), SIZE_X-100, SIZE_Y/4+110);
+		          g.drawString("Defense : "+hero.getDefense(), SIZE_X-100, SIZE_Y/4+130);
+		          
 		    } else {
 		        String msg = "Game Over";
 		        Font small = new Font("Helvetica", Font.BOLD, 20);
