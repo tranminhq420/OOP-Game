@@ -2,6 +2,7 @@ package Entities;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
@@ -25,6 +26,17 @@ public class GameObject {
 	protected void loadImage(String imageName) { 
 	      ImageIcon img = new ImageIcon(imageName);
 	      image = img.getImage();
+	}
+	public BufferedImage scaleImage(BufferedImage original, int width, int height) {
+		//Tao ra mot anh rong co chieu dai va chieu rong kieu la png
+		BufferedImage scaledImage = new BufferedImage(width,height,original.getType());
+//		g2 tro den scaledImage co do hoa 
+		Graphics2D g2 = scaledImage.createGraphics();
+//		Ve len ScaledImage voi ti le da keo dai ra
+//		Tile image luu 16x16 px con day la 48x48 px
+		g2.drawImage(original, 0, 0,width, height, null);
+		g2.dispose();
+		return scaledImage;
 	}
 	protected void getImageDimension() { 
 		  width  = image.getWidth(null);
