@@ -70,6 +70,7 @@ public class Board extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 		   if (!ingame) {timer.stop();} // game over ( ko nhan su kien nhan nua )
 	       updateFires();
+	       updateSkillshots();
 	       updateHero();
 	       updateMonster();
 	       updateBoss();
@@ -89,6 +90,17 @@ public class Board extends JPanel implements ActionListener {
 		   }
 		   
 		}
+		private void updateSkillshots() {
+			   List<Skillshot> skillshots = hero.getSkillshots() ;
+			   for (int j=0 ; j< skillshots.size();j++) {
+				   Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
+		           if (skillshot.getTontai()) {
+		        	   skillshot.move();
+		           } //vien dan di chuyen
+		           else { skillshots.remove(j); } // xoa vien dan khi ham move
+			   }
+			   
+			}
 		private void updateStone() {
 		   List<Stone> stones = boss.getStones();
 		   for (int i=0 ; i<stones.size();i++) {
@@ -152,6 +164,24 @@ public class Board extends JPanel implements ActionListener {
 			    	fr.setTontai(false);
 			    };
 			}
+			List<Skillshot> sks = hero.getSkillshots(); // fr : mang cac fire cua hero
+			for (Skillshot  sk : sks) {
+			    Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
+			    for (Monster monster : monsters) {
+			    	Rectangle ms = monster.getBounds(); // lay hinh tung con quai
+			    	if (ms.intersects(khung_fr2)) { //va cham dan va quai
+			    		sk.setTontai(false);
+			    		monster.setLife(monster.getLife()-hero.getSkillAttack());
+						if(monster.getLife()==0)monster.setTontai(false);
+			    	}
+			    }
+			    Rectangle bs = boss.getBounds(); //va cham dan va boss
+			    if (khung_fr2.intersects(bs)) {
+			    	boss.setHp(boss.getHp()-hero.getSkillAttack());
+			    	sk.setTontai(false);
+			    };
+			}
+			
 		if (boss_appared) {
 			List<Stone> stones = boss.getStones(); // xu li va cham stones vs nhan vat
 			for (Stone st : stones) {
@@ -223,10 +253,18 @@ public class Board extends JPanel implements ActionListener {
 			} else
 		    if (ingame) {       
 		       g.drawImage(hero.getImage(), hero.getX(),hero.getY(), this); // ve hero
+		       
 		       List<Fire> fires = hero.getFires();
 		       for (Fire fire : fires) { // ve dan
 		          g.drawImage(fire.getImage(), fire.getX(),fire.getY(), this);
 		       }	
+		       //ve skillshot
+		       List<Skillshot> skillshots = hero.getSkillshots();
+		       for (Skillshot skillshot : skillshots) { // ve dan
+		          g.drawImage(skillshot.getImage(), skillshot.getX(),skillshot.getY(), this);
+		       }
+		       
+
 		       for (Monster monster : monsters) { // ve quai
 		    	   if (monster.getTontai()) {
 		    		   g.drawImage(monster.getImage(),monster.getX(),monster.getY(),this);

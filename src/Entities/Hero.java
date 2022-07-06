@@ -8,7 +8,9 @@ import java.util.List;
 public class Hero extends GameObjectDynamic {
 	private int dx; 
 	private int dy;
-    private List<Fire> fires ;       
+    private List<Fire> fires ;  
+    private List<Skillshot> skillshots;
+//    private int live = 3;
     private int moving ;   
     private int life = 6; // health
     private int maxLife = 6;
@@ -17,10 +19,12 @@ public class Hero extends GameObjectDynamic {
     private int mana = 10;
     private int attack = 2;
     private int defense = 1;
+    private int skillAttack = 4;
     
     public Hero(int x,int y) { 
          super(x,y);
          fires = new ArrayList<>(); 
+         skillshots = new ArrayList<>();
          loadImage("res/textures/img/down.png");
          getImageDimension();
     }
@@ -59,9 +63,28 @@ public class Hero extends GameObjectDynamic {
     	fire_new.setDirect(getDirect());
     	fires.add(fire_new);
     }
+    public List<Skillshot> getSkillshots(){
+    	return skillshots;
+    }
+    public void toSkillshot() {
+    	if( mana >0 ) {
+    		int xz = 0 ,yz=0;  
+    	if (getDirect()==1) { xz=x+width ; yz=y+height/2 ;}
+    	   else if (getDirect()==-1) { xz=x ; yz=y+height/2;}
+    	      else if (getDirect()==-2) {xz=x+width/2 ; yz=y+height;}
+    	         else if (getDirect()==2) { xz=x+width/3 ; yz=y;}    	
+    	Skillshot skillshot_new=new Skillshot(xz,yz);
+    	skillshot_new.setDirect(getDirect());
+    	skillshots.add(skillshot_new);
+    	mana -= skillshot_new.getUseCost();
+    	}
+    	
+    	
+    }
     public void keyPressed(KeyEvent e) {
 	   int key = e.getKeyCode();
 	   if (key == KeyEvent.VK_SPACE) { tofire();} 
+	   if (key == KeyEvent.VK_A) { toSkillshot();} 
 	   if (key == KeyEvent.VK_LEFT)  { dx = -speed; loadImage("res/textures/img/left.png") ; setDirect(-1);}
 	   if (key == KeyEvent.VK_RIGHT) { dx =  speed; loadImage("res/textures/img/right.png") ; setDirect(1) ;}
 	   if (key == KeyEvent.VK_UP)    { dy = -speed; loadImage("res/textures/img/up.png") ; setDirect(2) ;} 
@@ -71,6 +94,7 @@ public class Hero extends GameObjectDynamic {
 	public void keyReleased(KeyEvent e) {
 	   int key = e.getKeyCode(); 
 	   if (key == KeyEvent.VK_SPACE) { }
+	   if (key == KeyEvent.VK_A) { }
 	   if (key == KeyEvent.VK_LEFT)  { dx = 0; }
 	   if (key == KeyEvent.VK_RIGHT) { dx = 0; }
 	   if (key == KeyEvent.VK_UP)    { dy = 0; }
@@ -94,6 +118,9 @@ public class Hero extends GameObjectDynamic {
 	}
 	public int getDefense() {
 		return defense;
+	}
+	public int getSkillAttack() {
+		return skillAttack;
 	}
 
 }
