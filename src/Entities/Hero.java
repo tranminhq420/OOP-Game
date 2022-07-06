@@ -124,3 +124,4 @@ public class Hero extends GameObjectDynamic {
 	}
 
 }
+//hello chua te Aram xin chao.
