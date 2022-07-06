@@ -6,7 +6,14 @@ import Main.Board;
 public class Monster extends GameObjectDynamic {
 	Random rd = new Random();
 	private int timez=0;
-	protected static final int MONSTER_SPEED =1;
+	
+//	protected static final int speed =1;
+	private final int speed = 1;
+	private int maxLife = 4;
+	private int life = maxLife;
+	private int attack = 2;
+	private int defense = 0;
+	
 	public Monster(int x, int y) {
 		super(x, y);
         initMonster();
@@ -16,10 +23,10 @@ public class Monster extends GameObjectDynamic {
     	getImageDimension();
     }
 	public void move() {
-        if (getDirect() == 1 ) { x+=MONSTER_SPEED ;loadImage("res/textures/img/tauvutruright.png");}
-        else if (getDirect() == -1 ) { x-=MONSTER_SPEED; loadImage("res/textures/img/tauvutruleft.png");}
-        else if (getDirect() == 2 )  { y-=MONSTER_SPEED; loadImage("res/textures/img/tauvutrutop.png");}
-        else if (getDirect() == -2 ) { y+=MONSTER_SPEED; loadImage("res/textures/img/tauvutrudown.png");}
+        if (getDirect() == 1 ) { x+=speed ;loadImage("res/textures/img/tauvutruright.png");}
+        else if (getDirect() == -1 ) { x-=speed; loadImage("res/textures/img/tauvutruleft.png");}
+        else if (getDirect() == 2 )  { y-=speed; loadImage("res/textures/img/tauvutrutop.png");}
+        else if (getDirect() == -2 ) { y+=speed; loadImage("res/textures/img/tauvutrudown.png");}
         timez+=1; 
         if (timez==100) { //cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
            setDirect(rd.nextInt(5)-2); // random hướng di chuyển  (0..5  -2 --> -2 ..2 hướng di chuyển đã quy định 0 tương ứng với đứng yên)
@@ -42,5 +49,21 @@ public class Monster extends GameObjectDynamic {
     	if(!Board.m.checkMapDown(x,y,this.width,this.height)) {
     		y=y-1;
     	}   
+	}
+	
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public int getAttack() {
+		return attack;
+	}
+	public int getDefense() {
+		return defense;
 	}
 }
