@@ -61,6 +61,19 @@ public class Hero {
 		if (!Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height)) {
 			getHeroGP().y = getHeroGP().y - speed;
 		}
+
+		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+			Board.setDoor_appared();
+		}
+		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+			Board.setDoor_appared();
+		}
+		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+			Board.setDoor_appared();
+		}
+		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+			Board.setDoor_appared();
+		}
 	}
 
 	public List<Fire> getFires() {
