@@ -35,6 +35,7 @@ public class Board extends JPanel implements ActionListener {
 	private Timer timer;
 	private boolean ingame; // danh dau chuyen canh
 	private boolean started; // danh dau bat dau -> chuyen sang image->game over
+	private int commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
 	private boolean boss_appared = false;
 	private List<Monster> monsters; // mang quai
@@ -59,6 +60,7 @@ public class Board extends JPanel implements ActionListener {
 		m = new Map();
 		ingame = true;
 		started = false;
+		commandNum = 0;
 		hero = new Hero(TOADO_X, TOADO_Y);
 		initMonsters();
 		boss = new Boss(SIZE_X - 250, SIZE_Y / 2); // khoi tao boss ben phai man hinh
@@ -243,47 +245,102 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		// ve map
-		ImageIcon treeImage = new ImageIcon("res/textures/img/tree_grass_1.png");
-		// ImageIcon wallImage=new ImageIcon("res/textures/wall.png");
-		// ImageIcon groundImage=new ImageIcon("res/textures/ground.png");
-		ImageIcon grassImage = new ImageIcon("res/textures/img/grass.png");
-		ImageIcon datImage = new ImageIcon("res/textures/img/dirt.png");
-		ImageIcon thungImage = new ImageIcon("res/textures/img/rock_dirt.png");
-		ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
-		ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
-		ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
-		for (int y = 0; y < 20; y++)
-			for (int x = 0; x < 20; x++) {
-				if (m.getMap(x, y).equals("1")) {
-					g.drawImage(new Tree(x, y, 32, 32, treeImage.getImage()).getImage(), x * 32, y * 32, null);
-				} else if (m.getMap(x, y).equals("2")) {
-					g.drawImage(new Water(x, y, 32, 32, nuocImage.getImage()).getImage(), x * 32, y * 32, null);
-				} else if (m.getMap(x, y).equals("3")) {
-					g.drawImage(new Rock(x, y, 32, 32, thungImage.getImage()).getImage(), x * 32, y * 32, null);
-				} else if (m.getMap(x, y).equals("4")) {
-					g.drawImage(new Bridge(x, y, 32, 32, cauImage.getImage()).getImage(), x * 32, y * 32, null);
-				} else if (m.getMap(x, y).equals("5")) {
-					g.drawImage(new Earth(x, y, 32, 32, datImage.getImage()).getImage(), x * 32, y * 32, null);
-				} else if (m.getMap(x, y).equals("0")) {
-					g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
+		
+//		IntroState intro = new IntroState();
+//		intro.init();
+	// private Image backgroundImage = ImageIO.read(new
+	// File("res/textuers/img/thanos.png"));
+
+//	String mesg = "Press S to start";
+//	String quit = "QUIT GAME";
+	Font smallFont = new Font("Helvetica", Font.BOLD, 20);
+	FontMetrics fome = getFontMetrics(smallFont);
+	g.setColor(Color.white);
+	g.setFont(smallFont);
+//	g.drawString(mesg, (SIZE_X - fome.stringWidth(mesg)) / 2, SIZE_Y / 2+150);
+//	g.drawString(quit, (SIZE_X - fome.stringWidth(quit)) / 2, SIZE_Y / 2+180);
+	
+	g.setColor(new Color(0,0,0));
+	g.fillRect(0,0,50,50);
+	
+	// TITLE NAME
+	g.setFont(g.getFont().deriveFont(Font.BOLD,50F));
+	String text = "MAGIC CAT";
+	int a = ( SIZE_X - fome.stringWidth(text)) / 2 - 90 ;
+	int b = SIZE_Y / 2-200;
+	
+	// SHADOW
+	g.setColor(Color.gray);
+	g.drawString(text, a+5, b+5);
+	
+	// MAIN COLOR
+	g.setColor(Color.white);
+	g.drawString(text, a, b);
+	
+	// MAGIC CAT IMG
+	a =  SIZE_X /2 -52;
+	b += 84;
+	g.drawImage( hero.getHeroGP().getImage() , a, b, 100, 100, null);
+			
+	// MENU 
+	g.setFont(g.getFont().deriveFont(Font.BOLD,24F));
+	
+	text = "NEW GAME";
+	a = getXforCenteredText(text,g);
+	b += 196;
+	g.drawString(text, a, b);
+	if(commandNum == 0) {
+		g.drawString(">", a-32, b);	
+	}
+	
+	text = "OPTION";
+	a = getXforCenteredText(text,g);
+	b += 64;
+	g.drawString(text, a, b);
+	if(commandNum == 1) {
+		g.drawString(">", a-32, b);	
+	}
+	
+	text = "QUIT";
+	a = getXforCenteredText(text,g);
+	b += 64;
+	g.drawString(text, a, b);
+	if(commandNum == 2) {
+		g.drawString(">", a-32, b);	
+	}
+	
+	
+		if (started == true) {
+
+			// ve map
+			ImageIcon treeImage = new ImageIcon("res/textures/img/tree_grass_1.png");
+			// ImageIcon wallImage=new ImageIcon("res/textures/wall.png");
+			// ImageIcon groundImage=new ImageIcon("res/textures/ground.png");
+			ImageIcon grassImage = new ImageIcon("res/textures/img/grass.png");
+			ImageIcon datImage = new ImageIcon("res/textures/img/dirt.png");
+			ImageIcon thungImage = new ImageIcon("res/textures/img/rock_dirt.png");
+			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
+			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
+			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
+			for (int y = 0; y < 20; y++)
+				for (int x = 0; x < 20; x++) {
+					if (m.getMap(x, y).equals("1")) {
+						g.drawImage(new Tree(x, y, 32, 32, treeImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("2")) {
+						g.drawImage(new Water(x, y, 32, 32, nuocImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("3")) {
+						g.drawImage(new Rock(x, y, 32, 32, thungImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("4")) {
+						g.drawImage(new Bridge(x, y, 32, 32, cauImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("5")) {
+						g.drawImage(new Earth(x, y, 32, 32, datImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("0")) {
+						g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
+					}
+
 				}
-
-			}
-		if (started == false) {
-//				IntroState intro = new IntroState();
-//				intro.init();
-			// private Image backgroundImage = ImageIO.read(new
-			// File("res/textuers/img/thanos.png"));
-
-			String msg = "Press S to start";
-			Font small = new Font("Helvetica", Font.BOLD, 20);
-			FontMetrics fm = getFontMetrics(small);
-
-			g.setColor(Color.white);
-			g.setFont(small);
-			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
-		} else if (win) {
+			
+		if (win) {
 			String msg = "You Win!";
 			Font small = new Font("Helvetica", Font.BOLD, 20);
 			FontMetrics fm = getFontMetrics(small);
@@ -291,6 +348,11 @@ public class Board extends JPanel implements ActionListener {
 			g.setFont(small);
 			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
 		} else if (ingame) {
+			Font small = new Font("Helvetica", Font.BOLD, 15);
+			FontMetrics fm = getFontMetrics(small);
+			g.setColor(Color.white);
+			g.setFont(small);
+			
 			g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
 
 			List<Fire> fires = hero.getFires();
@@ -338,7 +400,8 @@ public class Board extends JPanel implements ActionListener {
 			g.setFont(small);
 			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
 		}
-		Toolkit.getDefaultToolkit().sync();
+	  // started == true
+		Toolkit.getDefaultToolkit().sync();}
 	}
 
 	private class TAdapter extends KeyAdapter {
@@ -346,13 +409,23 @@ public class Board extends JPanel implements ActionListener {
 		public void keyReleased(KeyEvent e) {
 			hero.keyReleased(e);
 			int key = e.getKeyCode(); // danh dau vao game
-			if ((key == 's' || key == 'S') && started == false)
-				started = true;
-			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+			
+			if( started == false) {
+				titleState(key);
+//				if (key == 's' || key == 'S')
+//				started = true;
+			}
+			else {
+				if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
 				m.openFile("res/worlds/map2.txt");
 				m.readFile(); //Nho readfile lai 1 lan nua
 				System.out.println("Da mo file"); //Test xem co nhan hay khong
 				}
+			}
+			
+
+			
+			
 		}
 
 		@Override
@@ -360,7 +433,41 @@ public class Board extends JPanel implements ActionListener {
 			hero.keyPressed(e);
 		}
 	}
+	
+	public void titleState(int code) {
+		if(code == KeyEvent.VK_UP) {
+			commandNum--;
+			if( commandNum < 0) {
+				commandNum = 2;
+			}
+		}
+		if(code == KeyEvent.VK_DOWN) {
+			commandNum++;
+			if( commandNum > 2) {
+				commandNum = 0;
+			}
+		}
+		
+		if( code == KeyEvent.VK_ENTER) {
+			if( commandNum == 0) {
+				started = true ;
+			}
+			if( commandNum == 1) {
+				// OPTION DO LATER
+			}
+			if( commandNum == 2) {
+				System.exit(0);
+			}
+		}
+	}
 
+	public int getXforCenteredText(String text,Graphics g) {
+		int length = (int)g.getFontMetrics().getStringBounds(text, g).getWidth(); // can doan text ra chinh giua
+		int x = SIZE_X/2 -length/2;
+		return x;
+	}
+	
+	
 	public static int getSizeX() {
 		return SIZE_X;
 	}
