@@ -348,6 +348,11 @@ public class Board extends JPanel implements ActionListener {
 			int key = e.getKeyCode(); // danh dau vao game
 			if ((key == 's' || key == 'S') && started == false)
 				started = true;
+			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+				m.openFile("res/worlds/map2.txt");
+				m.readFile(); //Nho readfile lai 1 lan nua
+				System.out.println("Da mo file"); //Test xem co nhan hay khong
+				}
 		}
 
 		@Override
