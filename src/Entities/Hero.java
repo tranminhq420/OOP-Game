@@ -20,7 +20,7 @@ public class Hero extends GameObjectDynamic {
     private int attack = 2;
     private int defense = 1;
     private int skillAttack = 4;
-    
+    //test Linhbranch
     public Hero(int x,int y) { 
          super(x,y);
          fires = new ArrayList<>(); 
