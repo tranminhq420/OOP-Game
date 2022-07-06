@@ -63,7 +63,7 @@ public class Map {
 		}
 		return true;
 	}
-	String pathname = "res/worlds/map2.txt";
+	String pathname = "res/worlds/map.txt";
 	public Map() {
 		openFile(pathname);
 		readFile();
@@ -72,7 +72,7 @@ public class Map {
 	public void openFile() {
 		try {
 			//m= new Scanner(new File("src/data/map.txt"));
-			m= new Scanner(new File("res/worlds/map1.txt"));
+			m= new Scanner(new File("res/worlds/map.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found !");
 		}
@@ -84,7 +84,8 @@ public class Map {
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found !");
 		}
-	}	
+	}
+
 	public void readFile() {
 		while(m.hasNext()) {
 			for(int i=0;i<20;i++) {
