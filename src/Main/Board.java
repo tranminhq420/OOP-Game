@@ -42,6 +42,7 @@ public class Board extends JPanel implements ActionListener {
 				{250,250},{230,230},{200,100},{140,120},{80,150},{130 ,140},{100,200},{300,200},{310,300},{400,310},{420,420},{350,500},{230,460},{370,280},{30,40},{60,60}
 		};
 		public static Map m;
+		public static Map m2;
 		Color bgcolor = new Color(207,207,207);
 	    public Board() {
 	       initBoard();
@@ -53,6 +54,8 @@ public class Board extends JPanel implements ActionListener {
 	       setDoubleBuffered(true);
 	       setPreferredSize(new Dimension(SIZE_X, SIZE_Y));
 	       m = new Map();
+		//    m.openFile("res/worlds/map.txt");
+		//    m.readFile();
 	       ingame = true; started = false;
 	       hero = new Hero(TOADO_X,TOADO_Y);
 	       initMonsters();
@@ -307,6 +310,11 @@ public class Board extends JPanel implements ActionListener {
 	           hero.keyReleased(e);
 	           int key = e.getKeyCode(); // danh dau vao game
 	           if ((key == 's' || key == 'S') && started == false) started = true;
+			   if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+				m.openFile("res/worlds/map.txt");
+				m.readFile(); //Nho readfile lai 1 lan nua
+				System.out.println("Da mo file"); //Test xem co nhan hay khong
+			   }
 		   }
 		   @Override
 		   public void keyPressed(KeyEvent e) {

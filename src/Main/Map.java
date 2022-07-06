@@ -63,16 +63,24 @@ public class Map {
 		}
 		return true;
 	}
-	
+	String pathname = "res/worlds/map2.txt";
 	public Map() {
-		openFile();
+		openFile(pathname);
 		readFile();
 		closeFile();	
 	}
-	public void openFile( ) {
+	public void openFile() {
 		try {
 			//m= new Scanner(new File("src/data/map.txt"));
-			m= new Scanner(new File("res/worlds/map.txt"));
+			m= new Scanner(new File("res/worlds/map1.txt"));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found !");
+		}
+	}
+	public void openFile(String pathname) { //tao them 1 ham moi, giong ten ham cu nhung neu co path cu the se doc path nay
+		try {
+			//m= new Scanner(new File("src/data/map.txt"));
+			m= new Scanner(new File(pathname));
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found !");
 		}
