@@ -46,6 +46,10 @@ public class Board extends JPanel implements ActionListener {
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
 	//{ 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
 	//{ 30, 40 }, { 60, 60 }
+
+		// khong fix nua
+	//Something
+
 	public static Map m;
 	Color bgcolor = new Color(207, 207, 207);
 
@@ -343,6 +347,7 @@ public class Board extends JPanel implements ActionListener {
 			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
 			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
 			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
+			ImageIcon newLandDoor = new ImageIcon("res/textures/img/ironman.png");
 			for (int y = 0; y < 20; y++)
 				for (int x = 0; x < 20; x++) {
 					if (m.getMap(x, y).equals("1")) {
@@ -357,8 +362,9 @@ public class Board extends JPanel implements ActionListener {
 						g.drawImage(new Earth(x, y, 32, 32, datImage.getImage()).getImage(), x * 32, y * 32, null);
 					} else if (m.getMap(x, y).equals("0")) {
 						g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("9")) {
+						g.drawImage(new NewLandDoor(x, y, 32, 32, newLandDoor.getImage()).getImage(), x * 32, y * 32, null);	
 					}
-
 				}
 			
 		
@@ -445,12 +451,12 @@ public class Board extends JPanel implements ActionListener {
 			hero.keyReleased(e);
 			int key = e.getKeyCode(); // danh dau vao game
 
-			
 			if( started == false) {
 				titleState(key);
 //				if (key == 's' || key == 'S')
 //				started = true;
 			}
+
 			else {
 				if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
 					m.openFile("res/worlds/map2.txt");
@@ -464,6 +470,7 @@ public class Board extends JPanel implements ActionListener {
 			
 
 		
+
 
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -514,3 +521,4 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 }
+
