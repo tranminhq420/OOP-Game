@@ -58,21 +58,22 @@ public class Boss extends Monster implements Boss_interface {
 	public void move(int heroY) { // hàm move() có tham số >< move() kế thừa từ Monster
 		if (getMonsterGP().getDirect() == 1) {
 			getMonsterGP().x += speed;
-			getMonsterGP().loadImage("res/textures/img/bossright.png");
+			getMonsterGP().loadImage("res/textures/img/eyeright.png");
 		} else if (getMonsterGP().getDirect() == -1) {
 			getMonsterGP().x -= speed;
-			getMonsterGP().loadImage("res/textures/img/bossleft.png");
+			getMonsterGP().loadImage("res/textures/img/eyeleft.png");
 		} else if (getMonsterGP().getDirect() == 2) {
 			getMonsterGP().y -= speed;
-			getMonsterGP().loadImage("res/textures/img/bossup.png");
+			getMonsterGP().loadImage("res/textures/img/eyeup.png");
 		} else if (getMonsterGP().getDirect() == -2) {
 			getMonsterGP().y += speed;
-			getMonsterGP().loadImage("res/textures/img/bossdown.png");
+			getMonsterGP().loadImage("res/textures/img/eyedown.png");
 		}
 		timez += 1;
 		if (timez == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy định 0
-											// tương ứng với đứng yên)
+			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
+																										// định 0
+			// tương ứng với đứng yên)
 			if (getMonsterGP().getDirect() == 0)
 				getMonsterGP().setDirect(-1);
 			timez = 0;
@@ -92,18 +93,18 @@ public class Boss extends Monster implements Boss_interface {
 			getMonsterGP().y = Board.getSizeY() - getMonsterGP().height * 2;
 		}
 
-//    	if(!Board.m.checkMapLeft(x,y,this.width,this.height)) {
-//    		x=x+1;
-//    	}
-//    	if(!Board.m.checkMapRight(x,y,this.width,this.height)) {
-//    		x=x-1;
-//    	}
-//    	if(!Board.m.checkMapUp(x,y,this.width,this.height)) {
-//    		y=y+1;
-//    	}
-//    	if(!Board.m.checkMapDown(x,y,this.width,this.height)) {
-//    		y=y-1;
-//    	} 
+		// if(!Board.m.checkMapLeft(x,y,this.width,this.height)) {
+		// x=x+1;
+		// }
+		// if(!Board.m.checkMapRight(x,y,this.width,this.height)) {
+		// x=x-1;
+		// }
+		// if(!Board.m.checkMapUp(x,y,this.width,this.height)) {
+		// y=y+1;
+		// }
+		// if(!Board.m.checkMapDown(x,y,this.width,this.height)) {
+		// y=y-1;
+		// }
 
 		if (t < find_hero_speed)
 			t++; // số chu kì tìm hero

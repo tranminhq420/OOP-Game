@@ -8,7 +8,7 @@ public class Monster {
 	Random rd = new Random();
 	private int timez = 0;
 
-//	protected static final int speed =1;
+	// protected static final int speed =1;
 	private final int speed = 1;
 	private int maxLife = 4;
 	private int life = maxLife;
@@ -30,21 +30,22 @@ public class Monster {
 	public void move() {
 		if (getMonsterGP().getDirect() == 1) {
 			getMonsterGP().x += speed;
-			getMonsterGP().loadImage("res/textures/img/tauvutruright.png");
+			getMonsterGP().loadImage("res/textures/img/wolfsheet2_00.png");
 		} else if (getMonsterGP().getDirect() == -1) {
 			getMonsterGP().x -= speed;
-			getMonsterGP().loadImage("res/textures/img/tauvutruleft.png");
+			getMonsterGP().loadImage("res/textures/img/wolfsheet2_23.png");
 		} else if (getMonsterGP().getDirect() == 2) {
 			getMonsterGP().y -= speed;
-			getMonsterGP().loadImage("res/textures/img/tauvutrutop.png");
+			getMonsterGP().loadImage("res/textures/img/wolfsheet1_10.png");
 		} else if (getMonsterGP().getDirect() == -2) {
 			getMonsterGP().y += speed;
-			getMonsterGP().loadImage("res/textures/img/tauvutrudown.png");
+			getMonsterGP().loadImage("res/textures/img/wolfsheet1_00.png");
 		}
 		timez += 1;
 		if (timez == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy định 0
-											// tương ứng với đứng yên)
+			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
+																										// định 0
+			// tương ứng với đứng yên)
 			timez = 0;
 		}
 		if (getMonsterGP().x < 1) {
@@ -60,21 +61,21 @@ public class Monster {
 		if (getMonsterGP().y > Board.getSizeY() - getMonsterGP().height) {
 			getMonsterGP().y = Board.getSizeY() - getMonsterGP().height;
 		}
-		
+
 		int left = Board.m.checkMapLeft(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int right = Board.m.checkMapRight(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int up = Board.m.checkMapUp(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int down = Board.m.checkMapDown(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
-		if ( left==1 || left==2 || left==3     ) {
+		if (left == 1 || left == 2 || left == 3) {
 			getMonsterGP().x = getMonsterGP().x + 1;
 		}
-		if ( right==1 || right==2 || right==3 ) {
+		if (right == 1 || right == 2 || right == 3) {
 			getMonsterGP().x = getMonsterGP().x - 1;
 		}
-		if ( up==1 || up==2 || up==3 ) {
+		if (up == 1 || up == 2 || up == 3) {
 			getMonsterGP().y = getMonsterGP().y + 1;
 		}
-		if ( down==1 || down==2 || down==3 ) {
+		if (down == 1 || down == 2 || down == 3) {
 			getMonsterGP().y = getMonsterGP().y - 1;
 		}
 	}
