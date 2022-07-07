@@ -38,6 +38,7 @@ public class Board extends JPanel implements ActionListener {
 	private int commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
+
 	private static boolean door_appared = false; // het quai thi se lo ra canh cua
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
@@ -194,9 +195,6 @@ public class Board extends JPanel implements ActionListener {
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
-
-				// if(hero.getCollided() == false) hero.setCollided(true);
-
 				if (hero.isInvincible() == false) {
 					hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
 					if (hero.getLife() <= 0)
@@ -207,9 +205,7 @@ public class Board extends JPanel implements ActionListener {
 					hero.setInvincible(true);
 					hero.setCollided(true);
 				}
-
 			}
-
 		}
 
 		List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
@@ -394,10 +390,12 @@ public class Board extends JPanel implements ActionListener {
 				for (Fire fire : fires) { // ve dan
 					g.drawImage(fire.getImage(), fire.getX(), fire.getY(), this);
 				}
+
 				// ve skillshot
 				List<Skillshot> skillshots = hero.getSkillshots();
 				for (Skillshot skillshot : skillshots) { // ve dan
 					g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
+
 				}
 
 				for (Monster monster : monsters) { // ve quai
@@ -452,15 +450,28 @@ public class Board extends JPanel implements ActionListener {
 				g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
 
 			} else {
-				String msg = "Game Over";
-				Font small = new Font("Helvetica", Font.BOLD, 20);
-				FontMetrics fm = getFontMetrics(small);
-				g.setColor(Color.white);
-				g.setFont(small);
-				g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+
+				if(!door_appared)
+				g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
+				// man hinh
 			}
-			// started == true
-			Toolkit.getDefaultToolkit().sync();
+			g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
+			g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 70);
+			g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
+			g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 110);
+			g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
+			g.drawString("Collided : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
+			g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
+			
+
+		} else {
+			String msg = "Game Over";
+			Font small = new Font("Helvetica", Font.BOLD, 20);
+			FontMetrics fm = getFontMetrics(small);
+			g.setColor(Color.white);
+			g.setFont(small);
+			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+
 		}
 	}
 
