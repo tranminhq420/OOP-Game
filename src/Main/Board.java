@@ -38,17 +38,18 @@ public class Board extends JPanel implements ActionListener {
 	private int commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
-	private static boolean door_appared = false; //het quai thi se lo ra canh cua
-	private String pathMap = ""; //duong dan den Map
-	public List<Monster> monsters; // mang quai
+
+	private static boolean door_appared = false; // het quai thi se lo ra canh cua
+	private String pathMap = ""; // duong dan den Map
+	private List<Monster> monsters; // mang quai
 	private boolean win = false;
 	private final int[][] position = { // vi tri quai->thay = random
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
-	//{ 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
-	//{ 30, 40 }, { 60, 60 }
+	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
+	// { 30, 40 }, { 60, 60 }
 
-		// khong fix nua
-	//Something
+	// khong fix nua
+	// Something
 
 	public static Map m;
 	Color bgcolor = new Color(207, 207, 207);
@@ -97,23 +98,23 @@ public class Board extends JPanel implements ActionListener {
 		updateMonster();
 		updateBoss();
 		if (door_appared) {
-			if (!pathMap.equals("res/worlds/map2.txt")){
+			if (!pathMap.equals("res/worlds/map2.txt")) {
 				pathMap = "res/worlds/map2.txt";
 				m.openFile(pathMap);
-				m.readFile(); //Nho readfile lai 1 lan nua
+				m.readFile(); // Nho readfile lai 1 lan nua
 			}
 		}
 		if (boss_appared) {
-			if (!pathMap.equals("res/worlds/map3.txt")){
+			if (!pathMap.equals("res/worlds/map3.txt")) {
 				pathMap = "res/worlds/map3.txt";
 				m.openFile(pathMap);
-				m.readFile(); //Nho readfile lai 1 lan nua
+				m.readFile(); // Nho readfile lai 1 lan nua
 			}
 			updateStone();
 		}
 		checkCollisions(); // kiem tra va chạm
 		repaint(); // goi ra paintComponent
-//	       System.out.println(hero.getLife());
+		// System.out.println(hero.getLife());
 	}
 
 	private void updateFires() {
@@ -194,18 +195,19 @@ public class Board extends JPanel implements ActionListener {
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
-				if(hero.isInvincible()==false ) {
-				hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
-				if (hero.getLife() <= 0)
-					hero.getHeroGP().setTontai(false);
-//				monster.setLife(monster.getLife() - 1);
-				if (monster.getLife() <= 0)
-					monster.getMonsterGP().setTontai(false);
-				hero.setInvincible(true);
+				if (hero.isInvincible() == false) {
+					hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
+					if (hero.getLife() <= 0)
+						hero.getHeroGP().setTontai(false);
+					monster.setLife(monster.getLife() - 1);
+					if (monster.getLife() <= 0)
+						monster.getMonsterGP().setTontai(false);
+					hero.setInvincible(true);
+					hero.setCollided(true);
 				}
 			}
 		}
-		
+
 		List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
 		for (Fire fr : frs) {
 			Rectangle khung_fr = fr.getBounds(); // lay khung hinh dan ban ra
@@ -250,7 +252,7 @@ public class Board extends JPanel implements ActionListener {
 			for (Stone st : stones) {
 				Rectangle st_rec = st.getBounds();
 				if (hr.intersects(st_rec)) {
-					if (hero.getLife() == 1)
+					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
 					else
 						hero.setLife(hero.getLife() - 1);
@@ -259,10 +261,12 @@ public class Board extends JPanel implements ActionListener {
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds();
 			if (bs.intersects(hr)) {
-				if (hero.getLife() == 1)
-					hero.getHeroGP().setTontai(false);
-				else
+				if (hero.isInvincible() == false) {
 					hero.setLife(hero.getLife() - 1);
+					if (hero.getLife() <= 0)
+						hero.getHeroGP().setTontai(false);
+					hero.setInvincible(true);
+				}
 			}
 		}
 	}
@@ -270,71 +274,70 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-//		IntroState intro = new IntroState();
-//		intro.init();
-	// private Image backgroundImage = ImageIO.read(new
-	// File("res/textuers/img/thanos.png"));
 
-//	String mesg = "Press S to start";
-//	String quit = "QUIT GAME";
-	Font smallFont = new Font("Helvetica", Font.BOLD, 20);
-	FontMetrics fome = getFontMetrics(smallFont);
-	g.setColor(Color.white);
-	g.setFont(smallFont);
-//	g.drawString(mesg, (SIZE_X - fome.stringWidth(mesg)) / 2, SIZE_Y / 2+150);
-//	g.drawString(quit, (SIZE_X - fome.stringWidth(quit)) / 2, SIZE_Y / 2+180);
-	
-	g.setColor(new Color(0,0,0));
-	g.fillRect(0,0,50,50);
-	
-	// TITLE NAME
-	g.setFont(g.getFont().deriveFont(Font.BOLD,50F));
-	String text = "MAGIC CAT";
-	int a = ( SIZE_X - fome.stringWidth(text)) / 2 - 90 ;
-	int b = SIZE_Y / 2-200;
-	
-	// SHADOW
-	g.setColor(Color.gray);
-	g.drawString(text, a+5, b+5);
-	
-	// MAIN COLOR
-	g.setColor(Color.white);
-	g.drawString(text, a, b);
-	
-	// MAGIC CAT IMG
-	a =  SIZE_X /2 -52;
-	b += 84;
-	g.drawImage( hero.getHeroGP().getImage() , a, b, 100, 100, null);
-			
-	// MENU 
-	g.setFont(g.getFont().deriveFont(Font.BOLD,24F));
-	
-	text = "NEW GAME";
-	a = getXforCenteredText(text,g);
-	b += 196;
-	g.drawString(text, a, b);
-	if(commandNum == 0) {
-		g.drawString(">", a-32, b);	
-	}
-	
-	text = "OPTION";
-	a = getXforCenteredText(text,g);
-	b += 64;
-	g.drawString(text, a, b);
-	if(commandNum == 1) {
-		g.drawString(">", a-32, b);	
-	}
-	
-	text = "QUIT";
-	a = getXforCenteredText(text,g);
-	b += 64;
-	g.drawString(text, a, b);
-	if(commandNum == 2) {
-		g.drawString(">", a-32, b);	
-	}
-	
-	
+		// IntroState intro = new IntroState();
+		// intro.init();
+		// private Image backgroundImage = ImageIO.read(new
+		// File("res/textuers/img/thanos.png"));
+
+		// String mesg = "Press S to start";
+		// String quit = "QUIT GAME";
+		Font smallFont = new Font("Helvetica", Font.BOLD, 20);
+		FontMetrics fome = getFontMetrics(smallFont);
+		g.setColor(Color.white);
+		g.setFont(smallFont);
+		// g.drawString(mesg, (SIZE_X - fome.stringWidth(mesg)) / 2, SIZE_Y / 2+150);
+		// g.drawString(quit, (SIZE_X - fome.stringWidth(quit)) / 2, SIZE_Y / 2+180);
+
+		g.setColor(new Color(0, 0, 0));
+		g.fillRect(0, 0, 50, 50);
+
+		// TITLE NAME
+		g.setFont(g.getFont().deriveFont(Font.BOLD, 50F));
+		String text = "MAGIC CAT";
+		int a = (SIZE_X - fome.stringWidth(text)) / 2 - 90;
+		int b = SIZE_Y / 2 - 200;
+
+		// SHADOW
+		g.setColor(Color.gray);
+		g.drawString(text, a + 5, b + 5);
+
+		// MAIN COLOR
+		g.setColor(Color.white);
+		g.drawString(text, a, b);
+
+		// MAGIC CAT IMG
+		a = SIZE_X / 2 - 52;
+		b += 84;
+		g.drawImage(hero.getHeroGP().getImage(), a, b, 100, 100, null);
+
+		// MENU
+		g.setFont(g.getFont().deriveFont(Font.BOLD, 24F));
+
+		text = "NEW GAME";
+		a = getXforCenteredText(text, g);
+		b += 196;
+		g.drawString(text, a, b);
+		if (commandNum == 0) {
+			g.drawString(">", a - 32, b);
+		}
+
+		text = "OPTION";
+		a = getXforCenteredText(text, g);
+		b += 64;
+		g.drawString(text, a, b);
+		if (commandNum == 1) {
+			g.drawString(">", a - 32, b);
+		}
+
+		text = "QUIT";
+		a = getXforCenteredText(text, g);
+		b += 64;
+		g.drawString(text, a, b);
+		if (commandNum == 2) {
+			g.drawString(">", a - 32, b);
+		}
+
 		if (started == true) {
 
 			// ve map
@@ -364,71 +367,90 @@ public class Board extends JPanel implements ActionListener {
 						g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
 					} else if (m.getMap(x, y).equals("9")) {
 						g.drawImage(new NewLandDoor(x, y, 32, 32, newLandDoor.getImage()).getImage(), x * 32, y * 32, null);
-					} 
+					}
 
 				}
-			
-		if (win) {
-			String msg = "You Win!";
-			Font small = new Font("Helvetica", Font.BOLD, 20);
-			FontMetrics fm = getFontMetrics(small);
-			g.setColor(Color.white);
-			g.setFont(small);
-			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
-		} else if (ingame) {
-			Font small = new Font("Helvetica", Font.BOLD, 15);
-			FontMetrics fm = getFontMetrics(small);
-			g.setColor(Color.white);
-			g.setFont(small);
-			
-			g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
 
-			List<Fire> fires = hero.getFires();
-			for (Fire fire : fires) { // ve dan
-				g.drawImage(fire.getImage(), fire.getX(), fire.getY(), this);
-			}
-			// ve skillshot
-			List<Skillshot> skillshots = hero.getSkillshots();
-			for (Skillshot skillshot : skillshots) { // ve dan
-				g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
-			}
+			if (win) {
+				String msg = "You Win!";
+				Font small = new Font("Helvetica", Font.BOLD, 20);
+				FontMetrics fm = getFontMetrics(small);
+				g.setColor(Color.white);
+				g.setFont(small);
+				g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+			} else if (ingame) {
+				Font small = new Font("Helvetica", Font.BOLD, 15);
+				FontMetrics fm = getFontMetrics(small);
+				g.setColor(Color.white);
+				g.setFont(small);
 
-			for (Monster monster : monsters) { // ve quai
-				if (monster.getMonsterGP().getTontai()) {
-					g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(), this);
+				g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
+
+				List<Fire> fires = hero.getFires();
+				for (Fire fire : fires) { // ve dan
+					g.drawImage(fire.getImage(), fire.getX(), fire.getY(), this);
 				}
-			}
-			List<Stone> stones = boss.getStones();
-			for (Stone stone : stones) {
-				g.drawImage(stone.getImage(), stone.getX(), stone.getY(), this);
-			}
-			if(hero.isInvincible()==true) {
-				hero.setInvincibleCounter(hero.getInvincibleCounter()+1);
-				if(hero.getInvincibleCounter()>120) {
-					hero.setInvincible(false);
-					hero.setInvincibleCounter(0);
+
+				// ve skillshot
+				List<Skillshot> skillshots = hero.getSkillshots();
+				for (Skillshot skillshot : skillshots) { // ve dan
+					g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
+
 				}
-			}
-			if (boss_appared)
-				g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
-			g.setColor(Color.white);
 
-			if(monsters.isEmpty()) {
-				if(!boss_appared)
-				door_appared = true;
-			}
+				for (Monster monster : monsters) { // ve quai
+					if (monster.getMonsterGP().getTontai()) {
+						g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),
+								this);
+						g.setColor(Color.RED);
+						g.fillRect(monster.getMonsterGP().getX(), monster.getMonsterGP().getY() - 10, 30, 10);
+					}
+				}
+				List<Stone> stones = boss.getStones();
+				for (Stone stone : stones) {
+					g.drawImage(stone.getImage(), stone.getX(), stone.getY(), this);
+				}
+				if (hero.isInvincible() == true) {
+					hero.setInvincibleCounter(hero.getInvincibleCounter() + 1);
+					if (hero.getInvincibleCounter() > 60) {
+						hero.setInvincible(false);
+						hero.setInvincibleCounter(0);
+					}
+				}
+				if (boss_appared)
+					g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+				g.setColor(Color.white);
 
-			if(door_appared) {
-				g.drawString("Canh cua khong gian xuat hien! ", SIZE_X - 120, SIZE_Y / 4);
-			}
+				if (monsters.isEmpty()) {
+					if (!boss_appared)
+						door_appared = true;
+				}
 
-			if (boss_appared) {
-				door_appared = false;
-				g.drawString("THANOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
-				g.drawString("HP : " + boss.getHp(), SIZE_X - 120, SIZE_Y / 4 + 20);
-				if (boss_appared == false)
-					boss_appared = true;
+				if (door_appared) {
+					g.drawString("Canh cua khong gian xuat hien! ", SIZE_X - 120, SIZE_Y / 4);
+				}
+
+				if (boss_appared) {
+					door_appared = false;
+					g.drawString("THANOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
+					g.drawString("HP : " + boss.getHp(), SIZE_X - 120, SIZE_Y / 4 + 20);
+					if (boss_appared == false)
+						boss_appared = true;
+				} else {
+					if (!door_appared)
+						g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
+					// man hinh
+				}
+				g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
+				g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 70);
+				g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
+				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 110);
+				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
+				g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
+				g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
+
 			} else {
+
 				if(!door_appared)
 				g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
 				// man hinh
@@ -449,36 +471,33 @@ public class Board extends JPanel implements ActionListener {
 			g.setColor(Color.white);
 			g.setFont(small);
 			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+
 		}
-	  // started == true
-		Toolkit.getDefaultToolkit().sync();}
 	}
 
-//	private class TAdapter extends KeyAdapter {
-//		@Override
-//		public void keyReleased(KeyEvent e) {
-//			hero.keyReleased(e);
-//			int key = e.getKeyCode(); // danh dau vao game
-//			if( started == false) {
-//				titleState(key);
-////				if (key == 's' || key == 'S')
-////				started = true;
-//			}
-//			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
-//				m.openFile("res/worlds/map2.txt");
-//				m.readFile(); //Nho readfile lai 1 lan nua
-//				}
-//		}
-//
-//		@Override
-//		public void keyPressed(KeyEvent e) {
-//			hero.keyPressed(e);
-//		}
-//	}
-	
-	public class KeyHandler extends KeyAdapter{
+	// private class TAdapter extends KeyAdapter {
+	// @Override
+	// public void keyReleased(KeyEvent e) {
+	// hero.keyReleased(e);
+	// int key = e.getKeyCode(); // danh dau vao game
+	// if( started == false) {
+	// titleState(key);
+	//// if (key == 's' || key == 'S')
+	//// started = true;
+	// }
+	// if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+	// m.openFile("res/worlds/map2.txt");
+	// m.readFile(); //Nho readfile lai 1 lan nua
+	// }
+	// }
+	//
+	// @Override
+	// public void keyPressed(KeyEvent e) {
+	// hero.keyPressed(e);
+	// }
+	// }
 
-
+	public class KeyHandler extends KeyAdapter {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -490,7 +509,7 @@ public class Board extends JPanel implements ActionListener {
 				hero.toSkillshot();
 			}
 			if (key == KeyEvent.VK_LEFT) {
-				hero.setDx(- hero.getSpeed());
+				hero.setDx(-hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/left.png");
 				hero.getHeroGP().setDirect(-1);
 			}
@@ -510,7 +529,7 @@ public class Board extends JPanel implements ActionListener {
 				hero.getHeroGP().setDirect(-2);
 			}
 		}
-		
+
 		@Override
 		public void keyReleased(KeyEvent e) {
 			int key = e.getKeyCode(); // danh dau vao game
@@ -531,51 +550,51 @@ public class Board extends JPanel implements ActionListener {
 				hero.setDy(0);
 			}
 
-			if( started == false) {
+			if (started == false) {
 				titleState(key);
-//				if (key == 's' || key == 'S')
-//				started = true;
+				// if (key == 's' || key == 'S')
+				// started = true;
 			}
-			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+			if (key == 'n' || key == 'N') { // Khi bam N thi se doc file path khac
 				Board.m.openFile("res/worlds/map2.txt");
-				Board.m.readFile(); //Nho readfile lai 1 lan nua
-				}
+				Board.m.readFile(); // Nho readfile lai 1 lan nua
+			}
 		}
 	}
+
 	public void titleState(int code) {
-		if(code == KeyEvent.VK_UP) {
+		if (code == KeyEvent.VK_UP) {
 			commandNum--;
-			if( commandNum < 0) {
+			if (commandNum < 0) {
 				commandNum = 2;
 			}
 		}
-		if(code == KeyEvent.VK_DOWN) {
+		if (code == KeyEvent.VK_DOWN) {
 			commandNum++;
-			if( commandNum > 2) {
+			if (commandNum > 2) {
 				commandNum = 0;
 			}
 		}
-		
-		if( code == KeyEvent.VK_ENTER) {
-			if( commandNum == 0) {
-				started = true ;
+
+		if (code == KeyEvent.VK_ENTER) {
+			if (commandNum == 0) {
+				started = true;
 			}
-			if( commandNum == 1) {
+			if (commandNum == 1) {
 				// OPTION DO LATER
 			}
-			if( commandNum == 2) {
+			if (commandNum == 2) {
 				System.exit(0);
 			}
 		}
 	}
 
-	public int getXforCenteredText(String text,Graphics g) {
-		int length = (int)g.getFontMetrics().getStringBounds(text, g).getWidth(); // can doan text ra chinh giua
-		int x = SIZE_X/2 -length/2;
+	public int getXforCenteredText(String text, Graphics g) {
+		int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth(); // can doan text ra chinh giua
+		int x = SIZE_X / 2 - length / 2;
 		return x;
 	}
-	
-	
+
 	public static int getSizeX() {
 		return SIZE_X;
 	}
@@ -585,4 +604,3 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 }
-
