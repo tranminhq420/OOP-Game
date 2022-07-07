@@ -9,7 +9,7 @@ public class Monster {
 	private int timez = 0;
 
 //	protected static final int speed =1;
-	private final int speed = 1;
+	private final int speed = 5;
 	private int maxLife = 4;
 	private int life = maxLife;
 	private int attack = 2;
@@ -65,17 +65,46 @@ public class Monster {
 		int right = Board.m.checkMapRight(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int up = Board.m.checkMapUp(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int down = Board.m.checkMapDown(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
-		if ( left==1 || left==2 || left==3     ) {
-			getMonsterGP().x = getMonsterGP().x + 1;
+		GameObject objectLeft = new GameObject(0,0,0,down,null);
+		switch (left) {
+			case 0: objectLeft.collision = new Earth(0,0,0,down, null).getCollision(); break; 
+			case 1: objectLeft.collision = new Tree(0,0,0,down, null).getCollision(); break;
+			case 2: objectLeft.collision = new Water(0,0,0,down, null).getCollision(); break;
+			case 3: objectLeft.collision = new Rock(0,0,0,down, null).getCollision(); break;
+			case 9:	objectLeft.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break;}
+		GameObject objectRight = new GameObject(0,0,0,down,null);
+		switch (right) {
+			case 0: objectRight.collision = new Earth(0,0,0,down, null).getCollision(); break;
+			case 1: objectRight.collision = new Tree(0,0,0,down, null).getCollision(); break;
+			case 2: objectRight.collision = new Water(0,0,0,down, null).getCollision(); break;
+			case 3: objectRight.collision = new Rock(0,0,0,down, null).getCollision(); break;
+			case 9: objectRight.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
+		GameObject objectUp = new GameObject(0,0,0,down,null);
+		switch (up) {
+			case 0: objectUp.collision = new Earth(0,0,0,down, null).getCollision(); break;
+			case 1: objectUp.collision = new Tree(0,0,0,down, null).getCollision(); break;
+			case 2: objectUp.collision = new Water(0,0,0,down, null).getCollision(); break;
+			case 3: objectUp.collision = new Rock(0,0,0,down, null).getCollision(); break;
+			case 9: objectUp.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
+		GameObject objectDown = new GameObject(0,0,0,down,null);
+		switch (down) {
+			case 0: objectDown.collision = new Earth(0,0,0,down, null).getCollision(); break;
+			case 1: objectDown.collision = new Tree(0,0,0,down, null).getCollision(); break;
+			case 2: objectDown.collision = new Water(0,0,0,down, null).getCollision(); break;
+			case 3: objectDown.collision = new Rock(0,0,0,down, null).getCollision(); break;
+			case 9: objectDown.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
+		
+		if ( objectLeft.collision == true  ) {
+			getMonsterGP().x = getMonsterGP().x + speed;
 		}
-		if ( right==1 || right==2 || right==3 ) {
-			getMonsterGP().x = getMonsterGP().x - 1;
+		if ( objectRight.collision == true ) {
+			getMonsterGP().x = getMonsterGP().x - speed;
 		}
-		if ( up==1 || up==2 || up==3 ) {
-			getMonsterGP().y = getMonsterGP().y + 1;
+		if ( objectUp.collision == true ) {
+			getMonsterGP().y = getMonsterGP().y + speed;
 		}
-		if ( down==1 || down==2 || down==3 ) {
-			getMonsterGP().y = getMonsterGP().y - 1;
+		if ( objectDown.collision == true ) {
+			getMonsterGP().y = getMonsterGP().y - speed;
 		}
 	}
 
