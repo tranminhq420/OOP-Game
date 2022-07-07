@@ -21,6 +21,8 @@ public class Hero {
 	private int attack = 2;
 	private int defense = 1;
 	private int skillAttack = 4;
+	private boolean invincible=false;
+	private int invincibleCounter=0;
 	private GameObjectDynamic heroGP;
 
 
@@ -234,6 +236,22 @@ public class Hero {
 		this.dy = dy;
 	}
 
+
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public int getInvincibleCounter() {
+		return invincibleCounter;
+	}
+
+	public void setInvincibleCounter(int invincibleCounter) {
+		this.invincibleCounter = invincibleCounter;
+	}
 
 }
 //hello chua te Aram xin chao.
