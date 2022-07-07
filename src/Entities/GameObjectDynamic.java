@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 
 public class GameObjectDynamic extends GameObject {
-
+	
 	protected int life;
 	protected int maxLife;
 	protected int speed;

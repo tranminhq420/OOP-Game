@@ -14,6 +14,7 @@ public class Monster {
 	private int life = maxLife;
 	private int attack = 2;
 	private int defense = 0;
+	private boolean collision = true;
 	private GameObjectDynamic monsterGP;
 
 	public Monster(int x, int y) {
@@ -59,16 +60,21 @@ public class Monster {
 		if (getMonsterGP().y > Board.getSizeY() - getMonsterGP().height) {
 			getMonsterGP().y = Board.getSizeY() - getMonsterGP().height;
 		}
-		if (!Board.m.checkMapLeft(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height)) {
+		
+		int left = Board.m.checkMapLeft(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
+		int right = Board.m.checkMapRight(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
+		int up = Board.m.checkMapUp(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
+		int down = Board.m.checkMapDown(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
+		if ( left==1 || left==2 || left==3     ) {
 			getMonsterGP().x = getMonsterGP().x + 1;
 		}
-		if (!Board.m.checkMapRight(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height)) {
+		if ( right==1 || right==2 || right==3 ) {
 			getMonsterGP().x = getMonsterGP().x - 1;
 		}
-		if (!Board.m.checkMapUp(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height)) {
+		if ( up==1 || up==2 || up==3 ) {
 			getMonsterGP().y = getMonsterGP().y + 1;
 		}
-		if (!Board.m.checkMapDown(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height)) {
+		if ( down==1 || down==2 || down==3 ) {
 			getMonsterGP().y = getMonsterGP().y - 1;
 		}
 	}

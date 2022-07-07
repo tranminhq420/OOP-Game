@@ -194,7 +194,10 @@ public class Board extends JPanel implements ActionListener {
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
-				if(hero.isInvincible()==false) {
+				
+//				if(hero.getCollided() == false) hero.setCollided(true);
+				
+				if(hero.isInvincible()==false ) {
 				hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
 				if (hero.getLife() <= 0)
 					hero.getHeroGP().setTontai(false);
@@ -202,9 +205,13 @@ public class Board extends JPanel implements ActionListener {
 				if (monster.getLife() <= 0)
 					monster.getMonsterGP().setTontai(false);
 				hero.setInvincible(true);
+				hero.setCollided(true);
 				}
-				}
+				
+			}
+		
 		}
+		
 		List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
 		for (Fire fr : frs) {
 			Rectangle khung_fr = fr.getBounds(); // lay khung hinh dan ban ra
@@ -437,6 +444,9 @@ public class Board extends JPanel implements ActionListener {
 			g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
 			g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 110);
 			g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
+			g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
+			g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
+			
 
 		} else {
 			String msg = "Game Over";
