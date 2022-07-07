@@ -47,6 +47,7 @@ public class Board extends JPanel implements ActionListener {
 	//{ 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
 	//{ 30, 40 }, { 60, 60 }
 	//Thu fix comment
+	//Something
 	public static Map m;
 	Color bgcolor = new Color(207, 207, 207);
 
