@@ -17,6 +17,7 @@ public class Hero {
 	private int maxLife = 6;
 	private int speed = 1;
 	private int maxMana = 10;
+
 	private int mana = 10;
 	private int attack = 2;
 	private int defense = 1;
@@ -26,7 +27,7 @@ public class Hero {
 	private boolean isCollided;
 	private GameObjectDynamic heroGP;
 
-	// test Linhbranch
+
 	public Hero(int x, int y) {
 		setHeroGP(new GameObjectDynamic(x, y));
 		fires = new ArrayList<>();
@@ -36,8 +37,8 @@ public class Hero {
 	}
 
 	public void move() {
-		getHeroGP().x += dx;
-		getHeroGP().y += dy;
+		getHeroGP().x += getDx();
+		getHeroGP().y += getDy();
 		if (getHeroGP().x < 1) {
 			getHeroGP().x = 1;
 		}
@@ -160,9 +161,7 @@ public class Hero {
 		}
 	}
 
-	public List<Fire> getFires() {
-		return fires;
-	}
+
 
 	public void tofire() {
 		int xz = 0, yz = 0;
@@ -184,9 +183,7 @@ public class Hero {
 		fires.add(fire_new);
 	}
 
-	public List<Skillshot> getSkillshots() {
-		return skillshots;
-	}
+
 
 	public void toSkillshot() {
 		if (mana > 0) {
@@ -212,55 +209,55 @@ public class Hero {
 
 	}
 
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		if (key == KeyEvent.VK_SPACE) {
-			tofire();
-		}
-		if (key == KeyEvent.VK_A) {
-			toSkillshot();
-		}
-		if (key == KeyEvent.VK_LEFT) {
-			dx = -speed;
-			getHeroGP().loadImage("res/textures/img/left.png");
-			getHeroGP().setDirect(-1);
-		}
-		if (key == KeyEvent.VK_RIGHT) {
-			dx = speed;
-			getHeroGP().loadImage("res/textures/img/right.png");
-			getHeroGP().setDirect(1);
-		}
-		if (key == KeyEvent.VK_UP) {
-			dy = -speed;
-			getHeroGP().loadImage("res/textures/img/up.png");
-			getHeroGP().setDirect(2);
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			dy = speed;
-			getHeroGP().loadImage("res/textures/img/down.png");
-			getHeroGP().setDirect(-2);
-		}
-	}
-
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		if (key == KeyEvent.VK_SPACE) {
-		}
-		if (key == KeyEvent.VK_A) {
-		}
-		if (key == KeyEvent.VK_LEFT) {
-			dx = 0;
-		}
-		if (key == KeyEvent.VK_RIGHT) {
-			dx = 0;
-		}
-		if (key == KeyEvent.VK_UP) {
-			dy = 0;
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			dy = 0;
-		}
-	}
+//	public void keyPressed(KeyEvent e) {
+//		int key = e.getKeyCode();
+//		if (key == KeyEvent.VK_SPACE) {
+//			tofire();
+//		}
+//		if (key == KeyEvent.VK_A) {
+//			toSkillshot();
+//		}
+//		if (key == KeyEvent.VK_LEFT) {
+//			setDx(-speed);
+//			getHeroGP().loadImage("res/textures/img/left.png");
+//			getHeroGP().setDirect(-1);
+//		}
+//		if (key == KeyEvent.VK_RIGHT) {
+//			setDx(speed);
+//			getHeroGP().loadImage("res/textures/img/right.png");
+//			getHeroGP().setDirect(1);
+//		}
+//		if (key == KeyEvent.VK_UP) {
+//			dy = -speed;
+//			getHeroGP().loadImage("res/textures/img/up.png");
+//			getHeroGP().setDirect(2);
+//		}
+//		if (key == KeyEvent.VK_DOWN) {
+//			dy = speed;
+//			getHeroGP().loadImage("res/textures/img/down.png");
+//			getHeroGP().setDirect(-2);
+//		}
+//	}
+//
+//	public void keyReleased(KeyEvent e) {
+//		int key = e.getKeyCode();
+//		if (key == KeyEvent.VK_SPACE) {
+//		}
+//		if (key == KeyEvent.VK_A) {
+//		}
+//		if (key == KeyEvent.VK_LEFT) {
+//			setDx(0);
+//		}
+//		if (key == KeyEvent.VK_RIGHT) {
+//			setDx(0);
+//		}
+//		if (key == KeyEvent.VK_UP) {
+//			dy = 0;
+//		}
+//		if (key == KeyEvent.VK_DOWN) {
+//			dy = 0;
+//		}
+//	}
 
 	public int getLife() {
 		return life;
@@ -297,6 +294,31 @@ public class Hero {
 	public void setHeroGP(GameObjectDynamic heroGP) {
 		this.heroGP = heroGP;
 	}
+	
+	public List<Fire> getFires() {
+		return fires;
+	}
+	
+	public List<Skillshot> getSkillshots() {
+		return skillshots;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
 
 	public boolean isInvincible() {
 		return invincible;

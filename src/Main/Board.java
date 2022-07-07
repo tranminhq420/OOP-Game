@@ -58,7 +58,7 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void initBoard() {
-		addKeyListener(new TAdapter()); // Nhan su kien tu ban phim
+		addKeyListener(new KeyHandler()); // Nhan su kien tu ban phim
 		setFocusable(true); // xu li su kien
 		setBackground(Color.BLACK); // mau nen
 		setDoubleBuffered(true);
@@ -460,28 +460,94 @@ public class Board extends JPanel implements ActionListener {
 		Toolkit.getDefaultToolkit().sync();}
 	}
 
-	private class TAdapter extends KeyAdapter {
+//	private class TAdapter extends KeyAdapter {
+//		@Override
+//		public void keyReleased(KeyEvent e) {
+//			hero.keyReleased(e);
+//			int key = e.getKeyCode(); // danh dau vao game
+//			if( started == false) {
+//				titleState(key);
+////				if (key == 's' || key == 'S')
+////				started = true;
+//			}
+//			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
+//				m.openFile("res/worlds/map2.txt");
+//				m.readFile(); //Nho readfile lai 1 lan nua
+//				}
+//		}
+//
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			hero.keyPressed(e);
+//		}
+//	}
+	
+	public class KeyHandler extends KeyAdapter{
+
+
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			if (key == KeyEvent.VK_SPACE) {
+				hero.tofire();
+			}
+			if (key == KeyEvent.VK_A) {
+				hero.toSkillshot();
+			}
+			if (key == KeyEvent.VK_LEFT) {
+				hero.setDx(- hero.getSpeed());
+				hero.getHeroGP().loadImage("res/textures/img/left.png");
+				hero.getHeroGP().setDirect(-1);
+			}
+			if (key == KeyEvent.VK_RIGHT) {
+				hero.setDx(hero.getSpeed());
+				hero.getHeroGP().loadImage("res/textures/img/right.png");
+				hero.getHeroGP().setDirect(1);
+			}
+			if (key == KeyEvent.VK_UP) {
+				hero.setDy(-hero.getSpeed());
+				hero.getHeroGP().loadImage("res/textures/img/up.png");
+				hero.getHeroGP().setDirect(2);
+			}
+			if (key == KeyEvent.VK_DOWN) {
+				hero.setDy(hero.getSpeed());
+				hero.getHeroGP().loadImage("res/textures/img/down.png");
+				hero.getHeroGP().setDirect(-2);
+			}
+		}
+		
 		@Override
 		public void keyReleased(KeyEvent e) {
-			hero.keyReleased(e);
 			int key = e.getKeyCode(); // danh dau vao game
+			if (key == KeyEvent.VK_SPACE) {
+			}
+			if (key == KeyEvent.VK_A) {
+			}
+			if (key == KeyEvent.VK_LEFT) {
+				hero.setDx(0);
+			}
+			if (key == KeyEvent.VK_RIGHT) {
+				hero.setDx(0);
+			}
+			if (key == KeyEvent.VK_UP) {
+				hero.setDy(0);
+			}
+			if (key == KeyEvent.VK_DOWN) {
+				hero.setDy(0);
+			}
+
 			if( started == false) {
 				titleState(key);
 //				if (key == 's' || key == 'S')
 //				started = true;
 			}
 			if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
-				m.openFile("res/worlds/map2.txt");
-				m.readFile(); //Nho readfile lai 1 lan nua
+				Board.m.openFile("res/worlds/map2.txt");
+				Board.m.readFile(); //Nho readfile lai 1 lan nua
 				}
 		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			hero.keyPressed(e);
-		}
 	}
-	
 	public void titleState(int code) {
 		if(code == KeyEvent.VK_UP) {
 			commandNum--;
