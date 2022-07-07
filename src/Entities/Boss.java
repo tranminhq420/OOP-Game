@@ -13,7 +13,7 @@ public class Boss extends Monster implements Boss_interface {
 	private final int find_hero_speed = 1; // cứ sau 20s tìm hero 1 lần
 	private List<Stone> stones;
 	private int hp;
-	private final int HP_MAX = 1000;
+	private final int HP_MAX = 100;
 	private int speed = 1;
 
 	int t = 0, k = 0;
