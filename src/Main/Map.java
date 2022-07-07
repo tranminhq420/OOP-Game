@@ -20,6 +20,7 @@ public class Map {
 			if(getMap(x/32,y/32).equals("2")) return false;
 			else if (getMap(x/32,y/32).equals("1")) return false;
 			else if(getMap(x/32, y/32).equals("3"))return false;
+			else if(getMap(x/32, y/32).equals("9")) return true;
 			else {
 				y=y+1;
 			}
@@ -32,6 +33,7 @@ public class Map {
 			if(getMap(x/32,y/32).equals("2")) return false;
 			else if (getMap(x/32,y/32).equals("1")) return false;
 			else if(getMap(x/32, y/32).equals("3"))return false;
+			else if(getMap(x/32, y/32).equals("9")) return true;
 			else {
 				y=y+1;
 			}
@@ -45,6 +47,7 @@ public class Map {
 			if(getMap(x/32,y/32).equals("2")) return false;
 			else if (getMap(x/32,y/32).equals("1")) return false;
 			else if(getMap(x/32, y/32).equals("3"))return false;
+			else if(getMap(x/32, y/32).equals("9")) return true;
 			else {
 				x=x+1;
 			}
@@ -57,12 +60,68 @@ public class Map {
 			if(getMap(x/32,y/32).equals("2")) return false;
 			else if (getMap(x/32,y/32).equals("1")) return false;
 			else if(getMap(x/32, y/32).equals("3"))return false;
+			else if(getMap(x/32, y/32).equals("9")) return true;
 			else {
 				x=x+1;
 			}			
 		}
 		return true;
 	}
+
+	public int checkMapLeft(int x,int y,int width,int height, int event) { //tao ra 1 ham moi, tuong tu nhu checkMapLeft/Right... nhung khi co them tham so event thi se tu biet tra ve so hieu object
+		x=x-1;
+		for(int i=0;i<height;i++) {			
+			if(getMap(x/32,y/32).equals("2")) return 2;
+			else if (getMap(x/32,y/32).equals("1")) return 1;
+			else if(getMap(x/32, y/32).equals("3"))return 3;
+			else if(getMap(x/32, y/32).equals("9")) return 9;
+			else {
+				y=y+1;
+			}
+		}
+		return 0;
+	}
+	public int checkMapRight(int x,int y,int width,int height, int event) { //tao ra 1 ham moi, tuong tu nhu checkMapLeft/Right... nhung khi co them tham so event thi se tu biet tra ve so hieu object		
+		x=x+width+1;
+		for(int i=0;i<height;i++) {		
+			if(getMap(x/32,y/32).equals("2")) return 2;
+			else if (getMap(x/32,y/32).equals("1")) return 1;
+			else if(getMap(x/32, y/32).equals("3"))return 3;
+			else if(getMap(x/32, y/32).equals("9")) return 9;
+			else {
+				y=y+1;
+			}
+		}
+		return 0;
+	}
+	public int checkMapUp(int x,int y,int width,int height, int event) { //tao ra 1 ham moi, tuong tu nhu checkMapLeft/Right... nhung khi co them tham so event thi se tu biet tra ve so hieu object
+		y=y-1;
+		for(int i=0;i<width;i++) {
+			
+			if(getMap(x/32,y/32).equals("2")) return 2;
+			else if (getMap(x/32,y/32).equals("1")) return 1;
+			else if(getMap(x/32, y/32).equals("3"))return 3;
+			else if(getMap(x/32, y/32).equals("9")) return 9;
+			else {
+				x=x+1;
+			}
+		}
+		return 0;
+	}
+	public int checkMapDown(int x,int y,int width,int height, int event) { //tao ra 1 ham moi, tuong tu nhu checkMapLeft/Right... nhung khi co them tham so event thi se tu biet tra ve so hieu object
+		y=y+height+1;
+		for(int i=0;i<width;i++) {	
+			if(getMap(x/32,y/32).equals("2")) return 2;
+			else if (getMap(x/32,y/32).equals("1")) return 1;
+			else if(getMap(x/32, y/32).equals("3"))return 3;
+			else if(getMap(x/32, y/32).equals("9")) return 9;
+			else {
+				x=x+1;
+			}			
+		}
+		return 0;
+	}
+
 	String pathname = "res/worlds/map.txt";
 	public Map() {
 		openFile(pathname);
@@ -92,6 +151,7 @@ public class Map {
 				Map[i]=m.next();
 			}
 		}
+		System.out.println("Chuyen map"); //Test xem co nhan hay khong
 	}
 	public void closeFile( ) {
 		m.close();

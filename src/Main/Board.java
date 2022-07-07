@@ -37,13 +37,15 @@ public class Board extends JPanel implements ActionListener {
 	private boolean started; // danh dau bat dau -> chuyen sang image->game over
 	private int commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
-	private boolean boss_appared = false;
+	private static boolean boss_appared = false;
+	private static boolean door_appared = false; //het quai thi se lo ra canh cua
+	private String pathMap = ""; //duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
 	private final int[][] position = { // vi tri quai->thay = random
-			{ 250, 250 }, { 230, 230 }, { 200, 100 }, { 140, 120 }, { 80, 150 }, { 130, 140 }, { 100, 200 },
-			{ 300, 200 }, { 310, 300 }, { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
-			{ 30, 40 }, { 60, 60 } };
+			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
+	//{ 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
+	//{ 30, 40 }, { 60, 60 }
 	public static Map m;
 	Color bgcolor = new Color(207, 207, 207);
 
@@ -75,6 +77,11 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
+	public static void setDoor_appared() {
+		door_appared = false;
+		boss_appared = true;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!ingame) {
@@ -85,8 +92,21 @@ public class Board extends JPanel implements ActionListener {
 		updateHero();
 		updateMonster();
 		updateBoss();
-		if (boss_appared)
+		if (door_appared) {
+			if (!pathMap.equals("res/worlds/map2.txt")){
+				pathMap = "res/worlds/map2.txt";
+				m.openFile(pathMap);
+				m.readFile(); //Nho readfile lai 1 lan nua
+			}
+		}
+		if (boss_appared) {
+			if (!pathMap.equals("res/worlds/map3.txt")){
+				pathMap = "res/worlds/map3.txt";
+				m.openFile(pathMap);
+				m.readFile(); //Nho readfile lai 1 lan nua
+			}
 			updateStone();
+		}
 		checkCollisions(); // kiem tra va chạm
 		repaint(); // goi ra paintComponent
 //	       System.out.println(hero.getLife());
@@ -245,6 +265,7 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
 		
 //		IntroState intro = new IntroState();
 //		intro.init();
@@ -340,6 +361,7 @@ public class Board extends JPanel implements ActionListener {
 
 				}
 			
+		
 		if (win) {
 			String msg = "You Win!";
 			Font small = new Font("Helvetica", Font.BOLD, 20);
@@ -374,18 +396,31 @@ public class Board extends JPanel implements ActionListener {
 			for (Stone stone : stones) {
 				g.drawImage(stone.getImage(), stone.getX(), stone.getY(), this);
 			}
+			
 			if (boss_appared)
 				g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
 			g.setColor(Color.white);
-			if (monsters.isEmpty()) {
+
+			if(monsters.isEmpty()) {
+				if(!boss_appared)
+				door_appared = true;
+			}
+
+			if(door_appared) {
+				g.drawString("Canh cua khong gian xuat hien! ", SIZE_X - 120, SIZE_Y / 4);
+			}
+
+			if (boss_appared) {
+				door_appared = false;
 				g.drawString("THANOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
 				g.drawString("HP : " + boss.getHp(), SIZE_X - 120, SIZE_Y / 4 + 20);
 				if (boss_appared == false)
 					boss_appared = true;
-			} else
-
+			} else {
+				if(!door_appared)
 				g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
-																						// man hinh
+				// man hinh
+			}
 			g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
 			g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 70);
 			g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
@@ -409,6 +444,7 @@ public class Board extends JPanel implements ActionListener {
 		public void keyReleased(KeyEvent e) {
 			hero.keyReleased(e);
 			int key = e.getKeyCode(); // danh dau vao game
+
 			
 			if( started == false) {
 				titleState(key);
@@ -417,16 +453,17 @@ public class Board extends JPanel implements ActionListener {
 			}
 			else {
 				if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
-				m.openFile("res/worlds/map2.txt");
-				m.readFile(); //Nho readfile lai 1 lan nua
-				System.out.println("Da mo file"); //Test xem co nhan hay khong
+					m.openFile("res/worlds/map2.txt");
+					m.readFile(); //Nho readfile lai 1 lan nua
 				}
 			}
-			
+		 
+		}
 
 			
 			
-		}
+
+		
 
 		@Override
 		public void keyPressed(KeyEvent e) {
