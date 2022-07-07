@@ -11,22 +11,21 @@ public class Hero {
 	private int dy;
 	private List<Fire> fires;
 	private List<Skillshot> skillshots;
-//    private int live = 3;
+	// private int live = 3;
 	private int moving;
 	private int life = 6; // health
 	private int maxLife = 6;
-	private int speed = 1;
+	private int speed = 2;
 	private int maxMana = 10;
 
 	private int mana = 10;
 	private int attack = 2;
 	private int defense = 1;
 	private int skillAttack = 4;
-	private boolean invincible=false;
-	private int invincibleCounter=0;
+	private boolean invincible = false;
+	private int invincibleCounter = 0;
 	private boolean isCollided;
 	private GameObjectDynamic heroGP;
-
 
 	public Hero(int x, int y) {
 		setHeroGP(new GameObjectDynamic(x, y));
@@ -56,112 +55,111 @@ public class Hero {
 		int right = Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
 		int up = Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
 		int down = Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
-		
-		GameObject objectLeft = new GameObject(0,0,0,down,null);
+
+		GameObject objectLeft = new GameObject(0, 0, 0, down, null);
 		switch (left) {
 			case 0:
-				objectLeft.collision = new Earth(0,0,0,down, null).getCollision();
+				objectLeft.collision = new Earth(0, 0, 0, down, null).getCollision();
 				break;
 			case 1:
-				objectLeft.collision = new Tree(0,0,0,down, null).getCollision();
+				objectLeft.collision = new Tree(0, 0, 0, down, null).getCollision();
 				break;
 			case 2:
-				objectLeft.collision = new Water(0,0,0,down, null).getCollision();
+				objectLeft.collision = new Water(0, 0, 0, down, null).getCollision();
 				break;
 			case 3:
-				objectLeft.collision = new Rock(0,0,0,down, null).getCollision();
+				objectLeft.collision = new Rock(0, 0, 0, down, null).getCollision();
 				break;
 			case 9:
-				objectLeft.collision = new NewLandDoor(0,0,0,down, null).getCollision();
+				objectLeft.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
 				break;
 		}
-		
-		GameObject objectRight = new GameObject(0,0,0,down,null);
+
+		GameObject objectRight = new GameObject(0, 0, 0, down, null);
 		switch (right) {
 			case 0:
-				objectRight.collision = new Earth(0,0,0,down, null).getCollision();
+				objectRight.collision = new Earth(0, 0, 0, down, null).getCollision();
 				break;
 			case 1:
-				objectRight.collision = new Tree(0,0,0,down, null).getCollision();
+				objectRight.collision = new Tree(0, 0, 0, down, null).getCollision();
 				break;
 			case 2:
-				objectRight.collision = new Water(0,0,0,down, null).getCollision();
+				objectRight.collision = new Water(0, 0, 0, down, null).getCollision();
 				break;
 			case 3:
-				objectRight.collision = new Rock(0,0,0,down, null).getCollision();
+				objectRight.collision = new Rock(0, 0, 0, down, null).getCollision();
 				break;
 			case 9:
-				objectRight.collision = new NewLandDoor(0,0,0,down, null).getCollision();
+				objectRight.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
 				break;
 		}
-		
-		GameObject objectUp = new GameObject(0,0,0,down,null);
+
+		GameObject objectUp = new GameObject(0, 0, 0, down, null);
 		switch (up) {
 			case 0:
-				objectUp.collision = new Earth(0,0,0,down, null).getCollision();
+				objectUp.collision = new Earth(0, 0, 0, down, null).getCollision();
 				break;
 			case 1:
-				objectUp.collision = new Tree(0,0,0,down, null).getCollision();
+				objectUp.collision = new Tree(0, 0, 0, down, null).getCollision();
 				break;
 			case 2:
-				objectUp.collision = new Water(0,0,0,down, null).getCollision();
+				objectUp.collision = new Water(0, 0, 0, down, null).getCollision();
 				break;
 			case 3:
-				objectUp.collision = new Rock(0,0,0,down, null).getCollision();
+				objectUp.collision = new Rock(0, 0, 0, down, null).getCollision();
 				break;
 			case 9:
-				objectUp.collision = new NewLandDoor(0,0,0,down, null).getCollision();
+				objectUp.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
 				break;
 		}
-		
-		GameObject objectDown = new GameObject(0,0,0,down,null);
+
+		GameObject objectDown = new GameObject(0, 0, 0, down, null);
 		switch (down) {
 			case 0:
-				objectDown.collision = new Earth(0,0,0,down, null).getCollision();
+				objectDown.collision = new Earth(0, 0, 0, down, null).getCollision();
 				break;
 			case 1:
-				objectDown.collision = new Tree(0,0,0,down, null).getCollision();
+				objectDown.collision = new Tree(0, 0, 0, down, null).getCollision();
 				break;
 			case 2:
-				objectDown.collision = new Water(0,0,0,down, null).getCollision();
+				objectDown.collision = new Water(0, 0, 0, down, null).getCollision();
 				break;
 			case 3:
-				objectDown.collision = new Rock(0,0,0,down, null).getCollision();
+				objectDown.collision = new Rock(0, 0, 0, down, null).getCollision();
 				break;
 			case 9:
-				objectDown.collision = new NewLandDoor(0,0,0,down, null).getCollision();
+				objectDown.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
 				break;
 		}
-		
-		// ko cho đi xuyen qua dia hinh: neu check collision cua object do = true thi se cong tru toa do ve vi tri cu (+-dx,dy)
-		if ( objectLeft.collision == true ) {
+
+		// ko cho đi xuyen qua dia hinh: neu check collision cua object do = true thi se
+		// cong tru toa do ve vi tri cu (+-dx,dy)
+		if (objectLeft.collision == true) {
 			getHeroGP().x = getHeroGP().x + speed;
 		}
-		if ( objectRight.collision == true ) {
+		if (objectRight.collision == true) {
 			getHeroGP().x = getHeroGP().x - speed;
 		}
-		if ( objectUp.collision == true ) {
+		if (objectUp.collision == true) {
 			getHeroGP().y = getHeroGP().y + speed;
 		}
-		if ( objectDown.collision == true ) {
+		if (objectDown.collision == true) {
 			getHeroGP().y = getHeroGP().y - speed;
 		}
 
-		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
 			Board.setDoor_appared();
 		}
-		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
 			Board.setDoor_appared();
 		}
-		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
 			Board.setDoor_appared();
 		}
-		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1)==9) {
+		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
 			Board.setDoor_appared();
 		}
 	}
-
-
 
 	public void tofire() {
 		int xz = 0, yz = 0;
@@ -182,8 +180,6 @@ public class Hero {
 		fire_new.setDirect(getHeroGP().getDirect());
 		fires.add(fire_new);
 	}
-
-
 
 	public void toSkillshot() {
 		if (mana > 0) {
@@ -209,55 +205,55 @@ public class Hero {
 
 	}
 
-//	public void keyPressed(KeyEvent e) {
-//		int key = e.getKeyCode();
-//		if (key == KeyEvent.VK_SPACE) {
-//			tofire();
-//		}
-//		if (key == KeyEvent.VK_A) {
-//			toSkillshot();
-//		}
-//		if (key == KeyEvent.VK_LEFT) {
-//			setDx(-speed);
-//			getHeroGP().loadImage("res/textures/img/left.png");
-//			getHeroGP().setDirect(-1);
-//		}
-//		if (key == KeyEvent.VK_RIGHT) {
-//			setDx(speed);
-//			getHeroGP().loadImage("res/textures/img/right.png");
-//			getHeroGP().setDirect(1);
-//		}
-//		if (key == KeyEvent.VK_UP) {
-//			dy = -speed;
-//			getHeroGP().loadImage("res/textures/img/up.png");
-//			getHeroGP().setDirect(2);
-//		}
-//		if (key == KeyEvent.VK_DOWN) {
-//			dy = speed;
-//			getHeroGP().loadImage("res/textures/img/down.png");
-//			getHeroGP().setDirect(-2);
-//		}
-//	}
-//
-//	public void keyReleased(KeyEvent e) {
-//		int key = e.getKeyCode();
-//		if (key == KeyEvent.VK_SPACE) {
-//		}
-//		if (key == KeyEvent.VK_A) {
-//		}
-//		if (key == KeyEvent.VK_LEFT) {
-//			setDx(0);
-//		}
-//		if (key == KeyEvent.VK_RIGHT) {
-//			setDx(0);
-//		}
-//		if (key == KeyEvent.VK_UP) {
-//			dy = 0;
-//		}
-//		if (key == KeyEvent.VK_DOWN) {
-//			dy = 0;
-//		}
-//	}
+	// public void keyPressed(KeyEvent e) {
+	// int key = e.getKeyCode();
+	// if (key == KeyEvent.VK_SPACE) {
+	// tofire();
+	// }
+	// if (key == KeyEvent.VK_A) {
+	// toSkillshot();
+	// }
+	// if (key == KeyEvent.VK_LEFT) {
+	// setDx(-speed);
+	// getHeroGP().loadImage("res/textures/img/left.png");
+	// getHeroGP().setDirect(-1);
+	// }
+	// if (key == KeyEvent.VK_RIGHT) {
+	// setDx(speed);
+	// getHeroGP().loadImage("res/textures/img/right.png");
+	// getHeroGP().setDirect(1);
+	// }
+	// if (key == KeyEvent.VK_UP) {
+	// dy = -speed;
+	// getHeroGP().loadImage("res/textures/img/up.png");
+	// getHeroGP().setDirect(2);
+	// }
+	// if (key == KeyEvent.VK_DOWN) {
+	// dy = speed;
+	// getHeroGP().loadImage("res/textures/img/down.png");
+	// getHeroGP().setDirect(-2);
+	// }
+	// }
+	//
+	// public void keyReleased(KeyEvent e) {
+	// int key = e.getKeyCode();
+	// if (key == KeyEvent.VK_SPACE) {
+	// }
+	// if (key == KeyEvent.VK_A) {
+	// }
+	// if (key == KeyEvent.VK_LEFT) {
+	// setDx(0);
+	// }
+	// if (key == KeyEvent.VK_RIGHT) {
+	// setDx(0);
+	// }
+	// if (key == KeyEvent.VK_UP) {
+	// dy = 0;
+	// }
+	// if (key == KeyEvent.VK_DOWN) {
+	// dy = 0;
+	// }
+	// }
 
 	public int getLife() {
 		return life;
@@ -294,11 +290,11 @@ public class Hero {
 	public void setHeroGP(GameObjectDynamic heroGP) {
 		this.heroGP = heroGP;
 	}
-	
+
 	public List<Fire> getFires() {
 		return fires;
 	}
-	
+
 	public List<Skillshot> getSkillshots() {
 		return skillshots;
 	}
@@ -319,7 +315,6 @@ public class Hero {
 		this.dy = dy;
 	}
 
-
 	public boolean isInvincible() {
 		return invincible;
 	}
@@ -339,9 +334,10 @@ public class Hero {
 	public boolean getCollided() {
 		return isCollided;
 	}
+
 	public void setCollided(boolean isCollided) {
 		this.isCollided = isCollided;
 	}
 }
-//hello chua te Aram xin chao.
+// hello chua te Aram xin chao.
 // co may cai branch ma` dau ca dau @@
