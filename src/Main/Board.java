@@ -194,14 +194,16 @@ public class Board extends JPanel implements ActionListener {
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
+				if(hero.isInvincible()==false) {
 				hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
-				if (hero.getLife() == 0)
+				if (hero.getLife() <= 0)
 					hero.getHeroGP().setTontai(false);
-
 				monster.setLife(monster.getLife() - 1);
-				if (monster.getLife() == 0)
+				if (monster.getLife() <= 0)
 					monster.getMonsterGP().setTontai(false);
-			}
+				hero.setInvincible(true);
+				}
+				}
 		}
 		List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
 		for (Fire fr : frs) {
@@ -211,7 +213,7 @@ public class Board extends JPanel implements ActionListener {
 				if (ms.intersects(khung_fr)) { // va cham dan va quai
 					fr.setTontai(false);
 					monster.setLife(monster.getLife() - hero.getAttack());
-					if (monster.getLife() == 0)
+					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setTontai(false);
 				}
 			}
@@ -260,8 +262,6 @@ public class Board extends JPanel implements ActionListener {
 					hero.getHeroGP().setTontai(false);
 				else
 					hero.setLife(hero.getLife() - 1);
-				hero.getHeroGP().setX(10);
-				hero.getHeroGP().setY(10);
 			}
 		}
 	}
@@ -401,7 +401,13 @@ public class Board extends JPanel implements ActionListener {
 			for (Stone stone : stones) {
 				g.drawImage(stone.getImage(), stone.getX(), stone.getY(), this);
 			}
-			
+			if(hero.isInvincible()==true) {
+				hero.setInvincibleCounter(hero.getInvincibleCounter()+1);
+				if(hero.getInvincibleCounter()>60) {
+					hero.setInvincible(false);
+					hero.setInvincibleCounter(0);
+				}
+			}
 			if (boss_appared)
 				g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
 			g.setColor(Color.white);
