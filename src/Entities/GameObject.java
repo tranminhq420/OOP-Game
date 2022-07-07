@@ -22,11 +22,11 @@ public class GameObject {
 	public void draw(Graphics2D g2d){
 			g2d.drawImage(image,x,y,width,height,null);	
 	}
-	protected void loadImage(String imageName) { 
+	public void loadImage(String imageName) { 
 	      ImageIcon img = new ImageIcon(imageName);
 	      image = img.getImage();
 	}
-	protected void getImageDimension() { 
+	public void getImageDimension() { 
 		  width  = image.getWidth(null);
 		  height = image.getHeight(null);
 	}  
