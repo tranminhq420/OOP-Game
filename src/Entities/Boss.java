@@ -70,7 +70,7 @@ public class Boss extends Monster implements Boss_interface {
 			getMonsterGP().loadImage("res/textures/img/eyedown.png");
 		}
 		timez += 1;
-		if (timez == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+		if (timez == 50) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
 			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
 																										// định 0
 			// tương ứng với đứng yên)
@@ -138,4 +138,7 @@ public class Boss extends Monster implements Boss_interface {
 		this.hp = hp;
 	}
 
+	public int getHpMax() {
+		return HP_MAX;
+	}
 }
