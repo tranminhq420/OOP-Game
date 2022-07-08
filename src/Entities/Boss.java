@@ -138,4 +138,7 @@ public class Boss extends Monster implements Boss_interface {
 		this.hp = hp;
 	}
 
+	public int getHpMax() {
+		return HP_MAX;
+	}
 }
