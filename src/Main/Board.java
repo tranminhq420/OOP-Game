@@ -35,7 +35,7 @@ public class Board extends JPanel implements ActionListener {
 	private Timer timer;
 	private boolean ingame; // danh dau chuyen canh
 	private boolean started; // danh dau bat dau -> chuyen sang image->game over
-	private int commandNum; // de chuyen trang thai giua play game, option va quit game
+	private double commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
 
@@ -400,10 +400,15 @@ public class Board extends JPanel implements ActionListener {
 
 				for (Monster monster : monsters) { // ve quai
 					if (monster.getMonsterGP().getTontai()) {
+						Integer hpBar = 8;
+						Integer hpBarValue = hpBar * monster.getLife();
+
 						g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),
 								this);
-						g.setColor(Color.RED);
-						g.fillRect(monster.getMonsterGP().getX(), monster.getMonsterGP().getY() - 10, 30, 10);
+						g.setColor(Color.black);
+						g.fillRect(monster.getMonsterGP().getX() - 1, monster.getMonsterGP().getY() - 16, 34, 12);
+						g.setColor(Color.red);
+						g.fillRect(monster.getMonsterGP().getX(), monster.getMonsterGP().getY() - 15, hpBarValue, 10);
 					}
 				}
 				List<Stone> stones = boss.getStones();
@@ -417,10 +422,17 @@ public class Board extends JPanel implements ActionListener {
 						hero.setInvincibleCounter(0);
 					}
 				}
-				if (boss_appared)
+				if (boss_appared) {
+					Double bossHp = 0.32;
+					Double bossHpValue = bossHp * boss.getHp();
+					Integer display = (int) Math.round(bossHpValue);
 					g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+					g.setColor(Color.black);
+					g.fillRect(boss.getMonsterGP().getX() - 1, boss.getMonsterGP().getY() - 16, 34, 12);
+					g.setColor(Color.red);
+					g.fillRect(boss.getMonsterGP().getX(), boss.getMonsterGP().getY() - 15, display, 10);
+				}
 				g.setColor(Color.white);
-
 				if (monsters.isEmpty()) {
 					if (!boss_appared)
 						door_appared = true;
@@ -451,8 +463,8 @@ public class Board extends JPanel implements ActionListener {
 
 			} else {
 
-				if(!door_appared)
-				g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
+				if (!door_appared)
+					g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
 				// man hinh
 			}
 			g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
@@ -462,7 +474,6 @@ public class Board extends JPanel implements ActionListener {
 			g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
 			g.drawString("Collided : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
 			g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
-			
 
 		} else {
 			String msg = "Game Over";
