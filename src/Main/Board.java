@@ -38,8 +38,9 @@ public class Board extends JPanel implements ActionListener {
 	private double commandNum; // de chuyen trang thai giua play game, option va quit game
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
-
 	private static boolean door_appared = false; // het quai thi se lo ra canh cua
+	private final double heroHpBar = 10.66; // thanh mau cua nguoi choi
+	private final double heroManaBar = 6.4;// thanh mana cua nguoi choi
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
@@ -436,7 +437,7 @@ public class Board extends JPanel implements ActionListener {
 
 				if (boss_appared) {
 					door_appared = false;
-					g.drawString("BOOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
+					g.drawString("BOSS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
 					g.drawString("HP : " + boss.getHp(), SIZE_X - 120, SIZE_Y / 4 + 20);
 					if (boss_appared == false)
 						boss_appared = true;
@@ -445,25 +446,38 @@ public class Board extends JPanel implements ActionListener {
 						g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
 					// man hinh
 				}
-				g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
-				g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 70);
-				g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
-				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 110);
-				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
-				g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
-				g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
+				g.drawString("Health: ", SIZE_X - 100, SIZE_Y / 4 + 50);
+				g.setColor(Color.red);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60,
+						(int) Math.round(heroHpBar * hero.getLife()),
+						10);
+				g.setColor(Color.white);
+				// g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
+				g.drawString("Mana : ", SIZE_X - 100, SIZE_Y / 4 + 90);
+				g.setColor(Color.blue);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100,
+						(int) Math.round(heroManaBar * hero.getMana()),
+						10);
+				g.setColor(Color.white);
+				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
+				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
+
+				// g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 +
+				// 150);
+				// g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100,
+				// SIZE_Y / 4 + 170);
 
 			} else {
-			String msg = "Game Over";
-			Font small = new Font("Helvetica", Font.BOLD, 20);
-			FontMetrics fm = getFontMetrics(small);
-			g.setColor(Color.white);
-			g.setFont(small);
-			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+				String msg = "Game Over";
+				Font small = new Font("Helvetica", Font.BOLD, 20);
+				FontMetrics fm = getFontMetrics(small);
+				g.setColor(Color.white);
+				g.setFont(small);
+				g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
 
-		}
-	  } //end started
-	}	//end paint component
+			}
+		} // end started
+	} // end paint component
 
 	// private class TAdapter extends KeyAdapter {
 	// @Override
