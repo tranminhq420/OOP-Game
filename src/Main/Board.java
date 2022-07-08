@@ -274,14 +274,6 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		// IntroState intro = new IntroState();
-		// intro.init();
-		// private Image backgroundImage = ImageIO.read(new
-		// File("res/textuers/img/thanos.png"));
-
-		// String mesg = "Press S to start";
-		// String quit = "QUIT GAME";
 		Font smallFont = new Font("Helvetica", Font.BOLD, 20);
 		FontMetrics fome = getFontMetrics(smallFont);
 		g.setColor(Color.white);
@@ -444,7 +436,7 @@ public class Board extends JPanel implements ActionListener {
 
 				if (boss_appared) {
 					door_appared = false;
-					g.drawString("THANOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
+					g.drawString("BOOS XUẤT HIỆN! ", SIZE_X - 120, SIZE_Y / 4);
 					g.drawString("HP : " + boss.getHp(), SIZE_X - 120, SIZE_Y / 4 + 20);
 					if (boss_appared == false)
 						boss_appared = true;
@@ -462,20 +454,6 @@ public class Board extends JPanel implements ActionListener {
 				g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
 
 			} else {
-
-				if (!door_appared)
-					g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
-				// man hinh
-			}
-			g.drawString("Health: " + hero.getLife(), SIZE_X - 100, SIZE_Y / 4 + 50);
-			g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 70);
-			g.drawString("Mana : " + hero.getMana(), SIZE_X - 100, SIZE_Y / 4 + 90);
-			g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 110);
-			g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 130);
-			g.drawString("Collided : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 + 150);
-			g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100, SIZE_Y / 4 + 170);
-
-		} else {
 			String msg = "Game Over";
 			Font small = new Font("Helvetica", Font.BOLD, 20);
 			FontMetrics fm = getFontMetrics(small);
@@ -484,7 +462,8 @@ public class Board extends JPanel implements ActionListener {
 			g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
 
 		}
-	}
+	  } //end started
+	}	//end paint component
 
 	// private class TAdapter extends KeyAdapter {
 	// @Override

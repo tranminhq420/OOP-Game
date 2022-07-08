@@ -7,7 +7,7 @@ import Main.Board;
 public class Monster {
 	Random rd = new Random();
 	private int timez = 0;
-	private final int speed = 2;
+	private final int speed = 1;
 	private int maxLife = 4;
 	private int life = maxLife;
 	private int attack = 2;
