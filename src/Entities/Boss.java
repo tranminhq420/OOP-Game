@@ -15,6 +15,10 @@ public class Boss extends Monster implements Boss_interface {
 	private int hp;
 	private final int HP_MAX = 100;
 	private int speed = 1;
+	private int attack = 4;
+	private int defense = 2;
+	private boolean invincible=false;
+	private int invincibleCounter=0;
 
 	int t = 0, k = 0;
 
@@ -140,5 +144,20 @@ public class Boss extends Monster implements Boss_interface {
 
 	public int getHpMax() {
 		return HP_MAX;
+	}
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public int getInvincibleCounter() {
+		return invincibleCounter;
+	}
+
+	public void setInvincibleCounter(int invincibleCounter) {
+		this.invincibleCounter = invincibleCounter;
 	}
 }

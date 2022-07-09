@@ -11,8 +11,10 @@ public class Monster {
 	private int maxLife = 4;
 	private int life = maxLife;
 	private int attack = 2;
-	private int defense = 0;
-	private boolean collision = true;
+	private int defense = 2;
+//	private boolean collision = true;
+	private boolean invincible=false;
+	private int invincibleCounter=0;
 	private GameObjectDynamic monsterGP;
 
 	public Monster(int x, int y) {
@@ -178,5 +180,20 @@ public class Monster {
 
 	public void setMonsterGP(GameObjectDynamic monsterGP) {
 		this.monsterGP = monsterGP;
+	}
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public int getInvincibleCounter() {
+		return invincibleCounter;
+	}
+
+	public void setInvincibleCounter(int invincibleCounter) {
+		this.invincibleCounter = invincibleCounter;
 	}
 }

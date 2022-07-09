@@ -14,3 +14,4 @@ public class NewLandDoor extends GameObject {
 		return collision;
 	}
 }
+

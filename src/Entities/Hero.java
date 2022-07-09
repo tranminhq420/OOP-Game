@@ -13,20 +13,19 @@ public class Hero {
 	private List<Skillshot> skillshots;
 	// private int live = 3;
 	private int moving;
-	private int life = 6; // health
+	private int life = 10; // health
 	private int maxLife = 6;
 	private int speed = 2;
-	private int maxMana = 10;
+	private int maxMana = 20;
 
 	private int mana = 10;
-	private int attack = 2;
+	private int attack = 4;
 	private int defense = 1;
-	private int skillAttack = 4;
+	private int skillAttack = 10;
 	private boolean invincible=false;
 	private int invincibleCounter=0;
-	private int collidedCounter=0;
-
-	private boolean isCollided;
+//	private int collidedCounter=0;
+//	private boolean isCollided;
 	private GameObjectDynamic heroGP;
 
 	public Hero(int x, int y) {
@@ -138,24 +137,56 @@ public class Hero {
 
 	public void toSkillshot() {
 		if (mana > 0) {
-			int xz = 0, yz = 0;
+			int xz = 0, yz = 0,direct;
 			if (getHeroGP().getDirect() == 1) {
 				xz = getHeroGP().x + getHeroGP().width;
 				yz = getHeroGP().y + getHeroGP().height / 2;
+				for( int i=0; i < Board.getSizeX()-xz-120 ; i++) {
+					Skillshot skillshot_new = new Skillshot(xz+i, yz);
+					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshots.add(skillshot_new);
+				}
+				Skillshot skillshot_new = new Skillshot(0, 0);
+				mana -= skillshot_new.getUseCost();
 			} else if (getHeroGP().getDirect() == -1) {
 				xz = getHeroGP().x;
 				yz = getHeroGP().y + getHeroGP().height / 2;
+				for( int i=0; i < xz ; i++) {
+					Skillshot skillshot_new = new Skillshot(xz-i, yz);
+					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshots.add(skillshot_new);
+				}
+				Skillshot skillshot_new = new Skillshot(0, 0);
+				mana -= skillshot_new.getUseCost();
 			} else if (getHeroGP().getDirect() == -2) {
 				xz = getHeroGP().x + getHeroGP().width / 2;
 				yz = getHeroGP().y + getHeroGP().height;
+				for( int i=0; i < Board.getSizeY()-yz ; i++) {
+					Skillshot skillshot_new = new Skillshot(xz, yz+i);
+					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshots.add(skillshot_new);
+				}
+				Skillshot skillshot_new = new Skillshot(0, 0);
+				mana -= skillshot_new.getUseCost();
 			} else if (getHeroGP().getDirect() == 2) {
 				xz = getHeroGP().x + getHeroGP().width / 3;
 				yz = getHeroGP().y;
+				for( int i=0; i < yz ; i++) {
+					Skillshot skillshot_new = new Skillshot(xz, yz-i);
+					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshots.add(skillshot_new);
+				}
+				Skillshot skillshot_new = new Skillshot(0, 0);
+				mana -= skillshot_new.getUseCost();
 			}
-			Skillshot skillshot_new = new Skillshot(xz, yz);
-			skillshot_new.setDirect(getHeroGP().getDirect());
-			skillshots.add(skillshot_new);
-			mana -= skillshot_new.getUseCost();
+			
+			
+//			for( int i=0; i < Board.getSizeX()/32-xz ; i++) {
+//				Skillshot skillshot_new = new Skillshot(xz, yz);
+//				skillshot_new.setDirect(getHeroGP().getDirect());
+//				skillshots.add(skillshot_new);
+//			}
+//			mana -= skillshot_new.getUseCost();
 		}
 
 	}
@@ -285,24 +316,24 @@ public class Hero {
 	public void setInvincibleCounter(int invincibleCounter) {
 		this.invincibleCounter = invincibleCounter;
 	}
-	public int getCollidedCounter() {
-		return collidedCounter;
-	}
-
-	public void setCollidedCounter(int collidedCounter) {
-		this.collidedCounter = collidedCounter;
-	}
-
-	public boolean getCollided() {
-		return isCollided;
-	}
-
-	public void setCollided(boolean isCollided) {
-		this.isCollided = isCollided;
-	}
-	public boolean isCollided() {
-		return isCollided;
-	}
+//	public int getCollidedCounter() {
+//		return collidedCounter;
+//	}
+//
+//	public void setCollidedCounter(int collidedCounter) {
+//		this.collidedCounter = collidedCounter;
+//	}
+//
+//	public boolean getCollided() {
+//		return isCollided;
+//	}
+//
+//	public void setCollided(boolean isCollided) {
+//		this.isCollided = isCollided;
+//	}
+//	public boolean isCollided() {
+//		return isCollided;
+//	}
 	
 	public void setSpeed(int i) {
 		this.speed = i;
