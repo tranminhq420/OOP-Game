@@ -1,8 +1,8 @@
 package Entities;
 
 public class Skillshot extends Bullet {
-	private final int bullet_speed = 4;
-	private final int bullet_length = 750;
+	private final int bullet_speed = 1;
+	private final int bullet_length = 20;
 	private int useCost = 1;
 	
 	public Skillshot(int x, int y) {
@@ -19,7 +19,7 @@ public class Skillshot extends Bullet {
         if (fly>bullet_length) {
         	setTontai(false);
         }
-        if(x<0||x>550||y<0||y>550) {
+        if(x<0||x>600||y<0||y>600) {
         	setTontai(false);
         }
     }

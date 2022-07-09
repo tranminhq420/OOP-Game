@@ -44,7 +44,7 @@ public class Board extends JPanel implements ActionListener {
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
-	private boolean onboard = false;
+	private static boolean onboard = false;
 	private final int[][] position = { // vi tri quai->thay = random
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
 	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
@@ -205,7 +205,7 @@ public class Board extends JPanel implements ActionListener {
 					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setTontai(false);
 					hero.setInvincible(true);
-					hero.setCollided(true);
+					// hero.setCollided(true);
 				}
 			}
 		}
@@ -217,7 +217,7 @@ public class Board extends JPanel implements ActionListener {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_fr)) { // va cham dan va quai
 					fr.setTontai(false);
-					monster.setLife(monster.getLife() - hero.getAttack());
+					monster.setLife(monster.getLife() - (hero.getAttack() - monster.getDefense()));
 					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setTontai(false);
 				}
@@ -229,24 +229,30 @@ public class Board extends JPanel implements ActionListener {
 			}
 			;
 		}
+
 		List<Skillshot> sks = hero.getSkillshots(); // fr : mang cac fire cua hero
 		for (Skillshot sk : sks) {
+			// System.out.println(collisionMonster);
 			Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
-				if (ms.intersects(khung_fr2)) { // va cham dan va quai
-					sk.setTontai(false);
+				if (ms.intersects(khung_fr2) && monster.isInvincible() == false) { // va cham dan va quai
+					// sk.setTontai(false);
 					monster.setLife(monster.getLife() - hero.getSkillAttack());
-					if (monster.getLife() == 0)
+					monster.setInvincible(true);
+					if (monster.getLife() <= 0) {
 						monster.getMonsterGP().setTontai(false);
+					}
 				}
 			}
+
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
-			if (khung_fr2.intersects(bs)) {
-				boss.setHp(boss.getHp() - hero.getSkillAttack());
-				sk.setTontai(false);
+			if (khung_fr2.intersects(bs) && boss.isInvincible() == false) {
+				// sk.setTontai(false);
+				boss.setHp(boss.getHp() - (hero.getSkillAttack() - boss.getDefense()));
+				boss.setInvincible(true);
 			}
-			;
+
 		}
 
 		if (boss_appared) {
@@ -257,7 +263,7 @@ public class Board extends JPanel implements ActionListener {
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
 					else
-						hero.setLife(hero.getLife() - 1);
+						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense()));
 					st.setTontai(false);
 				}
 			}
@@ -419,6 +425,22 @@ public class Board extends JPanel implements ActionListener {
 						hero.setInvincibleCounter(0);
 					}
 				}
+				if (boss.isInvincible() == true) {
+					boss.setInvincibleCounter(boss.getInvincibleCounter() + 1);
+					if (boss.getInvincibleCounter() > 30) {
+						boss.setInvincible(false);
+						boss.setInvincibleCounter(0);
+					}
+				}
+				for (Monster monster : monsters) {
+					if (monster.isInvincible() == true) {
+						monster.setInvincibleCounter(monster.getInvincibleCounter() + 1);
+						if (monster.getInvincibleCounter() > 30) {
+							monster.setInvincible(false);
+							monster.setInvincibleCounter(0);
+						}
+					}
+				}
 				if (boss_appared) {
 					Double bossHp = 0.32;
 					Double bossHpValue = bossHp * boss.getHp();
@@ -526,19 +548,31 @@ public class Board extends JPanel implements ActionListener {
 
 			if (key == KeyEvent.VK_RIGHT) {
 				hero.setDx(hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/right.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/right.png");
+				}
 				hero.getHeroGP().setDirect(1);
 			}
 
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(-hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/up.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/up.png");
+				}
 				hero.getHeroGP().setDirect(2);
 			}
 
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/down.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/down.png");
+				}
 				hero.getHeroGP().setDirect(-2);
 			}
 		}
@@ -621,7 +655,11 @@ public class Board extends JPanel implements ActionListener {
 		return onboard;
 	}
 
-	public void setOnboard(boolean onboard) {
-		this.onboard = onboard;
+	public static void setOnboard() {
+		onboard = true;
+	}
+
+	public static void offOnboard() {
+		onboard = false;
 	}
 }

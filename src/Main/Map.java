@@ -45,6 +45,8 @@ public class Map {
 		for (int i = 0; i < height; i++) {
 			if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("6"))
@@ -63,6 +65,8 @@ public class Map {
 		for (int i = 0; i < width; i++) {
 			if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("6"))
@@ -81,6 +85,8 @@ public class Map {
 		for (int i = 0; i < width; i++) {
 			if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("6"))
@@ -102,6 +108,8 @@ public class Map {
 		for (int i = 0; i < height; i++) {
 			if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("6"))
@@ -123,6 +131,8 @@ public class Map {
 		for (int i = 0; i < height; i++) {
 			if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("6"))
@@ -147,6 +157,8 @@ public class Map {
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -168,6 +180,8 @@ public class Map {
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("1"))
 				return 1;
+			else if (getMap(x / 32, y / 32).equals("2"))
+				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
 			else if (getMap(x / 32, y / 32).equals("9"))
