@@ -1,11 +1,13 @@
 package Main;
 
 import java.awt.event.ActionListener;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -43,6 +45,8 @@ public class Board extends JPanel implements ActionListener {
 	private final double heroManaBar = 6.4;// thanh mana cua nguoi choi
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
+	private Sound music = new Sound(); 
+	private Sound se = new Sound();
 	private boolean win = false;
 	private boolean onboard = true;
 	private final int[][] position = { // vi tri quai->thay = random
@@ -75,6 +79,7 @@ public class Board extends JPanel implements ActionListener {
 		boss = new Boss(SIZE_X - 250, SIZE_Y / 2); // khoi tao boss ben phai man hinh
 		timer = new Timer(DELAY, this); // nhan su kien sau 10dvth
 		timer.start(); // gui toi actionPerformed
+		playMusic(0);
 	}
 
 	public void initMonsters() {
@@ -198,10 +203,11 @@ public class Board extends JPanel implements ActionListener {
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
 				if (hero.isInvincible() == false) {
+					playSE(3);
 					hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
-					monster.setLife(monster.getLife() - 1);
+//					monster.setLife(monster.getLife() - 1);
 					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setTontai(false);
 					hero.setInvincible(true);
@@ -216,14 +222,18 @@ public class Board extends JPanel implements ActionListener {
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_fr)) { // va cham dan va quai
+					playSE(3);
 					fr.setTontai(false);
 					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
-					if (monster.getLife() <= 0)
+					if (monster.getLife() <= 0) {
 						monster.getMonsterGP().setTontai(false);
+						playSE(1);
+						}
 				}
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_fr.intersects(bs)) {
+				playSE(3);
 				boss.setHp(boss.getHp() - hero.getAttack());
 				fr.setTontai(false);
 			}
@@ -242,6 +252,7 @@ public class Board extends JPanel implements ActionListener {
 						monster.setInvincible(true);
 						if (monster.getLife() <= 0) {
 							monster.getMonsterGP().setTontai(false);
+							playSE(1);
 						}
 				}
 			}
@@ -259,17 +270,20 @@ public class Board extends JPanel implements ActionListener {
 			List<Stone> stones = boss.getStones(); // xu li va cham stones vs nhan vat
 			for (Stone st : stones) {
 				Rectangle st_rec = st.getBounds();
-				if (hr.intersects(st_rec)) {
+				if (hr.intersects(st_rec) && hero.isInvincible() == false) {
+					playSE(3);
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
 					else
 						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense() ) );
 					st.setTontai(false);
+					hero.setInvincible(true);
 				}
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds();
 			if (bs.intersects(hr)) {
 				if (hero.isInvincible() == false) {
+					playSE(3);
 					hero.setLife(hero.getLife() - 1);
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
@@ -282,6 +296,7 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g.create();
 		Font smallFont = new Font("Helvetica", Font.BOLD, 20);
 		FontMetrics fome = getFontMetrics(smallFont);
 		g.setColor(Color.white);
@@ -381,14 +396,22 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				g.setFont(small);
 				g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
+				playSE(7);
+				stopMusic();
 			} else if (ingame) {
 				Font small = new Font("Helvetica", Font.BOLD, 15);
 				FontMetrics fm = getFontMetrics(small);
 				g.setColor(Color.white);
 				g.setFont(small);
 
-				g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
-
+				// g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
+				if( hero.isInvincible() == true ){
+					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+				}
+				g2.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this);
+				//RESET ALPHA
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+				
 				List<Fire> fires = hero.getFires();
 				for (Fire fire : fires) { // ve dan
 					g.drawImage(fire.getImage(), fire.getX(), fire.getY(), this);
@@ -473,6 +496,8 @@ public class Board extends JPanel implements ActionListener {
 					// man hinh
 				}
 				g.drawString("Health: ", SIZE_X - 100, SIZE_Y / 4 + 50);
+				g.setColor(Color.white);
+				g.fillRect(SIZE_X - 100-2, SIZE_Y / 4 + 60 -1 ,88,12);
 				g.setColor(Color.red);
 				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60,
 						(int) Math.round(heroHpBar * hero.getLife()),
@@ -480,6 +505,8 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				// g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
 				g.drawString("Mana : ", SIZE_X - 100, SIZE_Y / 4 + 90);
+				g.setColor(Color.white);
+				g.fillRect(SIZE_X - 100-2, SIZE_Y / 4 + 100 -1 ,80,12);
 				g.setColor(Color.blue);
 				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100, (int) Math.round(heroManaBar * hero.getMana()), 10);
 				g.setColor(Color.white);
@@ -497,7 +524,8 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				g.setFont(small);
 				g.drawString(msg, (SIZE_X - fm.stringWidth(msg)) / 2, SIZE_Y / 2);
-
+				playSE(6);
+				stopMusic();
 			}
 		} // end started
 	} // end paint component
@@ -530,10 +558,14 @@ public class Board extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 			if (key == KeyEvent.VK_SPACE) {
+				playSE(4);
 				hero.tofire();
 			}
 			if (key == KeyEvent.VK_A) {
 				hero.toSkillshot();
+				if( hero.getMana() > 0) {
+					playSE(8);
+				}
 			}
 			if (key == KeyEvent.VK_LEFT) {
 				hero.setDx(-hero.getSpeed());
@@ -595,12 +627,14 @@ public class Board extends JPanel implements ActionListener {
 
 	public void titleState(int code) {
 		if (code == KeyEvent.VK_UP) {
+			playSE(5);
 			commandNum--;
 			if (commandNum < 0) {
 				commandNum = 2;
 			}
 		}
 		if (code == KeyEvent.VK_DOWN) {
+			playSE(5);
 			commandNum++;
 			if (commandNum > 2) {
 				commandNum = 0;
@@ -608,6 +642,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 
 		if (code == KeyEvent.VK_ENTER) {
+			playSE(5);
 			if (commandNum == 0) {
 				started = true;
 			}
@@ -632,6 +667,25 @@ public class Board extends JPanel implements ActionListener {
 
 	public static int getSizeY() {
 		return SIZE_Y;
+	}
+	
+	public void playMusic(int i) {
+		
+		music.setFile(i);
+		music.play();
+		music.loop();
+	}
+	
+	public void stopMusic() {
+		
+		music.stop();
+	}
+
+	
+	public void playSE(int i) {
+		
+		se.setFile(i);
+		se.play();
 	}
 
 }

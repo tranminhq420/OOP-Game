@@ -13,12 +13,12 @@ public class Hero {
 	private List<Skillshot> skillshots;
 	// private int live = 3;
 	private int moving;
-	private int life = 10; // health
+	private int life = 8; // health
 	private int maxLife = 6;
 	private int speed = 2;
 	private int maxMana = 20;
 
-	private int mana = 10;
+	private int mana = 12;
 	private int attack = 4;
 	private int defense = 1;
 	private int skillAttack = 10;
