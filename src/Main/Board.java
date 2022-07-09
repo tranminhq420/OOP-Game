@@ -48,7 +48,7 @@ public class Board extends JPanel implements ActionListener {
 	private Sound music = new Sound(); 
 	private Sound se = new Sound();
 	private boolean win = false;
-	private boolean onboard = true;
+	private static boolean onboard = false;
 	private final int[][] position = { // vi tri quai->thay = random
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
 	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
@@ -211,7 +211,7 @@ public class Board extends JPanel implements ActionListener {
 					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setTontai(false);
 					hero.setInvincible(true);
-//					hero.setCollided(true);
+					// hero.setCollided(true);
 				}
 			}
 		}
@@ -226,6 +226,7 @@ public class Board extends JPanel implements ActionListener {
 					fr.setTontai(false);
 					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
+
 						monster.getMonsterGP().setTontai(false);
 						playSE(1);
 						}
@@ -239,13 +240,14 @@ public class Board extends JPanel implements ActionListener {
 			}
 			;
 		}
-		
+
 		List<Skillshot> sks = hero.getSkillshots(); // fr : mang cac fire cua hero
 		for (Skillshot sk : sks) {
-//			System.out.println(collisionMonster);
+			// System.out.println(collisionMonster);
 			Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
+
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
 //					sk.setTontai(false);	
 						monster.setLife(monster.getLife() - hero.getSkillAttack());
@@ -256,14 +258,14 @@ public class Board extends JPanel implements ActionListener {
 						}
 				}
 			}
-			
+
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_fr2.intersects(bs) && boss.isInvincible() == false) {
-//				sk.setTontai(false);
-				boss.setHp(boss.getHp() - ( hero.getSkillAttack() - boss.getDefense()) );
+				// sk.setTontai(false);
+				boss.setHp(boss.getHp() - (hero.getSkillAttack() - boss.getDefense()));
 				boss.setInvincible(true);
 			}
-	
+
 		}
 
 		if (boss_appared) {
@@ -275,7 +277,7 @@ public class Board extends JPanel implements ActionListener {
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setTontai(false);
 					else
-						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense() ) );
+						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense()));
 					st.setTontai(false);
 					hero.setInvincible(true);
 				}
@@ -363,7 +365,7 @@ public class Board extends JPanel implements ActionListener {
 			ImageIcon datImage = new ImageIcon("res/textures/img/dirt.png");
 			ImageIcon thungImage = new ImageIcon("res/textures/img/rock_dirt.png");
 			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
-			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
+			ImageIcon cauImage = new ImageIcon("res/textures/img/bridge.png");
 			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
 			ImageIcon newLandDoor = new ImageIcon("res/textures/img/dungeon_gate.png");
 			ImageIcon newBorder = new ImageIcon("res/textures/img/water.png");
@@ -567,28 +569,44 @@ public class Board extends JPanel implements ActionListener {
 					playSE(8);
 				}
 			}
+
 			if (key == KeyEvent.VK_LEFT) {
 				hero.setDx(-hero.getSpeed());
-				// if (onboard) {
-				// hero.getHeroGP().loadImage("res/textures/img/ironman.png");
-				// } else {
-				hero.getHeroGP().loadImage("res/textures/img/left.png");
-				// }
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/left.png");
+				}
 				hero.getHeroGP().setDirect(-1);
 			}
+
 			if (key == KeyEvent.VK_RIGHT) {
 				hero.setDx(hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/right.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/right.png");
+				}
 				hero.getHeroGP().setDirect(1);
 			}
+
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(-hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/up.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/up.png");
+				}
 				hero.getHeroGP().setDirect(2);
 			}
+
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/down.png");
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/down.png");
+				}
 				hero.getHeroGP().setDirect(-2);
 			}
 		}
@@ -609,6 +627,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(0);
 			}
+
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(0);
 			}
@@ -688,4 +707,15 @@ public class Board extends JPanel implements ActionListener {
 		se.play();
 	}
 
+	public boolean isOnboard() {
+		return onboard;
+	}
+
+	public static void setOnboard() {
+		onboard = true;
+	}
+
+	public static void offOnboard() {
+		onboard = false;
+	}
 }

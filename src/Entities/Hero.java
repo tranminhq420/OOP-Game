@@ -22,10 +22,10 @@ public class Hero {
 	private int attack = 4;
 	private int defense = 1;
 	private int skillAttack = 10;
-	private boolean invincible=false;
-	private int invincibleCounter=0;
-//	private int collidedCounter=0;
-//	private boolean isCollided;
+	private boolean invincible = false;
+	private int invincibleCounter = 0;
+	// private int collidedCounter=0;
+	// private boolean isCollided;
 
 	private GameObjectDynamic heroGP;
 
@@ -66,6 +66,9 @@ public class Hero {
 			case 1:
 				objectLeft.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectLeft.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -83,6 +86,9 @@ public class Hero {
 				break;
 			case 1:
 				objectRight.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 2:
+				objectRight.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
 				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
@@ -102,6 +108,9 @@ public class Hero {
 			case 1:
 				objectUp.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectUp.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -120,6 +129,9 @@ public class Hero {
 			case 1:
 				objectDown.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectDown.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -135,7 +147,6 @@ public class Hero {
 		// cong tru toa do ve vi tri cu (+-dx,dy)
 
 		if (objectLeft.collision == true) {
-
 			getHeroGP().x = getHeroGP().x + speed;
 		}
 		if (objectRight.collision == true) {
@@ -146,6 +157,32 @@ public class Hero {
 		}
 		if (objectDown.collision == true) {
 			getHeroGP().y = getHeroGP().y - speed;
+		}
+
+		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+			Board.offOnboard();
+		}
+		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+			Board.offOnboard();
+		}
+		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+			Board.offOnboard();
+		}
+		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+			Board.offOnboard();
+		}
+
+		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
+			Board.setOnboard();
+		}
+		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
+			Board.setOnboard();
+		}
+		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
+			Board.setOnboard();
+		}
+		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
+			Board.setOnboard();
 		}
 
 		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
@@ -184,12 +221,12 @@ public class Hero {
 
 	public void toSkillshot() {
 		if (mana > 0) {
-			int xz = 0, yz = 0,direct;
+			int xz = 0, yz = 0, direct;
 			if (getHeroGP().getDirect() == 1) {
 				xz = getHeroGP().x + getHeroGP().width;
 				yz = getHeroGP().y + getHeroGP().height / 2;
-				for( int i=0; i < Board.getSizeX()-xz-120 ; i++) {
-					Skillshot skillshot_new = new Skillshot(xz+i, yz);
+				for (int i = 0; i < Board.getSizeX() - xz - 120; i++) {
+					Skillshot skillshot_new = new Skillshot(xz + i, yz);
 					skillshot_new.setDirect(getHeroGP().getDirect());
 					skillshots.add(skillshot_new);
 				}
@@ -198,8 +235,8 @@ public class Hero {
 			} else if (getHeroGP().getDirect() == -1) {
 				xz = getHeroGP().x;
 				yz = getHeroGP().y + getHeroGP().height / 2;
-				for( int i=0; i < xz ; i++) {
-					Skillshot skillshot_new = new Skillshot(xz-i, yz);
+				for (int i = 0; i < xz; i++) {
+					Skillshot skillshot_new = new Skillshot(xz - i, yz);
 					skillshot_new.setDirect(getHeroGP().getDirect());
 					skillshots.add(skillshot_new);
 				}
@@ -208,8 +245,8 @@ public class Hero {
 			} else if (getHeroGP().getDirect() == -2) {
 				xz = getHeroGP().x + getHeroGP().width / 2;
 				yz = getHeroGP().y + getHeroGP().height;
-				for( int i=0; i < Board.getSizeY()-yz ; i++) {
-					Skillshot skillshot_new = new Skillshot(xz, yz+i);
+				for (int i = 0; i < Board.getSizeY() - yz; i++) {
+					Skillshot skillshot_new = new Skillshot(xz, yz + i);
 					skillshot_new.setDirect(getHeroGP().getDirect());
 					skillshots.add(skillshot_new);
 				}
@@ -218,22 +255,21 @@ public class Hero {
 			} else if (getHeroGP().getDirect() == 2) {
 				xz = getHeroGP().x + getHeroGP().width / 3;
 				yz = getHeroGP().y;
-				for( int i=0; i < yz ; i++) {
-					Skillshot skillshot_new = new Skillshot(xz, yz-i);
+				for (int i = 0; i < yz; i++) {
+					Skillshot skillshot_new = new Skillshot(xz, yz - i);
 					skillshot_new.setDirect(getHeroGP().getDirect());
 					skillshots.add(skillshot_new);
 				}
 				Skillshot skillshot_new = new Skillshot(0, 0);
 				mana -= skillshot_new.getUseCost();
 			}
-			
-			
-//			for( int i=0; i < Board.getSizeX()/32-xz ; i++) {
-//				Skillshot skillshot_new = new Skillshot(xz, yz);
-//				skillshot_new.setDirect(getHeroGP().getDirect());
-//				skillshots.add(skillshot_new);
-//			}
-//			mana -= skillshot_new.getUseCost();
+
+			// for( int i=0; i < Board.getSizeX()/32-xz ; i++) {
+			// Skillshot skillshot_new = new Skillshot(xz, yz);
+			// skillshot_new.setDirect(getHeroGP().getDirect());
+			// skillshots.add(skillshot_new);
+			// }
+			// mana -= skillshot_new.getUseCost();
 		}
 
 	}
@@ -364,25 +400,24 @@ public class Hero {
 		this.invincibleCounter = invincibleCounter;
 	}
 
-//	public int getCollidedCounter() {
-//		return collidedCounter;
-//	}
-//
-//	public void setCollidedCounter(int collidedCounter) {
-//		this.collidedCounter = collidedCounter;
-//	}
-//
-//	public boolean getCollided() {
-//		return isCollided;
-//	}
-//
-//	public void setCollided(boolean isCollided) {
-//		this.isCollided = isCollided;
-//	}
-//	public boolean isCollided() {
-//		return isCollided;
-//	}
-	
+	// public int getCollidedCounter() {
+	// return collidedCounter;
+	// }
+	//
+	// public void setCollidedCounter(int collidedCounter) {
+	// this.collidedCounter = collidedCounter;
+	// }
+	//
+	// public boolean getCollided() {
+	// return isCollided;
+	// }
+	//
+	// public void setCollided(boolean isCollided) {
+	// this.isCollided = isCollided;
+	// }
+	// public boolean isCollided() {
+	// return isCollided;
+	// }
 
 	public void setSpeed(int i) {
 		this.speed = i;
