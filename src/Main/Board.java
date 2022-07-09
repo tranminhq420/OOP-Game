@@ -44,6 +44,7 @@ public class Board extends JPanel implements ActionListener {
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
+	private boolean onboard = true;
 	private final int[][] position = { // vi tri quai->thay = random
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
 	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
@@ -349,7 +350,8 @@ public class Board extends JPanel implements ActionListener {
 			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
 			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
 			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
-			ImageIcon newLandDoor = new ImageIcon("res/textures/img/ironman.png");
+			ImageIcon newLandDoor = new ImageIcon("res/textures/img/dungeon_gate.png");
+			ImageIcon newBorder = new ImageIcon("res/textures/img/water.png");
 			for (int y = 0; y < 20; y++)
 				for (int x = 0; x < 20; x++) {
 					if (m.getMap(x, y).equals("1")) {
@@ -366,6 +368,8 @@ public class Board extends JPanel implements ActionListener {
 						g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
 					} else if (m.getMap(x, y).equals("9")) {
 						g.drawImage(new NewLandDoor(x, y, 32, 32, newLandDoor.getImage()).getImage(), x * 32, y * 32, null);
+					} else if (m.getMap(x, y).equals("6")) {
+						g.drawImage(new WaterBorder(x, y, 32, 32, newBorder.getImage()).getImage(), x * 32, y * 32, null);
 					}
 
 				}
@@ -477,13 +481,10 @@ public class Board extends JPanel implements ActionListener {
 				// g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
 				g.drawString("Mana : ", SIZE_X - 100, SIZE_Y / 4 + 90);
 				g.setColor(Color.blue);
-				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100,
-						(int) Math.round(heroManaBar * hero.getMana()),
-						10);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100, (int) Math.round(heroManaBar * hero.getMana()), 10);
 				g.setColor(Color.white);
 				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
 				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
-
 				// g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 +
 				// 150);
 				// g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100,
@@ -536,7 +537,11 @@ public class Board extends JPanel implements ActionListener {
 			}
 			if (key == KeyEvent.VK_LEFT) {
 				hero.setDx(-hero.getSpeed());
+				// if (onboard) {
+				// hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				// } else {
 				hero.getHeroGP().loadImage("res/textures/img/left.png");
+				// }
 				hero.getHeroGP().setDirect(-1);
 			}
 			if (key == KeyEvent.VK_RIGHT) {
@@ -582,8 +587,8 @@ public class Board extends JPanel implements ActionListener {
 				// started = true;
 			}
 			if (key == 'n' || key == 'N') { // Khi bam N thi se doc file path khac
-				Board.m.openFile("res/worlds/map2.txt");
-				Board.m.readFile(); // Nho readfile lai 1 lan nua
+				m.openFile("res/worlds/map1.txt");
+				m.readFile(); // Nho readfile lai 1 lan nua
 			}
 		}
 	}
