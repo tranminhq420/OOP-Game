@@ -22,9 +22,9 @@ public class Hero {
 	private int attack = 2;
 	private int defense = 1;
 	private int skillAttack = 4;
-	private boolean invincible=false;
-	private int invincibleCounter=0;
-	private int collidedCounter=0;
+	private boolean invincible = false;
+	private int invincibleCounter = 0;
+	private int collidedCounter = 0;
 
 	private boolean isCollided;
 	private GameObjectDynamic heroGP;
@@ -58,37 +58,83 @@ public class Hero {
 		int up = Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
 		int down = Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
 
-		GameObject objectLeft = new GameObject(0, 0, 0, down, null);
+		GameObject objectLeft = new GameObject(0, 0, 32, 32, null);
 		switch (left) {
-			case 0: objectLeft.collision = new Earth(0,0,0,down, null).getCollision(); break; 
-			case 1: objectLeft.collision = new Tree(0,0,0,down, null).getCollision(); break;
-			case 2: objectLeft.collision = new Water(0,0,0,down, null).getCollision(); break;
-			case 3: objectLeft.collision = new Rock(0,0,0,down, null).getCollision(); break;
-			case 9:	objectLeft.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break;}
-		GameObject objectRight = new GameObject(0,0,0,down,null);
+			case 0:
+				objectLeft.collision = new Earth(0, 0, 32, 32, null).getCollision();
+				break;
+			case 1:
+				objectLeft.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 3:
+				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectLeft.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
+				break;
+			case 9:
+				objectLeft.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
+				break;
+		}
+		GameObject objectRight = new GameObject(0, 0, 32, 32, null);
 		switch (right) {
-			case 0: objectRight.collision = new Earth(0,0,0,down, null).getCollision(); break;
-			case 1: objectRight.collision = new Tree(0,0,0,down, null).getCollision(); break;
-			case 2: objectRight.collision = new Water(0,0,0,down, null).getCollision(); break;
-			case 3: objectRight.collision = new Rock(0,0,0,down, null).getCollision(); break;
-			case 9: objectRight.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
-		GameObject objectUp = new GameObject(0,0,0,down,null);
+			case 0:
+				objectRight.collision = new Earth(0, 0, 32, 32, null).getCollision();
+				break;
+			case 1:
+				objectRight.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 3:
+				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectRight.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
+				break;
+			case 9:
+				objectRight.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
+				break;
+		}
+		GameObject objectUp = new GameObject(0, 0, 32, 32, null);
 		switch (up) {
-			case 0: objectUp.collision = new Earth(0,0,0,down, null).getCollision(); break;
-			case 1: objectUp.collision = new Tree(0,0,0,down, null).getCollision(); break;
-			case 2: objectUp.collision = new Water(0,0,0,down, null).getCollision(); break;
-			case 3: objectUp.collision = new Rock(0,0,0,down, null).getCollision(); break;
-			case 9: objectUp.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
-		GameObject objectDown = new GameObject(0,0,0,down,null);
+			case 0:
+				objectUp.collision = new Earth(0, 0, 32, 32, null).getCollision();
+				break;
+			case 1:
+				objectUp.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 3:
+				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectUp.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
+				break;
+			case 9:
+				objectUp.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
+				break;
+		}
+		GameObject objectDown = new GameObject(0, 0, 32, 32, null);
 		switch (down) {
-			case 0: objectDown.collision = new Earth(0,0,0,down, null).getCollision(); break;
-			case 1: objectDown.collision = new Tree(0,0,0,down, null).getCollision(); break;
-			case 2: objectDown.collision = new Water(0,0,0,down, null).getCollision(); break;
-			case 3: objectDown.collision = new Rock(0,0,0,down, null).getCollision(); break;
-			case 9: objectDown.collision = new NewLandDoor(0,0,0,down, null).getCollision(); break; }
-		
-		// ko cho đi xuyen qua dia hinh: neu check collision cua object do = true thi se cong tru toa do ve vi tri cu (+-dx,dy)
-		if ( objectLeft.collision == true ) {
+			case 0:
+				objectDown.collision = new Earth(0, 0, 32, 32, null).getCollision();
+				break;
+			case 1:
+				objectDown.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 3:
+				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectDown.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
+				break;
+			case 9:
+				objectDown.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
+				break;
+		}
+
+		// ko cho đi xuyen qua dia hinh: neu check collision cua object do = true thi se
+		// cong tru toa do ve vi tri cu (+-dx,dy)
+
+		if (objectLeft.collision == true) {
 
 			getHeroGP().x = getHeroGP().x + speed;
 		}
@@ -285,6 +331,7 @@ public class Hero {
 	public void setInvincibleCounter(int invincibleCounter) {
 		this.invincibleCounter = invincibleCounter;
 	}
+
 	public int getCollidedCounter() {
 		return collidedCounter;
 	}
@@ -300,10 +347,11 @@ public class Hero {
 	public void setCollided(boolean isCollided) {
 		this.isCollided = isCollided;
 	}
+
 	public boolean isCollided() {
 		return isCollided;
 	}
-	
+
 	public void setSpeed(int i) {
 		this.speed = i;
 	}
