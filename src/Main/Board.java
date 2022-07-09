@@ -44,7 +44,7 @@ public class Board extends JPanel implements ActionListener {
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
-	private boolean onboard = true;
+	private boolean onboard = false;
 	private final int[][] position = { // vi tri quai->thay = random
 			{ 250, 250 }, { 230, 230 }, { 200, 100 } };
 	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
@@ -342,7 +342,7 @@ public class Board extends JPanel implements ActionListener {
 			ImageIcon datImage = new ImageIcon("res/textures/img/dirt.png");
 			ImageIcon thungImage = new ImageIcon("res/textures/img/rock_dirt.png");
 			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
-			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
+			ImageIcon cauImage = new ImageIcon("res/textures/img/bridge.png");
 			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
 			ImageIcon newLandDoor = new ImageIcon("res/textures/img/dungeon_gate.png");
 			ImageIcon newBorder = new ImageIcon("res/textures/img/water.png");
@@ -513,25 +513,29 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_A) {
 				hero.toSkillshot();
 			}
+
 			if (key == KeyEvent.VK_LEFT) {
 				hero.setDx(-hero.getSpeed());
-				// if (onboard) {
-				// hero.getHeroGP().loadImage("res/textures/img/ironman.png");
-				// } else {
-				hero.getHeroGP().loadImage("res/textures/img/left.png");
-				// }
+				if (onboard) {
+					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+				} else {
+					hero.getHeroGP().loadImage("res/textures/img/left.png");
+				}
 				hero.getHeroGP().setDirect(-1);
 			}
+
 			if (key == KeyEvent.VK_RIGHT) {
 				hero.setDx(hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/right.png");
 				hero.getHeroGP().setDirect(1);
 			}
+
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(-hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/up.png");
 				hero.getHeroGP().setDirect(2);
 			}
+
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/down.png");
@@ -555,6 +559,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(0);
 			}
+
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(0);
 			}
@@ -612,4 +617,11 @@ public class Board extends JPanel implements ActionListener {
 		return SIZE_Y;
 	}
 
+	public boolean isOnboard() {
+		return onboard;
+	}
+
+	public void setOnboard(boolean onboard) {
+		this.onboard = onboard;
+	}
 }

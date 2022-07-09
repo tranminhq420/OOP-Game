@@ -66,6 +66,9 @@ public class Hero {
 			case 1:
 				objectLeft.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectLeft.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -83,6 +86,9 @@ public class Hero {
 				break;
 			case 1:
 				objectRight.collision = new Tree(0, 0, 32, 32, null).getCollision();
+				break;
+			case 2:
+				objectRight.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
 				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
@@ -102,6 +108,9 @@ public class Hero {
 			case 1:
 				objectUp.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectUp.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -120,6 +129,9 @@ public class Hero {
 			case 1:
 				objectDown.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
+			case 2:
+				objectDown.collision = new Water(0, 0, 32, 32, null).getCollision();
+				break;
 			case 3:
 				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
@@ -135,7 +147,6 @@ public class Hero {
 		// cong tru toa do ve vi tri cu (+-dx,dy)
 
 		if (objectLeft.collision == true) {
-
 			getHeroGP().x = getHeroGP().x + speed;
 		}
 		if (objectRight.collision == true) {
