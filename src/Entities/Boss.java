@@ -19,7 +19,8 @@ public class Boss extends Monster implements Boss_interface {
 	private int defense = 2;
 	private boolean invincible=false;
 	private int invincibleCounter=0;
-
+	private int direct = -2;
+	
 	int t = 0, k = 0;
 
 	public Boss(int x, int y) {
@@ -79,7 +80,7 @@ public class Boss extends Monster implements Boss_interface {
 																										// định 0
 			// tương ứng với đứng yên)
 			if (getMonsterGP().getDirect() == 0)
-				getMonsterGP().setDirect(-1);
+				getMonsterGP().setDirect(-2);
 			timez = 0;
 		}
 		if (getMonsterGP().x < 1) {
@@ -122,7 +123,7 @@ public class Boss extends Monster implements Boss_interface {
 			t = 0;
 		}
 		k++;
-		if (getMonsterGP().getY() - heroY < getMonsterGP().height && k >= 200) {
+		if (getMonsterGP().getY() - heroY < getMonsterGP().height && k >= 100) {
 			toStone();
 			k = 0;
 		}
@@ -159,5 +160,13 @@ public class Boss extends Monster implements Boss_interface {
 
 	public void setInvincibleCounter(int invincibleCounter) {
 		this.invincibleCounter = invincibleCounter;
+	}
+
+	public int getDirect() {
+		return direct;
+	} // get + set
+
+	public void setDirect(int direct) {
+		this.direct = direct;
 	}
 }

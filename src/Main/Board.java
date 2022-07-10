@@ -228,6 +228,7 @@ public class Board extends JPanel implements ActionListener {
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_fr) && monster.isInvincible() == false ) { // va cham dan va quai
+					boss.getMonsterGP().setDirect(-hero.getHeroGP().getDirect());
 					playSE(3);
 					fr.setTontai(false);
 					monster.setInvincible(true);
@@ -256,6 +257,7 @@ public class Board extends JPanel implements ActionListener {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
+					boss.getMonsterGP().setDirect(-hero.getHeroGP().getDirect());
 //					sk.setTontai(false);	
 						monster.setLife(monster.getLife() - hero.getSkillAttack());
 						monster.setInvincible(true);
