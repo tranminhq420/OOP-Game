@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
 import Entities.*;
+import Entities.GameObjectDynamic.Direction;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -470,24 +471,28 @@ public class Board extends JPanel implements ActionListener {
 				hero.toSkillshot();
 			}
 			if (key == KeyEvent.VK_LEFT) {
-				hero.setDx(-hero.getSpeed());
+//				hero.setDx(-hero.getSpeed());
+				hero.getHeroGP().setX(hero.getHeroGP().getX() - hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/left.png");
-				hero.getHeroGP().setDirect(-1);
+				hero.getHeroGP().setObjectDricetion(Direction.LEFT);
 			}
 			if (key == KeyEvent.VK_RIGHT) {
-				hero.setDx(hero.getSpeed());
+//				hero.setDx(hero.getSpeed());
+				hero.getHeroGP().setX(hero.getHeroGP().getX() + hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/right.png");
-				hero.getHeroGP().setDirect(1);
+				hero.getHeroGP().setObjectDricetion(Direction.RIGHT);
 			}
 			if (key == KeyEvent.VK_UP) {
-				hero.setDy(-hero.getSpeed());
+//				hero.setDy(-hero.getSpeed());
+				hero.getHeroGP().setY(hero.getHeroGP().getY() - hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/up.png");
-				hero.getHeroGP().setDirect(2);
+				hero.getHeroGP().setObjectDricetion(Direction.UP);
 			}
 			if (key == KeyEvent.VK_DOWN) {
-				hero.setDy(hero.getSpeed());
+//				hero.setDy(hero.getSpeed());
+				hero.getHeroGP().setY(hero.getHeroGP().getY() + hero.getSpeed());
 				hero.getHeroGP().loadImage("res/textures/img/down.png");
-				hero.getHeroGP().setDirect(-2);
+				hero.getHeroGP().setObjectDricetion(Direction.DOWN);
 			}
 		}
 
@@ -499,16 +504,16 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_A) {
 			}
 			if (key == KeyEvent.VK_LEFT) {
-				hero.setDx(0);
+
 			}
 			if (key == KeyEvent.VK_RIGHT) {
-				hero.setDx(0);
+;
 			}
 			if (key == KeyEvent.VK_UP) {
-				hero.setDy(0);
+
 			}
 			if (key == KeyEvent.VK_DOWN) {
-				hero.setDy(0);
+
 			}
 
 			if (started == false) {

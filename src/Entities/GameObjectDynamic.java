@@ -7,7 +7,10 @@ import java.awt.Rectangle;
 public class GameObjectDynamic extends GameObject {
 	
 	protected boolean tontai; // còn sống 2
-	protected int direct = -2; // đánh dấu hướng di chuyển -1 1
+	public enum Direction{
+		UP,DOWN,RIGHT,LEFT
+	}
+	private Direction ObjectDricetion; // đánh dấu hướng di chuyển -1 1
 
 	public GameObjectDynamic(int x, int y) {
 		super(x, y);
@@ -29,14 +32,13 @@ public class GameObjectDynamic extends GameObject {
 		return new Rectangle(x, y, width, height);
 	}
 
-	public int getDirect() {
-		return direct;
-	} // get + set
-
-	public void setDirect(int direct) {
-		this.direct = direct;
+	public Direction getObjectDricetion() {
+		return ObjectDricetion;
 	}
 
-	public void move() {
+
+
+	public void setObjectDricetion(Direction objectDricetion) {
+		ObjectDricetion = objectDricetion;
 	};
 }

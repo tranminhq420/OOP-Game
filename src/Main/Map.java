@@ -91,72 +91,6 @@ public class Map {
 	public StaticEntity getEntityMap(int x, int y) {
 		return gameMap[x / Board.tileSize][y / Board.tileSize];
 	}
-//	public int getMap(int x, int y) {
-//		String index = Map[y].substring(x, x + 1);
-//		return Integer.parseInt(index);
-//	}
-
-
-	/*
-	 * public int checkMapLeft(int x, int y, int width, int height, int event) { //
-	 * tao ra 1 ham moi, tuong tu nhu // checkMapLeft/Right... nhung khi co // them
-	 * tham so event thi se tu biet tra // ve so hieu object x = x - 1; for (int i =
-	 * 0; i < height; i++) { if (getMap(x / Board.tileSize, y /
-	 * Board.tileSize).equals("2")) return 2; else if (getMap(x / Board.tileSize, y
-	 * / Board.tileSize).equals("1")) return 1; else if (getMap(x / Board.tileSize,
-	 * y / Board.tileSize).equals("3")) return 3; else if (getMap(x /
-	 * Board.tileSize, y / Board.tileSize).equals("9")) return 9; else { y = y + 1;
-	 * } } return 0; }
-	 * 
-	 * public int checkMapRight(int x, int y, int width, int height, int event) { //
-	 * tao ra 1 ham moi, tuong tu nhu // checkMapLeft/Right... nhung khi co // them
-	 * tham so event thi se tu biet tra // ve so hieu object x = x + width + 1; for
-	 * (int i = 0; i < height; i++) { if (getMap(x / Board.tileSize, y /
-	 * Board.tileSize).equals("2")) return 2; else if (getMap(x / Board.tileSize, y
-	 * / Board.tileSize).equals("1")) return 1; else if (getMap(x / Board.tileSize,
-	 * y / Board.tileSize).equals("3")) return 3; else if (getMap(x /
-	 * Board.tileSize, y / Board.tileSize).equals("9")) return 9; else { y = y + 1;
-	 * } } return 0; }
-	 * 
-	 * public int checkMapUp(int x, int y, int width, int height, int event) { //
-	 * tao ra 1 ham moi, tuong tu nhu // checkMapLeft/Right... nhung khi co them //
-	 * tham so event thi se tu biet tra ve so // hieu object y = y - 1; for (int i =
-	 * 0; i < width; i++) {
-	 * 
-	 * if (getMap(x / Board.tileSize, y / Board.tileSize).equals("2")) return 2;
-	 * else if (getMap(x / Board.tileSize, y / Board.tileSize).equals("1")) return
-	 * 1; else if (getMap(x / Board.tileSize, y / Board.tileSize).equals("3"))
-	 * return 3; else if (getMap(x / Board.tileSize, y /
-	 * Board.tileSize).equals("9")) return 9; else { x = x + 1; } } return 0; }
-	 * 
-	 * public int checkMapDown(int x, int y, int width, int height, int event) { //
-	 * tao ra 1 ham moi, tuong tu nhu // checkMapLeft/Right... nhung khi co // them
-	 * tham so event thi se tu biet tra // ve so hieu object y = y + height + 1; for
-	 * (int i = 0; i < width; i++) { if (getMap(x / Board.tileSize, y /
-	 * Board.tileSize).equals("2")) return 2; else if (getMap(x / Board.tileSize, y
-	 * / Board.tileSize).equals("1")) return 1; else if (getMap(x / Board.tileSize,
-	 * y / Board.tileSize).equals("3")) return 3; else if (getMap(x /
-	 * Board.tileSize, y / Board.tileSize).equals("9")) return 9; else { x = x + 1;
-	 * } } return 0; }
-	 */
-//	public void openFile() {
-//		try {
-//			// m= new Scanner(new File("src/data/map.txt"));
-//			m = new Scanner(new File("res/worlds/map.txt"));
-//		} catch (FileNotFoundException e) {
-//			System.out.println("File not found !");
-//		}
-//	}
-//
-//	public void openFile(String pathname) { // tao them 1 ham moi, giong ten ham cu nhung neu co path cu the se doc path						// nay
-//		try {
-//			// m= new Scanner(new File("src/data/map.txt"));
-//			m = new Scanner(new File(pathname));
-//		} catch (FileNotFoundException e) {
-//			System.out.println("File not found !");
-//		}
-//	
-//	}
 
 	public String[] readFile(String pathName) {
 		String map[] = new String[mapRow];
@@ -175,9 +109,7 @@ public class Map {
 		return map;
 	}
 
-//	public void closeFile() {
-//		m.close();
-//	}
+
 
 	public int getMapCol() {
 		return mapCol;
