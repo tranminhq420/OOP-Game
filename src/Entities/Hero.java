@@ -74,6 +74,9 @@ public class Hero {
 			case 3:
 				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
+			case 4:
+				objectLeft.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
 			case 6:
 				objectLeft.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
@@ -94,6 +97,9 @@ public class Hero {
 				break;
 			case 3:
 				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectRight.collision = new Bridge(0, 0, 32, 32, null).getCollision();
 				break;
 			case 6:
 				objectRight.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
@@ -116,6 +122,9 @@ public class Hero {
 			case 3:
 				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
 				break;
+			case 4:
+				objectUp.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
 			case 6:
 				objectUp.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
@@ -136,6 +145,9 @@ public class Hero {
 				break;
 			case 3:
 				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectDown.collision = new Bridge(0, 0, 32, 32, null).getCollision();
 				break;
 			case 6:
 				objectDown.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
@@ -161,16 +173,16 @@ public class Hero {
 			getHeroGP().y = getHeroGP().y - speed;
 		}
 
-		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
 			Board.offOnboard();
 		}
-		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
 			Board.offOnboard();
 		}
-		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
 			Board.offOnboard();
 		}
-		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 6) {
+		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
 			Board.offOnboard();
 		}
 

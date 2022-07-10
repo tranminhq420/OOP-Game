@@ -29,6 +29,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -49,6 +51,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -69,6 +73,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -89,6 +95,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -112,6 +120,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -135,6 +145,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("6"))
 				return 6;
 			else if (getMap(x / 32, y / 32).equals("9"))
@@ -161,6 +173,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("9"))
 				return 9;
 			else {
@@ -184,6 +198,8 @@ public class Map {
 				return 2;
 			else if (getMap(x / 32, y / 32).equals("3"))
 				return 3;
+			else if (getMap(x / 32, y / 32).equals("4"))
+				return 4;
 			else if (getMap(x / 32, y / 32).equals("9"))
 				return 9;
 			else {

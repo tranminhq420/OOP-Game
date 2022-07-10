@@ -67,78 +67,103 @@ public class Monster {
 		int up = Board.m.checkMapUp(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 		int down = Board.m.checkMapDown(getMonsterGP().x, getMonsterGP().y, getMonsterGP().width, getMonsterGP().height);
 
-		GameObject objectLeft = new GameObject(0, 0, 0, down, null);
+		GameObject objectLeft = new GameObject(0, 0, 32, 32, null);
 		switch (left) {
 			case 0:
-				objectLeft.collision = new Earth(0, 0, 0, down, null).getCollision();
+				objectLeft.collision = new Earth(0, 0, 32, 32, null).getCollision();
 				break;
 			case 1:
-				objectLeft.collision = new Tree(0, 0, 0, down, null).getCollision();
+				objectLeft.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
 			case 2:
-				objectLeft.collision = new Water(0, 0, 0, down, null).getCollision();
+				objectLeft.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
-				objectLeft.collision = new Rock(0, 0, 0, down, null).getCollision();
+				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectLeft.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectLeft.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
 			case 9:
-				objectLeft.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
+				objectLeft.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
 				break;
 		}
-		GameObject objectRight = new GameObject(0, 0, 0, down, null);
+		GameObject objectRight = new GameObject(0, 0, 32, 32, null);
 		switch (right) {
 			case 0:
-				objectRight.collision = new Earth(0, 0, 0, down, null).getCollision();
+				objectRight.collision = new Earth(0, 0, 32, 32, null).getCollision();
 				break;
 			case 1:
-				objectRight.collision = new Tree(0, 0, 0, down, null).getCollision();
+				objectRight.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
 			case 2:
-				objectRight.collision = new Water(0, 0, 0, down, null).getCollision();
+				objectRight.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
-				objectRight.collision = new Rock(0, 0, 0, down, null).getCollision();
+				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectRight.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectRight.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
 			case 9:
-				objectRight.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
+				objectRight.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
 				break;
 		}
-		GameObject objectUp = new GameObject(0, 0, 0, down, null);
+		GameObject objectUp = new GameObject(0, 0, 32, 32, null);
 		switch (up) {
 			case 0:
-				objectUp.collision = new Earth(0, 0, 0, down, null).getCollision();
+				objectUp.collision = new Earth(0, 0, 32, 32, null).getCollision();
 				break;
 			case 1:
-				objectUp.collision = new Tree(0, 0, 0, down, null).getCollision();
+				objectUp.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
 			case 2:
-				objectUp.collision = new Water(0, 0, 0, down, null).getCollision();
+				objectUp.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
-				objectUp.collision = new Rock(0, 0, 0, down, null).getCollision();
+				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectUp.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectUp.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
 			case 9:
-				objectUp.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
+				objectUp.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
 				break;
 		}
-		GameObject objectDown = new GameObject(0, 0, 0, down, null);
+		GameObject objectDown = new GameObject(0, 0, 32, 32, null);
 		switch (down) {
 			case 0:
-				objectDown.collision = new Earth(0, 0, 0, down, null).getCollision();
+				objectDown.collision = new Earth(0, 0, 32, 32, null).getCollision();
 				break;
 			case 1:
-				objectDown.collision = new Tree(0, 0, 0, down, null).getCollision();
+				objectDown.collision = new Tree(0, 0, 32, 32, null).getCollision();
 				break;
 			case 2:
-				objectDown.collision = new Water(0, 0, 0, down, null).getCollision();
+				objectDown.collision = new Water(0, 0, 32, 32, null).getCollision();
 				break;
 			case 3:
-				objectDown.collision = new Rock(0, 0, 0, down, null).getCollision();
+				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
+				break;
+			case 4:
+				objectDown.collision = new Bridge(0, 0, 32, 32, null).getCollision();
+				break;
+			case 6:
+				objectDown.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
 				break;
 			case 9:
-				objectDown.collision = new NewLandDoor(0, 0, 0, down, null).getCollision();
+				objectDown.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
 				break;
 		}
+
 
 		if (objectLeft.collision == true) {
 			getMonsterGP().x = getMonsterGP().x + speed;
