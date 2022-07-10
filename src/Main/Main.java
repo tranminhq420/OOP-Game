@@ -24,15 +24,6 @@ public class Main extends JFrame {
 		   });
 	   }
 
-//	 public static void main(String[] args) {
-//			int entityIndex = 0;
-////			switch (entityIndex) {
-//			System.out.println("Hello"+map.EntityList.GRASS.getValue());
-//			if(entityIndex == map.EntityList.GRASS.getValue()) {
-//				System.out.println(map.EntityList.NEWLANDDOOR.name());
-//				
-//				
-//			}
-//	   }
+
 
 }
