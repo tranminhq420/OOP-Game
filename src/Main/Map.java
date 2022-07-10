@@ -92,6 +92,7 @@ public class Map {
 		return gameMap[x / Board.tileSize][y / Board.tileSize];
 	}
 
+
 	public String[] readFile(String pathName) {
 		String map[] = new String[mapRow];
 		try {

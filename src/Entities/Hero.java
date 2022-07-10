@@ -69,13 +69,16 @@ public class Hero {
 			heroGP.y = heroGP.y - speed;
 		}
 
-		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height)
-						.getName() == EntityList.NEWLANDDOOR.name()) {
+
+//		Check 4 canh cua nhan vat neu nhu vao trong cua thi xuat hien
+		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height).getName().equals("New Land Door")
+						) {
 			Board.setDoor_appared();
 		}
+	
 
 	}
 
