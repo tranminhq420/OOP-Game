@@ -13,6 +13,8 @@ public class Boss extends Monster implements Boss_interface {
 	private List<Stone> stones;
 	private int hp;
 	private final int HP_MAX = 100;
+	private int attack = 3;
+	private int defense = 2;
 	private int speed = 1;
 	int t = 0, k = 0;
 	int timez = 0;
