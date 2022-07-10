@@ -15,7 +15,7 @@ public class Boss extends Monster implements Boss_interface {
 	private int hp;
 	private final int HP_MAX = 100;
 	private int speed = 1;
-	private int attack = 4;
+	private int attack = 3;
 	private int defense = 2;
 	private boolean invincible=false;
 	private int invincibleCounter=0;
