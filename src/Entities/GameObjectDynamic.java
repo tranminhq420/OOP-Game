@@ -6,13 +6,8 @@ import java.awt.Rectangle;
 
 public class GameObjectDynamic extends GameObject {
 	
-	protected int life;
-	protected int maxLife;
-	protected int speed;
-	protected int maxMana;
-	protected int mana;
-	protected int attack;
-	protected int defense;
+	protected boolean tontai; // còn sống 2
+	protected int direct = -2; // đánh dấu hướng di chuyển -1 1
 
 	public GameObjectDynamic(int x, int y) {
 		super(x, y);
@@ -20,8 +15,7 @@ public class GameObjectDynamic extends GameObject {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected boolean tontai; // còn sống 2
-	protected int direct = -2; // đánh dấu hướng di chuyển -1 1
+
 
 	public boolean getTontai() {
 		return tontai;
