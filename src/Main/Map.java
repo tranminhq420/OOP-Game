@@ -52,35 +52,35 @@ public class Map {
 				if (entityIndex == EntityList.GRASS.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/grass.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Grass", false);
+					gameMap[j][i] = new Grass(graphics, "Grass", false);
 				} else if (entityIndex == EntityList.TREE.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/tree_grass_1.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Tree", true);
+					gameMap[j][i] = new Grass(graphics, "Tree", true);
 
 				} else if (entityIndex == EntityList.WATER.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/water.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Water", true);
+					gameMap[j][i] = new Grass(graphics, "Water", true);
 
 				} else if (entityIndex == EntityList.ROCK.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/rock_dirt.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Rock", true);
+					gameMap[j][i] = new Grass(graphics, "Rock", true);
 
 				} else if (entityIndex == EntityList.BRIDGE.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/dirt.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Bridge", false);
+					gameMap[j][i] = new Grass(graphics, "Bridge", false);
 
 				} else if (entityIndex == EntityList.EARTH.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/dirt.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "Earth", false);
+					gameMap[j][i] = new Grass(graphics, "Earth", false);
 				} else if (entityIndex == EntityList.NEWLANDDOOR.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/ironman.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
-					gameMap[i][j] = new Grass(graphics, "New Land Door", false);
+					gameMap[j][i] = new Grass(graphics, "New Land Door", false);
 				}
 				
 			}
