@@ -71,26 +71,14 @@ public class Hero {
 			heroGP.y = heroGP.y - speed;
 		}
 //		Check 4 canh cua nhan vat neu nhu vao trong cua thi xuat hien
-		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName() == EntityList.NEWLANDDOOR.name()
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height)
-						.getName() == EntityList.NEWLANDDOOR.name()) {
+		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height).getName().equals("New Land Door")
+						) {
 			Board.setDoor_appared();
 		}
-
-//		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapUp(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
+	
 	}
 
 	public boolean checkMapRight(int x, int y, int width, int height) {
