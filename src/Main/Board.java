@@ -170,6 +170,12 @@ public class Board extends JPanel implements ActionListener {
 		if (!hero.getHeroGP().getTontai()) {
 			ingame = false; // --> neu co mang -> tru mang
 		}
+		if( hero.getShotAvailable() < 60 ) {
+			hero.setShotAvailable(hero.getShotAvailable()+1) ;
+		}
+		if( hero.getSkillAvailable() < 60 ) {
+			hero.setSkillAvailable(hero.getSkillAvailable()+1) ;
+		}
 	}
 
 	private void updateBoss() {
@@ -221,22 +227,23 @@ public class Board extends JPanel implements ActionListener {
 			Rectangle khung_fr = fr.getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
-				if (ms.intersects(khung_fr)) { // va cham dan va quai
+				if (ms.intersects(khung_fr) && monster.isInvincible() == false ) { // va cham dan va quai
 					playSE(3);
 					fr.setTontai(false);
+					monster.setInvincible(true);
 					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
-
 						monster.getMonsterGP().setTontai(false);
 						playSE(1);
 						}
 				}
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
-			if (khung_fr.intersects(bs)) {
+			if (khung_fr.intersects(bs) && boss.isInvincible() == false) {
 				playSE(3);
 				boss.setHp(boss.getHp() - hero.getAttack());
 				fr.setTontai(false);
+				boss.setInvincible(true);
 			}
 			;
 		}
@@ -430,9 +437,14 @@ public class Board extends JPanel implements ActionListener {
 					if (monster.getMonsterGP().getTontai()) {
 						Integer hpBar = 8;
 						Integer hpBarValue = hpBar * monster.getLife();
+						if( monster.isInvincible() == true ){
+							g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+						}
+						g2.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),
+						this);
+						//RESET ALPHA
+						g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
-						g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),
-								this);
 						g.setColor(Color.black);
 						g.fillRect(monster.getMonsterGP().getX() - 1, monster.getMonsterGP().getY() - 16, 34, 12);
 						g.setColor(Color.red);
@@ -470,7 +482,13 @@ public class Board extends JPanel implements ActionListener {
 					Double bossHp = 0.32;
 					Double bossHpValue = bossHp * boss.getHp();
 					Integer display = (int) Math.round(bossHpValue);
-					g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+					// g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+					if( boss.isInvincible() == true ){
+						g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+					}
+					g2.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+					//RESET ALPHA
+					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 					g.setColor(Color.black);
 					g.fillRect(boss.getMonsterGP().getX() - 1, boss.getMonsterGP().getY() - 16, 34, 12);
 					g.setColor(Color.red);
@@ -514,6 +532,7 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
 				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
+				g.drawString(" : " + hero.getShotAvailable(), SIZE_X - 100, SIZE_Y / 4 + 170);
 				// g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 +
 				// 150);
 				// g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100,
@@ -560,13 +579,17 @@ public class Board extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 			if (key == KeyEvent.VK_SPACE) {
-				playSE(4);
-				hero.tofire();
+				if( hero.getShotAvailable() == 60){
+					hero.tofire();
+					playSE(4);
+					hero.setShotAvailable(0);
+				}
 			}
 			if (key == KeyEvent.VK_A) {
-				hero.toSkillshot();
-				if( hero.getMana() > 0) {
+				if( hero.getMana() > 0 && hero.getSkillAvailable() == 60) {
+					hero.toSkillshot();
 					playSE(8);
+					hero.setSkillAvailable(0);
 				}
 			}
 

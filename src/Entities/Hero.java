@@ -24,6 +24,8 @@ public class Hero {
 	private int skillAttack = 10;
 	private boolean invincible = false;
 	private int invincibleCounter = 0;
+	private int shotAvailable = 0;
+	private int skillAvailable = 0;
 	// private int collidedCounter=0;
 	// private boolean isCollided;
 
@@ -399,6 +401,20 @@ public class Hero {
 	public void setInvincibleCounter(int invincibleCounter) {
 		this.invincibleCounter = invincibleCounter;
 	}
+	public int getShotAvailable() {
+		return shotAvailable;
+	}
+
+	public void setShotAvailable(int i) {
+		this.shotAvailable = i;
+	}
+	public int getSkillAvailable() {
+		return skillAvailable;
+	}
+
+	public void setSkillAvailable(int i) {
+		this.skillAvailable = i;
+	}
 
 	// public int getCollidedCounter() {
 	// return collidedCounter;
@@ -422,6 +438,7 @@ public class Hero {
 	public void setSpeed(int i) {
 		this.speed = i;
 	}
+
 }
 // hello chua te Aram xin chao.
 // co may cai branch ma` dau ca dau @@
