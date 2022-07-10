@@ -11,7 +11,9 @@ public class Monster {
 	private int maxLife = 4;
 	private int life = maxLife;
 	private int attack = 2;
-	private int defense = 0;
+	private int defense = 2;
+	private boolean invincible=false;
+	private int invincibleCounter=0;
 	private GameObjectDynamic monsterGP;
 	private int timez = 0;
 	public Monster(int x, int y) {
@@ -53,7 +55,7 @@ public class Monster {
 			case 3:	monsterGP.setObjectDricetion(Direction.RIGHT);break;
 
 			}
-			System.out.println(key);
+			// System.out.println(key);
 			// tương ứng với đứng yên)
 			timez = 0;
 		}
@@ -160,5 +162,21 @@ public class Monster {
 
 	public void setMonsterGP(GameObjectDynamic monsterGP) {
 		this.monsterGP = monsterGP;
+	}
+
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public int getInvincibleCounter() {
+		return invincibleCounter;
+	}
+
+	public void setInvincibleCounter(int invincibleCounter) {
+		this.invincibleCounter = invincibleCounter;
 	}
 }
