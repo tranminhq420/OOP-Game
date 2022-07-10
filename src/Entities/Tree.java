@@ -1,13 +1,7 @@
 package Entities;
 
-import java.awt.Image;
-
-public class Tree extends GameObject {
-	private boolean collision = true;
-	public Tree(int x, int y, int width, int height, Image image) {
-		super(x, y, width, height, image);
-	}
-	public boolean getCollision() {
-		return collision;
+public class Tree extends StaticEntity{
+	public Tree(GameObject graphics,String name, boolean collision) {
+		super(graphics,name,collision);
 	}
 }

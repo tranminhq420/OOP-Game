@@ -1,7 +1,11 @@
 package Main;
+
 import java.awt.EventQueue;
+
+
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+
 
 public class Main extends JFrame {
 	public Main() {
@@ -19,5 +23,7 @@ public class Main extends JFrame {
 			   main.setVisible(true);
 		   });
 	   }
+
+
 
 }

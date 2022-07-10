@@ -1,6 +1,8 @@
 package Entities;
 
 import Main.*;
+import Main.Map.EntityList;
+
 import java.awt.event.KeyEvent;
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,207 +31,137 @@ public class Hero {
 	// private int collidedCounter=0;
 	// private boolean isCollided;
 
+
 	private GameObjectDynamic heroGP;
 
 	public Hero(int x, int y) {
 		setHeroGP(new GameObjectDynamic(x, y));
 		fires = new ArrayList<>();
 		skillshots = new ArrayList<>();
-		getHeroGP().loadImage("res/textures/img/down.png");
-		getHeroGP().getImageDimension();
+		heroGP.loadImage("res/textures/img/down.png");
+		heroGP.getImageDimension();
 	}
 
 	public void move() {
-		getHeroGP().x += getDx();
-		getHeroGP().y += getDy();
-		if (getHeroGP().x < 1) {
-			getHeroGP().x = 1;
+		heroGP.x += getDx();
+		heroGP.y += getDy();
+		if (heroGP.x < 1) {
+			heroGP.x = 1;
 		}
-		if (getHeroGP().y < 1) {
-			getHeroGP().y = 1;
+		if (heroGP.y < 1) {
+			heroGP.y = 1;
 		}
-		getHeroGP().getImageDimension();
-		if (getHeroGP().x > Board.getSizeX() - getHeroGP().width) {
-			getHeroGP().x = Board.getSizeX() - getHeroGP().width;
+		//??? getImaeDimension o day u???
+		heroGP.getImageDimension();
+		if (heroGP.x > Board.getSizeX() - heroGP.width) {
+			heroGP.x = Board.getSizeX() - heroGP.width;
 		}
-		if (getHeroGP().y > Board.getSizeY() - getHeroGP().height) {
-			getHeroGP().y = Board.getSizeY() - getHeroGP().height;
+		if (heroGP.y > Board.getSizeY() - heroGP.height) {
+			heroGP.y = Board.getSizeY() - heroGP.height;
 		}
-		int left = Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
-		int right = Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
-		int up = Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
-		int down = Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height);
+		
+		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
 
-		GameObject objectLeft = new GameObject(0, 0, 32, 32, null);
-		switch (left) {
-			case 0:
-				objectLeft.collision = new Earth(0, 0, 32, 32, null).getCollision();
-				break;
-			case 1:
-				objectLeft.collision = new Tree(0, 0, 32, 32, null).getCollision();
-				break;
-			case 2:
-				objectLeft.collision = new Water(0, 0, 32, 32, null).getCollision();
-				break;
-			case 3:
-				objectLeft.collision = new Rock(0, 0, 32, 32, null).getCollision();
-				break;
-			case 4:
-				objectLeft.collision = new Bridge(0, 0, 32, 32, null).getCollision();
-				break;
-			case 6:
-				objectLeft.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
-				break;
-			case 9:
-				objectLeft.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
-				break;
+			heroGP.x = heroGP.x + speed;
 		}
-		GameObject objectRight = new GameObject(0, 0, 32, 32, null);
-		switch (right) {
-			case 0:
-				objectRight.collision = new Earth(0, 0, 32, 32, null).getCollision();
-				break;
-			case 1:
-				objectRight.collision = new Tree(0, 0, 32, 32, null).getCollision();
-				break;
-			case 2:
-				objectRight.collision = new Water(0, 0, 32, 32, null).getCollision();
-				break;
-			case 3:
-				objectRight.collision = new Rock(0, 0, 32, 32, null).getCollision();
-				break;
-			case 4:
-				objectRight.collision = new Bridge(0, 0, 32, 32, null).getCollision();
-				break;
-			case 6:
-				objectRight.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
-				break;
-			case 9:
-				objectRight.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
-				break;
+		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
+			heroGP.x = heroGP.x - speed;
 		}
-		GameObject objectUp = new GameObject(0, 0, 32, 32, null);
-		switch (up) {
-			case 0:
-				objectUp.collision = new Earth(0, 0, 32, 32, null).getCollision();
-				break;
-			case 1:
-				objectUp.collision = new Tree(0, 0, 32, 32, null).getCollision();
-				break;
-			case 2:
-				objectUp.collision = new Water(0, 0, 32, 32, null).getCollision();
-				break;
-			case 3:
-				objectUp.collision = new Rock(0, 0, 32, 32, null).getCollision();
-				break;
-			case 4:
-				objectUp.collision = new Bridge(0, 0, 32, 32, null).getCollision();
-				break;
-			case 6:
-				objectUp.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
-				break;
-			case 9:
-				objectUp.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
-				break;
+		if (checkMapUp(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
+			heroGP.y = heroGP.y + speed;
 		}
-		GameObject objectDown = new GameObject(0, 0, 32, 32, null);
-		switch (down) {
-			case 0:
-				objectDown.collision = new Earth(0, 0, 32, 32, null).getCollision();
-				break;
-			case 1:
-				objectDown.collision = new Tree(0, 0, 32, 32, null).getCollision();
-				break;
-			case 2:
-				objectDown.collision = new Water(0, 0, 32, 32, null).getCollision();
-				break;
-			case 3:
-				objectDown.collision = new Rock(0, 0, 32, 32, null).getCollision();
-				break;
-			case 4:
-				objectDown.collision = new Bridge(0, 0, 32, 32, null).getCollision();
-				break;
-			case 6:
-				objectDown.collision = new WaterBorder(0, 0, 32, 32, null).getCollision();
-				break;
-			case 9:
-				objectDown.collision = new NewLandDoor(0, 0, 32, 32, null).getCollision();
-				break;
+		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
+			heroGP.y = heroGP.y - speed;
 		}
-
-		// ko cho đi xuyen qua dia hinh: neu check collision cua object do = true thi se
-		// cong tru toa do ve vi tri cu (+-dx,dy)
-
-		if (objectLeft.collision == true) {
-			getHeroGP().x = getHeroGP().x + speed;
-		}
-		if (objectRight.collision == true) {
-			getHeroGP().x = getHeroGP().x - speed;
-		}
-		if (objectUp.collision == true) {
-			getHeroGP().y = getHeroGP().y + speed;
-		}
-		if (objectDown.collision == true) {
-			getHeroGP().y = getHeroGP().y - speed;
-		}
-
-		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
-			Board.offOnboard();
-		}
-		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
-			Board.offOnboard();
-		}
-		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
-			Board.offOnboard();
-		}
-		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 4) {
-			Board.offOnboard();
-		}
-
-		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
-			Board.setOnboard();
-		}
-		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
-			Board.setOnboard();
-		}
-		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
-			Board.setOnboard();
-		}
-		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 2) {
-			Board.setOnboard();
-		}
-
-		if (Board.m.checkMapLeft(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
+//		Check 4 canh cua nhan vat neu nhu vao trong cua thi xuat hien
+		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
+				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName() == EntityList.NEWLANDDOOR.name()
+				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height)
+						.getName() == EntityList.NEWLANDDOOR.name()) {
 			Board.setDoor_appared();
 		}
-		if (Board.m.checkMapRight(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
-			Board.setDoor_appared();
+
+//		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
+//			Board.setDoor_appared();
+//		}
+//		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
+//			Board.setDoor_appared();
+//		}
+//		if (checkMapUp(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
+//			Board.setDoor_appared();
+//		}
+//		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
+//			Board.setDoor_appared();
+//		}
+	}
+
+	public boolean checkMapRight(int x, int y, int width, int height) {
+		x = x + width + 1;
+		for (int i = 0; i < height; i++) {
+			if (Board.map.getEntityMap(x, y).isCollision())
+				return true;
+			else {
+				y = y + 1;
+			}
 		}
-		if (Board.m.checkMapUp(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
-			Board.setDoor_appared();
+		return false;
+	}
+
+	public boolean checkMapUp(int x, int y, int width, int height) {
+		y = y - 1;
+		for (int i = 0; i < width; i++) {
+			if (Board.map.getEntityMap(x, y).isCollision())
+				return true;
+			else {
+				x = x + 1;
+			}
 		}
-		if (Board.m.checkMapDown(getHeroGP().x, getHeroGP().y, getHeroGP().width, getHeroGP().height, 1) == 9) {
-			Board.setDoor_appared();
+		return false;
+	}
+
+	public boolean checkMapDown(int x, int y, int width, int height) {
+		y = y + height + 1;
+		for (int i = 0; i < width; i++) {
+			if (Board.map.getEntityMap(x, y).isCollision())
+				return true;
+			else {
+				x = x + 1;
+			}
 		}
+		return false;
+	}
+
+	public boolean checkMapLeft(int x, int y, int width, int height) {
+		x = x - 1;
+		for (int i = 0; i < height; i++) {
+			if (Board.map.getEntityMap(x, y).isCollision())
+				return true;
+			else {
+				y = y + 1;
+			}
+		}
+		return false;
 	}
 
 	public void tofire() {
 		int xz = 0, yz = 0;
-		if (getHeroGP().getDirect() == 1) {
-			xz = getHeroGP().x + getHeroGP().width;
-			yz = getHeroGP().y + getHeroGP().height / 2;
-		} else if (getHeroGP().getDirect() == -1) {
-			xz = getHeroGP().x;
-			yz = getHeroGP().y + getHeroGP().height / 2;
-		} else if (getHeroGP().getDirect() == -2) {
-			xz = getHeroGP().x + getHeroGP().width / 2;
-			yz = getHeroGP().y + getHeroGP().height;
-		} else if (getHeroGP().getDirect() == 2) {
-			xz = getHeroGP().x + getHeroGP().width / 3;
-			yz = getHeroGP().y;
+		if (heroGP.getDirect() == 1) {
+			xz = heroGP.x + heroGP.width;
+			yz = heroGP.y + heroGP.height / 2;
+
+		} else if (heroGP.getDirect() == -1) {
+			xz = heroGP.x;
+			yz = heroGP.y + heroGP.height / 2;
+		} else if (heroGP.getDirect() == -2) {
+			xz = heroGP.x + heroGP.width / 2;
+			yz = heroGP.y + heroGP.height;
+		} else if (heroGP.getDirect() == 2) {
+			xz = heroGP.x + heroGP.width / 3;
+			yz = heroGP.y;
 		}
 		Fire fire_new = new Fire(xz, yz);
-		fire_new.setDirect(getHeroGP().getDirect());
+		fire_new.setDirect(heroGP.getDirect());
 		fires.add(fire_new);
 	}
 
@@ -284,59 +216,10 @@ public class Hero {
 			// skillshots.add(skillshot_new);
 			// }
 			// mana -= skillshot_new.getUseCost();
+
 		}
 
 	}
-
-	// public void keyPressed(KeyEvent e) {
-	// int key = e.getKeyCode();
-	// if (key == KeyEvent.VK_SPACE) {
-	// tofire();
-	// }
-	// if (key == KeyEvent.VK_A) {
-	// toSkillshot();
-	// }
-	// if (key == KeyEvent.VK_LEFT) {
-	// setDx(-speed);
-	// getHeroGP().loadImage("res/textures/img/left.png");
-	// getHeroGP().setDirect(-1);
-	// }
-	// if (key == KeyEvent.VK_RIGHT) {
-	// setDx(speed);
-	// getHeroGP().loadImage("res/textures/img/right.png");
-	// getHeroGP().setDirect(1);
-	// }
-	// if (key == KeyEvent.VK_UP) {
-	// dy = -speed;
-	// getHeroGP().loadImage("res/textures/img/up.png");
-	// getHeroGP().setDirect(2);
-	// }
-	// if (key == KeyEvent.VK_DOWN) {
-	// dy = speed;
-	// getHeroGP().loadImage("res/textures/img/down.png");
-	// getHeroGP().setDirect(-2);
-	// }
-	// }
-	//
-	// public void keyReleased(KeyEvent e) {
-	// int key = e.getKeyCode();
-	// if (key == KeyEvent.VK_SPACE) {
-	// }
-	// if (key == KeyEvent.VK_A) {
-	// }
-	// if (key == KeyEvent.VK_LEFT) {
-	// setDx(0);
-	// }
-	// if (key == KeyEvent.VK_RIGHT) {
-	// setDx(0);
-	// }
-	// if (key == KeyEvent.VK_UP) {
-	// dy = 0;
-	// }
-	// if (key == KeyEvent.VK_DOWN) {
-	// dy = 0;
-	// }
-	// }
 
 	public int getLife() {
 		return life;
@@ -413,6 +296,7 @@ public class Hero {
 	public void setInvincibleCounter(int invincibleCounter) {
 		this.invincibleCounter = invincibleCounter;
 	}
+
 	public int getShotAvailable() {
 		return shotAvailable;
 	}
@@ -427,25 +311,6 @@ public class Hero {
 	public void setSkillAvailable(int i) {
 		this.skillAvailable = i;
 	}
-
-	// public int getCollidedCounter() {
-	// return collidedCounter;
-	// }
-	//
-	// public void setCollidedCounter(int collidedCounter) {
-	// this.collidedCounter = collidedCounter;
-	// }
-	//
-	// public boolean getCollided() {
-	// return isCollided;
-	// }
-	//
-	// public void setCollided(boolean isCollided) {
-	// this.isCollided = isCollided;
-	// }
-	// public boolean isCollided() {
-	// return isCollided;
-	// }
 
 	public void setSpeed(int i) {
 		this.speed = i;

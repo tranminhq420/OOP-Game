@@ -2,16 +2,13 @@ package Entities;
 
 import java.awt.Image;
 
-public class NewLandDoor extends GameObject {
-	private boolean collision = false;
-	public NewLandDoor(int x, int y, int width,int height, Image image) {
-		super(x,y,width, height, image);
+public class NewLandDoor extends StaticEntity {
+	public NewLandDoor(GameObject graphics, String name, boolean collision) {
+		super(graphics, name, collision);
 	}
+	//Thang nao muon goi phuong thuc nay phai ep kieu nghe chua
 	public void anotherLand() {
-		
-	}
-	public boolean getCollision() {
-		return collision;
+
 	}
 }
 

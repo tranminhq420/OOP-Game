@@ -1,15 +1,12 @@
 package Entities;
-
 import java.awt.Image;
 
-public class Water extends GameObject {
-
+public class Water extends StaticEntity{
 	private boolean collision = false;
+	public Water(GameObject graphics,String name, boolean collision) {
+		super(graphics,name,collision);
 
-	public Water(int x, int y, int width, int height, Image image) {
-		super(x, y, width, height, image);
 	}
-
 	public boolean getCollision() {
 		return collision;
 	}
