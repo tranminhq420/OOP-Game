@@ -1,5 +1,7 @@
 package Entities;
 
+import Entities.GameObjectDynamic.Direction;
+
 public class Skillshot extends Bullet {
 	private final int bullet_speed = 1;
 	private final int bullet_length = 20;
@@ -11,10 +13,10 @@ public class Skillshot extends Bullet {
     	getImageDimension();
     }
     public void move() {
-    	if (getDirect() == 1) x += bullet_speed; // viên đạn bay ngang
-        if (getDirect() == 2) y -= bullet_speed; // viên đạn bay d�?c 
-        if (getDirect() ==-1) x -= bullet_speed;
-        if (getDirect() ==-2) y += bullet_speed;
+    	if (getObjectDricetion() == Direction.RIGHT ) x += bullet_speed; // viên đạn bay ngang
+        if (getObjectDricetion() == Direction.UP) y -= bullet_speed; // viên đạn bay d�?c 
+        if (getObjectDricetion() == Direction.LEFT ) x -= bullet_speed;
+        if (getObjectDricetion() == Direction.DOWN) y += bullet_speed;
         fly += bullet_speed; // so sánh độ dài đã bay với độ dài đạn
         if (fly>bullet_length) {
         	setTontai(false);

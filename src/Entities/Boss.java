@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Boss extends Monster implements Boss_interface {
-	Random rd = new Random();
-	private int timez = 0;
 
-	private final int find_hero_speed = 1; // cứ sau 20s tìm hero 1 lần
+
 	private List<Stone> stones;
 	private int hp;
 	private final int HP_MAX = 100;
@@ -21,7 +20,9 @@ public class Boss extends Monster implements Boss_interface {
 	private int invincibleCounter=0;
 	private int direct = -2;
 	
+
 	int t = 0, k = 0;
+	int timez = 0;
 
 	public Boss(int x, int y) {
 		super(x, y);
@@ -38,21 +39,22 @@ public class Boss extends Monster implements Boss_interface {
 	@Override
 	public void toStone() { // quái ném đá
 		int xz = 0, yz = 0;
-		if (getMonsterGP().getDirect() == 1) {
+		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			xz = getMonsterGP().x + getMonsterGP().width;
 			yz = getMonsterGP().y + getMonsterGP().height / 2;
-		} else if (getMonsterGP().getDirect() == -1) {
+		} else if (getMonsterGP().getObjectDricetion() == Direction.LEFT) {
 			xz = getMonsterGP().x;
 			yz = getMonsterGP().y + getMonsterGP().height / 2;
-		} else if (getMonsterGP().getDirect() == -2) {
+		} else if (getMonsterGP().getObjectDricetion() == Direction.DOWN) {
 			xz = getMonsterGP().x + getMonsterGP().width / 2;
 			yz = getMonsterGP().y + getMonsterGP().height;
-		} else if (getMonsterGP().getDirect() == 2) {
-			xz = getMonsterGP().x + getMonsterGP().width / 3;
+		} else if (getMonsterGP().getObjectDricetion() == Direction.UP) {
+			xz = getMonsterGP().x + getMonsterGP().width / 2;
 			yz = getMonsterGP().y;
 		}
 		Stone stone_new = new Stone(xz, yz);
-		stone_new.setDirect(getMonsterGP().getDirect());
+		stone_new.setObjectDricetion(getMonsterGP().getObjectDricetion());;
+
 		stones.add(stone_new);
 	}
 
@@ -61,28 +63,47 @@ public class Boss extends Monster implements Boss_interface {
 	}
 
 	public void move(int heroY) { // hàm move() có tham số >< move() kế thừa từ Monster
-		if (getMonsterGP().getDirect() == 1) {
+
+		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			getMonsterGP().x += speed;
 			getMonsterGP().loadImage("res/textures/img/eyeright.png");
-		} else if (getMonsterGP().getDirect() == -1) {
+		} else if (getMonsterGP().getObjectDricetion() == Direction.LEFT) {
 			getMonsterGP().x -= speed;
 			getMonsterGP().loadImage("res/textures/img/eyeleft.png");
-		} else if (getMonsterGP().getDirect() == 2) {
+		} else if (getMonsterGP().getObjectDricetion() == Direction.UP) {
 			getMonsterGP().y -= speed;
 			getMonsterGP().loadImage("res/textures/img/eyeup.png");
-		} else if (getMonsterGP().getDirect() == -2) {
+		} else if (getMonsterGP().getObjectDricetion() == Direction.DOWN) {
 			getMonsterGP().y += speed;
 			getMonsterGP().loadImage("res/textures/img/eyedown.png");
 		}
+		Random rd = new Random();
+		int find_hero_speed = 1; // cứ sau 20s tìm hero 1 lần
+
 		timez += 1;
-		if (timez == 50) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
+		if (timez == 20) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+		 // random hướng di chuyển 
 																										// định 0
+			switch (rd.nextInt(4) ) {
+			case 4:	getMonsterGP().setObjectDricetion(Direction.DOWN);break;
+			case 1:	getMonsterGP().setObjectDricetion(Direction.LEFT);break;
+			case 2:	getMonsterGP().setObjectDricetion(Direction.UP);break;
+			case 3:	getMonsterGP().setObjectDricetion(Direction.RIGHT);break;
+
+			}
 			// tương ứng với đứng yên)
-			if (getMonsterGP().getDirect() == 0)
-				getMonsterGP().setDirect(-2);
+
 			timez = 0;
 		}
+//		timez += 1;
+//		if (timez == 50) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+//			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
+//																										// định 0
+//			// tương ứng với đứng yên)
+//			if (getMonsterGP().getDirect() == 0)
+//				getMonsterGP().setDirect(-1);
+//			timez = 0;
+//		}
 		if (getMonsterGP().x < 1) {
 			getMonsterGP().x = 1;
 		} // ko cho di chuyển tràn khung
@@ -98,18 +119,6 @@ public class Boss extends Monster implements Boss_interface {
 			getMonsterGP().y = Board.getSizeY() - getMonsterGP().height * 2;
 		}
 
-		// if(!Board.m.checkMapLeft(x,y,this.width,this.height)) {
-		// x=x+1;
-		// }
-		// if(!Board.m.checkMapRight(x,y,this.width,this.height)) {
-		// x=x-1;
-		// }
-		// if(!Board.m.checkMapUp(x,y,this.width,this.height)) {
-		// y=y+1;
-		// }
-		// if(!Board.m.checkMapDown(x,y,this.width,this.height)) {
-		// y=y-1;
-		// }
 
 		if (t < find_hero_speed)
 			t++; // số chu kì tìm hero
@@ -132,7 +141,7 @@ public class Boss extends Monster implements Boss_interface {
 
 	@Override
 	public void dequai() {
-
+		
 	}
 
 	public int getHp() {

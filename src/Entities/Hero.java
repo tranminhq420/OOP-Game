@@ -8,9 +8,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import Entities.GameObjectDynamic.Direction;
+
 public class Hero {
-	private int dx;
-	private int dy;
+
 	private List<Fire> fires;
 	private List<Skillshot> skillshots;
 	// private int live = 3;
@@ -19,6 +20,7 @@ public class Hero {
 	private int maxLife = 6;
 	private int speed = 2;
 	private int maxMana = 20;
+
 
 	private int mana = 12;
 	private int attack = 4;
@@ -40,28 +42,26 @@ public class Hero {
 		skillshots = new ArrayList<>();
 		heroGP.loadImage("res/textures/img/down.png");
 		heroGP.getImageDimension();
+		heroGP.setObjectDricetion(Direction.DOWN);
 	}
 
 	public void move() {
-		heroGP.x += getDx();
-		heroGP.y += getDy();
-		if (heroGP.x < 1) {
+		if (heroGP.x - speed < 1) {
 			heroGP.x = 1;
 		}
-		if (heroGP.y < 1) {
+		if (heroGP.y - speed < 1) {
 			heroGP.y = 1;
 		}
-		//??? getImaeDimension o day u???
+
 		heroGP.getImageDimension();
-		if (heroGP.x > Board.getSizeX() - heroGP.width) {
+		if (heroGP.x + speed > Board.getSizeX() - heroGP.width) {
 			heroGP.x = Board.getSizeX() - heroGP.width;
 		}
-		if (heroGP.y > Board.getSizeY() - heroGP.height) {
+		if (heroGP.y + speed > Board.getSizeY() - heroGP.height) {
 			heroGP.y = Board.getSizeY() - heroGP.height;
 		}
-		
-		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
 
+		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
 			heroGP.x = heroGP.x + speed;
 		}
 		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
@@ -73,7 +73,7 @@ public class Hero {
 		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
 			heroGP.y = heroGP.y - speed;
 		}
-//		Check 4 canh cua nhan vat neu nhu vao trong cua thi xuat hien
+
 		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
 				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName() == EntityList.NEWLANDDOOR.name()
 				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName() == EntityList.NEWLANDDOOR.name()
@@ -82,18 +82,6 @@ public class Hero {
 			Board.setDoor_appared();
 		}
 
-//		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapUp(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
-//		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height) == 9) {
-//			Board.setDoor_appared();
-//		}
 	}
 
 	public boolean checkMapRight(int x, int y, int width, int height) {
@@ -146,64 +134,64 @@ public class Hero {
 
 	public void tofire() {
 		int xz = 0, yz = 0;
-		if (heroGP.getDirect() == 1) {
+		if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 			xz = heroGP.x + heroGP.width;
 			yz = heroGP.y + heroGP.height / 2;
-
-		} else if (heroGP.getDirect() == -1) {
+		} else if (heroGP.getObjectDricetion() == Direction.LEFT) {
 			xz = heroGP.x;
 			yz = heroGP.y + heroGP.height / 2;
-		} else if (heroGP.getDirect() == -2) {
+		} else if (heroGP.getObjectDricetion() == Direction.DOWN) {
 			xz = heroGP.x + heroGP.width / 2;
 			yz = heroGP.y + heroGP.height;
-		} else if (heroGP.getDirect() == 2) {
-			xz = heroGP.x + heroGP.width / 3;
+		} else if (heroGP.getObjectDricetion() == Direction.UP) {
+			xz = heroGP.x + heroGP.width / 2;
 			yz = heroGP.y;
 		}
 		Fire fire_new = new Fire(xz, yz);
-		fire_new.setDirect(heroGP.getDirect());
+		fire_new.setObjectDricetion(heroGP.getObjectDricetion());
 		fires.add(fire_new);
 	}
 
 	public void toSkillshot() {
 		if (mana > 0) {
+
 			int xz = 0, yz = 0, direct;
-			if (getHeroGP().getDirect() == 1) {
+			if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 				xz = getHeroGP().x + getHeroGP().width;
 				yz = getHeroGP().y + getHeroGP().height / 2;
 				for (int i = 0; i < Board.getSizeX() - xz - 120; i++) {
 					Skillshot skillshot_new = new Skillshot(xz + i, yz);
-					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				Skillshot skillshot_new = new Skillshot(0, 0);
 				mana -= skillshot_new.getUseCost();
-			} else if (getHeroGP().getDirect() == -1) {
+			} else if (heroGP.getObjectDricetion() == Direction.LEFT) {
 				xz = getHeroGP().x;
 				yz = getHeroGP().y + getHeroGP().height / 2;
 				for (int i = 0; i < xz; i++) {
 					Skillshot skillshot_new = new Skillshot(xz - i, yz);
-					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				Skillshot skillshot_new = new Skillshot(0, 0);
 				mana -= skillshot_new.getUseCost();
-			} else if (getHeroGP().getDirect() == -2) {
+			} else if (heroGP.getObjectDricetion() == Direction.DOWN) {
 				xz = getHeroGP().x + getHeroGP().width / 2;
 				yz = getHeroGP().y + getHeroGP().height;
 				for (int i = 0; i < Board.getSizeY() - yz; i++) {
 					Skillshot skillshot_new = new Skillshot(xz, yz + i);
-					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				Skillshot skillshot_new = new Skillshot(0, 0);
 				mana -= skillshot_new.getUseCost();
-			} else if (getHeroGP().getDirect() == 2) {
+			} else if (heroGP.getObjectDricetion() == Direction.UP) {
 				xz = getHeroGP().x + getHeroGP().width / 3;
 				yz = getHeroGP().y;
 				for (int i = 0; i < yz; i++) {
 					Skillshot skillshot_new = new Skillshot(xz, yz - i);
-					skillshot_new.setDirect(getHeroGP().getDirect());
+					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				Skillshot skillshot_new = new Skillshot(0, 0);
@@ -216,6 +204,7 @@ public class Hero {
 			// skillshots.add(skillshot_new);
 			// }
 			// mana -= skillshot_new.getUseCost();
+
 
 		}
 
@@ -265,22 +254,6 @@ public class Hero {
 		return skillshots;
 	}
 
-	public int getDx() {
-		return dx;
-	}
-
-	public void setDx(int dx) {
-		this.dx = dx;
-	}
-
-	public int getDy() {
-		return dy;
-	}
-
-	public void setDy(int dy) {
-		this.dy = dy;
-	}
-
 	public boolean isInvincible() {
 		return invincible;
 	}
@@ -317,5 +290,3 @@ public class Hero {
 	}
 
 }
-// hello chua te Aram xin chao.
-// co may cai branch ma` dau ca dau @@

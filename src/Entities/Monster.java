@@ -2,11 +2,11 @@ package Entities;
 
 import java.util.Random;
 
+import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Monster {
-	Random rd = new Random();
-	private int timez = 0;
+
 	private final int speed = 1;
 	private int maxLife = 4;
 	private int life = maxLife;
@@ -16,7 +16,7 @@ public class Monster {
 	private boolean invincible=false;
 	private int invincibleCounter=0;
 	private GameObjectDynamic monsterGP;
-
+	private int timez = 0;
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
 		initMonster();
@@ -25,26 +25,38 @@ public class Monster {
 	private void initMonster() {
 		monsterGP.loadImage("res/textures/img/tauvutru.png");
 		monsterGP.getImageDimension();
+		monsterGP.setObjectDricetion(Direction.DOWN);
 	}
 
 	public void move() {
-		if (monsterGP.getDirect() == 1) {
+		if (monsterGP.getObjectDricetion() == Direction.RIGHT) {
 			monsterGP.x += speed;
 			monsterGP.loadImage("res/textures/img/monkeyright.png");
-		} else if (monsterGP.getDirect() == -1) {
+		} else if (monsterGP.getObjectDricetion() == Direction.LEFT) {
 			monsterGP.x -= speed;
 			monsterGP.loadImage("res/textures/img/monkeyleft.png");
-		} else if (monsterGP.getDirect() == 2) {
+		} else if (monsterGP.getObjectDricetion() == Direction.UP) {
 			monsterGP.y -= speed;
 			monsterGP.loadImage("res/textures/img/monkeyup.png");
-		} else if (monsterGP.getDirect() == -2) {
+		} else if (monsterGP.getObjectDricetion() == Direction.DOWN) {
 			monsterGP.y += speed;
 			monsterGP.loadImage("res/textures/img/monkeydown.png");
 		}
+		
+		Random rd = new Random();
+
 		timez += 1;
 		if (timez == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-			monsterGP.setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
-																										// định 0
+		 // random hướng di chuyển 
+			int key = rd.nextInt(4);// định 0
+			switch (key) {
+			case 4:	monsterGP.setObjectDricetion(Direction.DOWN);break;
+			case 1:	monsterGP.setObjectDricetion(Direction.LEFT);break;
+			case 2:	monsterGP.setObjectDricetion(Direction.UP);break;
+			case 3:	monsterGP.setObjectDricetion(Direction.RIGHT);break;
+
+			}
+			System.out.println(key);
 			// tương ứng với đứng yên)
 			timez = 0;
 		}
@@ -61,6 +73,7 @@ public class Monster {
 		if (monsterGP.y > Board.getSizeY() - monsterGP.height) {
 			monsterGP.y = Board.getSizeY() - monsterGP.height;
 		}
+
 		if (checkMapLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.x = monsterGP.x + speed;
 		}

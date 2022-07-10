@@ -110,9 +110,7 @@ public class Map {
 		return map;
 	}
 
-//	public void closeFile() {
-//		m.close();
-//	}
+
 
 	public int getMapCol() {
 		return mapCol;

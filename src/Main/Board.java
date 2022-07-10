@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
 import Entities.*;
+import Entities.GameObjectDynamic.Direction;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -228,7 +229,6 @@ public class Board extends JPanel implements ActionListener {
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_fr) && monster.isInvincible() == false ) { // va cham dan va quai
-					boss.getMonsterGP().setDirect(-hero.getHeroGP().getDirect());
 					playSE(3);
 					fr.setTontai(false);
 					monster.setInvincible(true);
@@ -257,7 +257,6 @@ public class Board extends JPanel implements ActionListener {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
-					boss.getMonsterGP().setDirect(-hero.getHeroGP().getDirect());
 //					sk.setTontai(false);	
 						monster.setLife(monster.getLife() - hero.getSkillAttack());
 						monster.setInvincible(true);
@@ -527,7 +526,7 @@ public class Board extends JPanel implements ActionListener {
 						for (int j = 0; j < map.getMapCol(); j++) {
 							g.drawImage(map.gameMap[i][j].getGraphics().getImage(), i * tileSize, j * tileSize,null);
 						}
-	}
+			}
 	}
 
 	public class KeyHandler extends KeyAdapter {
@@ -551,46 +550,49 @@ public class Board extends JPanel implements ActionListener {
 			}
 
 			if (key == KeyEvent.VK_LEFT) {
-				hero.setDx(-hero.getSpeed());
+				hero.getHeroGP().setX(hero.getHeroGP().getX() - hero.getSpeed());
 				if (onboard) {
 					hero.getHeroGP().loadImage("res/textures/img/boat_left.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/left.png");
 				}
-				hero.getHeroGP().setDirect(-1);
-			}
+				hero.getHeroGP().setObjectDricetion(Direction.LEFT);
+
 
 			if (key == KeyEvent.VK_RIGHT) {
-				hero.setDx(hero.getSpeed());
+				hero.getHeroGP().setX(hero.getHeroGP().getX() + hero.getSpeed());
 				if (onboard) {
 					hero.getHeroGP().loadImage("res/textures/img/boat_right.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/right.png");
 				}
-				hero.getHeroGP().setDirect(1);
-			}
+				hero.getHeroGP().setObjectDricetion(Direction.RIGHT);
+
 
 			if (key == KeyEvent.VK_UP) {
-				hero.setDy(-hero.getSpeed());
+				hero.getHeroGP().setY(hero.getHeroGP().getY() - hero.getSpeed());
 				if (onboard) {
 					hero.getHeroGP().loadImage("res/textures/img/boat_up.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/up.png");
 				}
-				hero.getHeroGP().setDirect(2);
+				hero.getHeroGP().setObjectDricetion(Direction.UP);
+
 			}
 
 			if (key == KeyEvent.VK_DOWN) {
-				hero.setDy(hero.getSpeed());
+				hero.getHeroGP().setY(hero.getHeroGP().getY() + hero.getSpeed());
 				if (onboard) {
 					hero.getHeroGP().loadImage("res/textures/img/boat_down.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/down.png");
 				}
-				hero.getHeroGP().setDirect(-2);
+				hero.getHeroGP().setObjectDricetion(Direction.DOWN);
+
+				}
 			}
 		}
-
+	}	
 		@Override
 		public void keyReleased(KeyEvent e) {
 			int key = e.getKeyCode(); // danh dau vao game
@@ -599,17 +601,17 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_A) {
 			}
 			if (key == KeyEvent.VK_LEFT) {
-				hero.setDx(0);
+
 			}
 			if (key == KeyEvent.VK_RIGHT) {
-				hero.setDx(0);
+;
 			}
 			if (key == KeyEvent.VK_UP) {
-				hero.setDy(0);
+
 			}
 
 			if (key == KeyEvent.VK_DOWN) {
-				hero.setDy(0);
+
 			}
 
 			if (started == false) {
