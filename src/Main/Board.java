@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements ActionListener {
 	private static final int SIZE_X = 750;
 	private static final int SIZE_Y = 600;
-	// private static final int tileSize = 32; thay cho so 32 hien tai
+	public static final int tileSize = 32; // thay cho so 32 hien tai
 	private final int TOADO_X = 10;
 	private final int TOADO_Y = 10;
 	private final int DELAY = 10; // toc do quet su kien
@@ -52,7 +52,8 @@ public class Board extends JPanel implements ActionListener {
 	// khong fix nua
 	// Something
 
-	public static Map m;
+	public static Map map;
+
 	Color bgcolor = new Color(207, 207, 207);
 
 	public Board() {
@@ -65,7 +66,7 @@ public class Board extends JPanel implements ActionListener {
 		setBackground(Color.BLACK); // mau nen
 		setDoubleBuffered(true);
 		setPreferredSize(new Dimension(SIZE_X, SIZE_Y));
-		m = new Map();
+		map = new Map("res/worlds/map.txt");
 		ingame = true;
 		started = false;
 		commandNum = 0;
@@ -100,16 +101,15 @@ public class Board extends JPanel implements ActionListener {
 		updateBoss();
 		if (door_appared) {
 			if (!pathMap.equals("res/worlds/map2.txt")) {
-				pathMap = "res/worlds/map2.txt";
-				m.openFile(pathMap);
-				m.readFile(); // Nho readfile lai 1 lan nua
+				map.newGameMap("res/worlds/map2.txt");
+//				m.openFile(pathMap);
+//				m.readFile(); // Nho readfile lai 1 lan nua
+
 			}
 		}
 		if (boss_appared) {
 			if (!pathMap.equals("res/worlds/map3.txt")) {
-				pathMap = "res/worlds/map3.txt";
-				m.openFile(pathMap);
-				m.readFile(); // Nho readfile lai 1 lan nua
+				map.newGameMap("res/worlds/map3.txt");
 			}
 			updateStone();
 		}
@@ -312,7 +312,7 @@ public class Board extends JPanel implements ActionListener {
 		b += 196;
 		g.drawString(text, a, b);
 		if (commandNum == 0) {
-			g.drawString(">", a - 32, b);
+			g.drawString(">", a - tileSize, b);
 		}
 
 		text = "OPTION";
@@ -320,7 +320,7 @@ public class Board extends JPanel implements ActionListener {
 		b += 64;
 		g.drawString(text, a, b);
 		if (commandNum == 1) {
-			g.drawString(">", a - 32, b);
+			g.drawString(">", a - tileSize, b);
 		}
 
 		text = "QUIT";
@@ -328,41 +328,12 @@ public class Board extends JPanel implements ActionListener {
 		b += 64;
 		g.drawString(text, a, b);
 		if (commandNum == 2) {
-			g.drawString(">", a - 32, b);
+			g.drawString(">", a - tileSize, b);
 		}
 
 		if (started == true) {
 
-			// ve map
-			ImageIcon treeImage = new ImageIcon("res/textures/img/tree_grass_1.png");
-			// ImageIcon wallImage=new ImageIcon("res/textures/wall.png");
-			// ImageIcon groundImage=new ImageIcon("res/textures/ground.png");
-			ImageIcon grassImage = new ImageIcon("res/textures/img/grass.png");
-			ImageIcon datImage = new ImageIcon("res/textures/img/dirt.png");
-			ImageIcon thungImage = new ImageIcon("res/textures/img/rock_dirt.png");
-			ImageIcon nuocImage = new ImageIcon("res/textures/img/water.png");
-			ImageIcon cauImage = new ImageIcon("res/textures/img/dirt.png");
-			ImageIcon monsterImage = new ImageIcon("res/textures/img/tauvutru.png");
-			ImageIcon newLandDoor = new ImageIcon("res/textures/img/ironman.png");
-			for (int y = 0; y < 20; y++)
-				for (int x = 0; x < 20; x++) {
-					if (m.getMap(x, y).equals("1")) {
-						g.drawImage(new Tree(x, y, 32, 32, treeImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("2")) {
-						g.drawImage(new Water(x, y, 32, 32, nuocImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("3")) {
-						g.drawImage(new Rock(x, y, 32, 32, thungImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("4")) {
-						g.drawImage(new Bridge(x, y, 32, 32, cauImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("5")) {
-						g.drawImage(new Earth(x, y, 32, 32, datImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("0")) {
-						g.drawImage(new Grass(x, y, 32, 32, grassImage.getImage()).getImage(), x * 32, y * 32, null);
-					} else if (m.getMap(x, y).equals("9")) {
-						g.drawImage(new NewLandDoor(x, y, 32, 32, newLandDoor.getImage()).getImage(), x * 32, y * 32, null);
-					}
-
-				}
+			drawMap(g);
 
 			if (win) {
 				String msg = "You Win!";
@@ -377,7 +348,8 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				g.setFont(small);
 
-				g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
+				g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve
+																													// hero
 
 				List<Fire> fires = hero.getFires();
 				for (Fire fire : fires) { // ve dan
@@ -396,8 +368,8 @@ public class Board extends JPanel implements ActionListener {
 						Integer hpBar = 8;
 						Integer hpBarValue = hpBar * monster.getLife();
 
-						g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),
-								this);
+						g.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(),
+								monster.getMonsterGP().getY(), this);
 						g.setColor(Color.black);
 						g.fillRect(monster.getMonsterGP().getX() - 1, monster.getMonsterGP().getY() - 16, 34, 12);
 						g.setColor(Color.red);
@@ -419,7 +391,8 @@ public class Board extends JPanel implements ActionListener {
 					Double bossHp = 0.32;
 					Double bossHpValue = bossHp * boss.getHp();
 					Integer display = (int) Math.round(bossHpValue);
-					g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);
+					g.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(),
+							this);
 					g.setColor(Color.black);
 					g.fillRect(boss.getMonsterGP().getX() - 1, boss.getMonsterGP().getY() - 16, 34, 12);
 					g.setColor(Color.red);
@@ -443,21 +416,18 @@ public class Board extends JPanel implements ActionListener {
 						boss_appared = true;
 				} else {
 					if (!door_appared)
-						g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu goc trai
+						g.drawString("Monsters: " + monsters.size(), SIZE_X - 100, SIZE_Y / 4); // 10,10 : k/c tinh tu
+																								// goc trai
 					// man hinh
 				}
 				g.drawString("Health: ", SIZE_X - 100, SIZE_Y / 4 + 50);
 				g.setColor(Color.red);
-				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60,
-						(int) Math.round(heroHpBar * hero.getLife()),
-						10);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60, (int) Math.round(heroHpBar * hero.getLife()), 10);
 				g.setColor(Color.white);
 				// g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
 				g.drawString("Mana : ", SIZE_X - 100, SIZE_Y / 4 + 90);
 				g.setColor(Color.blue);
-				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100,
-						(int) Math.round(heroManaBar * hero.getMana()),
-						10);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100, (int) Math.round(heroManaBar * hero.getMana()), 10);
 				g.setColor(Color.white);
 				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
 				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
@@ -479,27 +449,14 @@ public class Board extends JPanel implements ActionListener {
 		} // end started
 	} // end paint component
 
-	// private class TAdapter extends KeyAdapter {
-	// @Override
-	// public void keyReleased(KeyEvent e) {
-	// hero.keyReleased(e);
-	// int key = e.getKeyCode(); // danh dau vao game
-	// if( started == false) {
-	// titleState(key);
-	//// if (key == 's' || key == 'S')
-	//// started = true;
-	// }
-	// if (key == 'n' || key == 'N') { //Khi bam N thi se doc file path khac
-	// m.openFile("res/worlds/map2.txt");
-	// m.readFile(); //Nho readfile lai 1 lan nua
-	// }
-	// }
-	//
-	// @Override
-	// public void keyPressed(KeyEvent e) {
-	// hero.keyPressed(e);
-	// }
-	// }
+	public void drawMap(Graphics g) {
+
+					for (int i = 0; i < map.getMapRow(); i++) {
+						for (int j = 0; j < map.getMapCol(); j++) {
+							g.drawImage(map.gameMap[i][j].getGraphics().getImage(), i * tileSize, j * tileSize,null);
+						}
+	}
+	}
 
 	public class KeyHandler extends KeyAdapter {
 
@@ -559,10 +516,10 @@ public class Board extends JPanel implements ActionListener {
 				// if (key == 's' || key == 'S')
 				// started = true;
 			}
-			if (key == 'n' || key == 'N') { // Khi bam N thi se doc file path khac
-				Board.m.openFile("res/worlds/map2.txt");
-				Board.m.readFile(); // Nho readfile lai 1 lan nua
-			}
+//			if (key == 'n' || key == 'N') { // Khi bam N thi se doc file path khac
+//				Board.m.openFile("res/worlds/map2.txt");
+//				Board.m.readFile(); // Nho readfile lai 1 lan nua
+//			}
 		}
 	}
 

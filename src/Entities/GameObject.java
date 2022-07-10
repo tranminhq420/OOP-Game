@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class GameObject {
 	protected int x, y, width, height;
 	protected Image image;
-	protected boolean collision;
+
 
 	public GameObject(int x, int y, int width, int height, Image image) {
 		this.x = x;
