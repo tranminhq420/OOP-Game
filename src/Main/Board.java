@@ -539,7 +539,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_LEFT) {
 				hero.setDx(-hero.getSpeed());
 				if (onboard) {
-					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+					hero.getHeroGP().loadImage("res/textures/img/boat_left.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/left.png");
 				}
@@ -549,7 +549,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_RIGHT) {
 				hero.setDx(hero.getSpeed());
 				if (onboard) {
-					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+					hero.getHeroGP().loadImage("res/textures/img/boat_right.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/right.png");
 				}
@@ -559,7 +559,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_UP) {
 				hero.setDy(-hero.getSpeed());
 				if (onboard) {
-					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+					hero.getHeroGP().loadImage("res/textures/img/boat_up.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/up.png");
 				}
@@ -569,7 +569,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_DOWN) {
 				hero.setDy(hero.getSpeed());
 				if (onboard) {
-					hero.getHeroGP().loadImage("res/textures/img/ironman.png");
+					hero.getHeroGP().loadImage("res/textures/img/boat_down.jpg");
 				} else {
 					hero.getHeroGP().loadImage("res/textures/img/down.png");
 				}
