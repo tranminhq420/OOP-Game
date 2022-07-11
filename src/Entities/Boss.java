@@ -7,7 +7,7 @@ import java.util.Random;
 import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
-public class Boss extends Monster implements Boss_interface {
+public class Boss extends Monster {
 
 
 	private List<Stone> stones;
@@ -16,8 +16,9 @@ public class Boss extends Monster implements Boss_interface {
 	private int attack = 3;
 	private int defense = 2;
 	private int speed = 1;
-	int t = 0, k = 0;
-	int timez = 0;
+	private int enrage = 0;
+	private int attackSpeed = 0;
+	private int flexible = 0;
 
 	public Boss(int x, int y) {
 		super(x, y);
@@ -31,7 +32,6 @@ public class Boss extends Monster implements Boss_interface {
 		this.hp = HP_MAX;
 	}
 
-	@Override
 	public void toStone() { // quái ném đá
 		int xz = 0, yz = 0;
 		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
@@ -75,8 +75,8 @@ public class Boss extends Monster implements Boss_interface {
 		Random rd = new Random();
 		int find_hero_speed = 1; // cứ sau 20s tìm hero 1 lần
 
-		timez += 1;
-		if (timez == 20) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+		flexible += 1;
+		if (flexible == 20) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
 		 // random hướng di chuyển 
 																										// định 0
 			switch (rd.nextInt(4) ) {
@@ -87,7 +87,7 @@ public class Boss extends Monster implements Boss_interface {
 
 			}
 			// tương ứng với đứng yên)
-			timez = 0;
+			flexible = 0;
 		}
 //		timez += 1;
 //		if (timez == 50) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
@@ -114,28 +114,23 @@ public class Boss extends Monster implements Boss_interface {
 		}
 
 
-		if (t < find_hero_speed)
-			t++; // số chu kì tìm hero
-		if (t == find_hero_speed) {
+		if (enrage < find_hero_speed)
+			enrage++; // số chu kì tìm hero
+		if (enrage == find_hero_speed) {
 			if (getMonsterGP().getY() - heroY > speed) {
 				getMonsterGP().y -= speed;
 			}
 			if (getMonsterGP().getY() - heroY < -speed) {
 				getMonsterGP().y += speed;
 			}
-			t = 0;
+			enrage = 0;
 		}
-		k++;
-		if (getMonsterGP().getY() - heroY < getMonsterGP().height && k >= 200) {
+		attackSpeed++;
+		if (getMonsterGP().getY() - heroY < getMonsterGP().height && attackSpeed >= 200) {
 			toStone();
-			k = 0;
+			attackSpeed = 0;
 		}
 		;
-	}
-
-	@Override
-	public void dequai() {
-		
 	}
 
 	public int getHp() {

@@ -6,8 +6,7 @@ import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Monster {
-
-	private final int speed = 1;
+	private int speed = 1;
 	private int maxLife = 4;
 	private int life = maxLife;
 	private int attack = 2;
@@ -15,14 +14,14 @@ public class Monster {
 	private boolean invincible=false;
 	private int invincibleCounter=0;
 	private GameObjectDynamic monsterGP;
-	private int timez = 0;
+	private int flexible = 0;
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
 		initMonster();
 	}
 
 	private void initMonster() {
-		monsterGP.loadImage("res/textures/img/tauvutru.png");
+		monsterGP.loadImage("res/textures/img/tauvutru.png"); //khong duoc tao bat cu nhung gi cu the o day
 		monsterGP.getImageDimension();
 		monsterGP.setObjectDricetion(Direction.DOWN);
 	}
@@ -44,8 +43,8 @@ public class Monster {
 		
 		Random rd = new Random();
 
-		timez += 1;
-		if (timez == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+		flexible += 1;
+		if (flexible == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
 		 // random hướng di chuyển 
 			int key = rd.nextInt(4);// định 0
 			switch (key) {
@@ -57,7 +56,7 @@ public class Monster {
 			}
 			// System.out.println(key);
 			// tương ứng với đứng yên)
-			timez = 0;
+			flexible = 0;
 		}
 		if (monsterGP.x < 1) {
 			monsterGP.x = 1;

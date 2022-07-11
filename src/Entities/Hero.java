@@ -79,7 +79,6 @@ public class Hero {
 						) {
 			Board.setDoor_appared();
 		}
-	
 
 	}
 
@@ -154,7 +153,7 @@ public class Hero {
 	public void toSkillshot() {
 		if (mana > 0) {
 
-			int xz = 0, yz = 0, direct;
+			int xz = 0, yz = 0;
 			if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 				xz = getHeroGP().x + getHeroGP().width;
 				yz = getHeroGP().y + getHeroGP().height / 2;
@@ -196,15 +195,6 @@ public class Hero {
 				Skillshot skillshot_new = new Skillshot(0, 0);
 				mana -= skillshot_new.getUseCost();
 			}
-
-			// for( int i=0; i < Board.getSizeX()/32-xz ; i++) {
-			// Skillshot skillshot_new = new Skillshot(xz, yz);
-			// skillshot_new.setDirect(getHeroGP().getDirect());
-			// skillshots.add(skillshot_new);
-			// }
-			// mana -= skillshot_new.getUseCost();
-
-
 		}
 
 	}
