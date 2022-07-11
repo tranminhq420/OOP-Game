@@ -2,26 +2,31 @@ package Entities;
 
 import Entities.GameObjectDynamic.Direction;
 
-public class Fireball extends Bullet{
-	public Fireball(int x, int y) {
-		super(x, y);
-		loadImage("res/textures/img/dan2.png");
-		getImageDimension();
-	}
-	@Override
+public class Fireball extends Bullet {
+	private final int bullet_speed = 5;
+	private final int bullet_length = 600;
+	private int useCost = 1;
 	
+	public Fireball(GameObjectDynamic bulletGP) {
+        super(bulletGP);
+    	bulletGP.loadImage("res/textures/img/dan2.p"
+    			+ "ng");
+        bulletGP.getImageDimension();
+    }
     public void move() {
-    	if (getObjectDricetion() == Direction.RIGHT ) x += bullet_speed; // viên đạn bay ngang
-        if (getObjectDricetion() == Direction.UP) y -= bullet_speed; // viên đạn bay d�?c 
-        if (getObjectDricetion() == Direction.LEFT ) x -= bullet_speed;
-        if (getObjectDricetion() == Direction.DOWN) y += bullet_speed;
+    	if (bulletGP.getObjectDricetion() == Direction.RIGHT ) bulletGP.x += bullet_speed; // viên đạn bay ngang
+        if (bulletGP.getObjectDricetion() == Direction.UP) bulletGP.y -= bullet_speed; // viên đạn bay d�?c 
+        if (bulletGP.getObjectDricetion() == Direction.LEFT ) bulletGP.x -= bullet_speed;
+        if (bulletGP.getObjectDricetion() == Direction.DOWN) bulletGP.y += bullet_speed;
         fly += bullet_speed; // so sánh độ dài đã bay với độ dài đạn
         if (fly>bullet_length) {
-        	setExist(false);
+        	bulletGP.setExist(false);
         }
-        if(x<0||x>550||y<0||y>550) {
-        	setExist(false);
+        if(bulletGP.x<0||bulletGP.x>550||bulletGP.y<0||bulletGP.y>550) {
+        	bulletGP.setExist(false);
         }
     }
-
+    public int getUseCost() {
+    	return useCost;
+    }
 }

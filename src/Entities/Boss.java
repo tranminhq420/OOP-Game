@@ -34,6 +34,7 @@ public class Boss extends Monster {
 
 	public void castFireball() { // quái ném đá
 		int xz = 0, yz = 0;
+		
 		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			xz = getMonsterGP().x + getMonsterGP().width;
 			yz = getMonsterGP().y + getMonsterGP().height / 2;
@@ -47,8 +48,9 @@ public class Boss extends Monster {
 			xz = getMonsterGP().x + getMonsterGP().width / 2;
 			yz = getMonsterGP().y;
 		}
-		Fireball fireball_new = new Fireball(xz, yz);
-		fireball_new.setObjectDricetion(getMonsterGP().getObjectDricetion());;
+		GameObjectDynamic bulletGP = new GameObjectDynamic(xz, yz);
+		Fireball fireball_new = new Fireball(bulletGP);
+		fireball_new.bulletGP.setObjectDricetion(getMonsterGP().getObjectDricetion());;
 
 		fireballs.add(fireball_new);
 	}

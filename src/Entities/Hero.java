@@ -132,6 +132,7 @@ public class Hero {
 
 	public void castMagicBall() {
 		int xz = 0, yz = 0;
+		GameObjectDynamic bulletGP;
 		if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 			xz = heroGP.x + heroGP.width;
 			yz = heroGP.y + heroGP.height / 2;
@@ -145,54 +146,63 @@ public class Hero {
 			xz = heroGP.x + heroGP.width / 2;
 			yz = heroGP.y;
 		}
-		MagicBall MagicBall_new = new MagicBall(xz, yz);
-		MagicBall_new.setObjectDricetion(heroGP.getObjectDricetion());
+		bulletGP = new GameObjectDynamic(xz, yz);
+		MagicBall MagicBall_new = new MagicBall(bulletGP);
+		MagicBall_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
 		magicballs.add(MagicBall_new);
 	}
 
-	public void toSkillshot() {
+	public void toSkillshot() {		
 		if (mana > 0) {
-
+			GameObjectDynamic bulletGP;
 			int xz = 0, yz = 0;
 			if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 				xz = getHeroGP().x + getHeroGP().width;
 				yz = getHeroGP().y + getHeroGP().height / 2;
 				for (int i = 0; i < Board.getSizeX() - xz -140; i++) {
-					Skillshot skillshot_new = new Skillshot(xz + i, yz);
-					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
+					bulletGP = new GameObjectDynamic(xz + i, yz);
+					Skillshot skillshot_new = new Skillshot(bulletGP);
+					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
-				Skillshot skillshot_new = new Skillshot(0, 0);
+				bulletGP = new GameObjectDynamic(0, 0);
+				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
 			} else if (heroGP.getObjectDricetion() == Direction.LEFT) {
 				xz = getHeroGP().x;
 				yz = getHeroGP().y + getHeroGP().height / 2;
 				for (int i = 0; i < xz; i++) {
-					Skillshot skillshot_new = new Skillshot(xz - i, yz);
-					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
+					bulletGP = new GameObjectDynamic(xz - i, yz);
+					Skillshot skillshot_new = new Skillshot(bulletGP);
+					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
-				Skillshot skillshot_new = new Skillshot(0, 0);
+				bulletGP = new GameObjectDynamic(0, 0);
+				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
 			} else if (heroGP.getObjectDricetion() == Direction.DOWN) {
 				xz = getHeroGP().x + getHeroGP().width / 2;
 				yz = getHeroGP().y + getHeroGP().height;
 				for (int i = 0; i < Board.getSizeY() - yz; i++) {
-					Skillshot skillshot_new = new Skillshot(xz, yz + i);
-					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
+					bulletGP = new GameObjectDynamic(xz, yz + i);	 
+					Skillshot skillshot_new = new Skillshot(bulletGP);
+					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
-				Skillshot skillshot_new = new Skillshot(0, 0);
+				bulletGP = new GameObjectDynamic(0, 0);	 
+				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
 			} else if (heroGP.getObjectDricetion() == Direction.UP) {
 				xz = getHeroGP().x + getHeroGP().width / 3;
 				yz = getHeroGP().y;
 				for (int i = 0; i < yz; i++) {
-					Skillshot skillshot_new = new Skillshot(xz, yz - i);
-					skillshot_new.setObjectDricetion(heroGP.getObjectDricetion());
+					bulletGP = new GameObjectDynamic(xz, yz - i);
+					Skillshot skillshot_new = new Skillshot(bulletGP);
+					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
-				Skillshot skillshot_new = new Skillshot(0, 0);
+				bulletGP = new GameObjectDynamic(0, 0);
+				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
 			}
 		}

@@ -84,7 +84,7 @@ public class Board extends JPanel implements ActionListener {
 	public void initMonsters() {
 		monsters = new ArrayList<>();
 		for (int[] p : position) { // them monster
-			monsters.add(new Monster(p[0], p[1]));
+			monsters.add(new Monkey(p[0], p[1]));
 		}
 	}
 
@@ -131,7 +131,7 @@ public class Board extends JPanel implements ActionListener {
 		List<MagicBall> MagicBalls = hero.getMagicBalls();
 		for (int i = 0; i < MagicBalls.size(); i++) {
 			MagicBall MagicBall = MagicBalls.get(i); // doi tg 1viendan = mangdan.thui
-			if (MagicBall.getExist()) {
+			if (MagicBall.getBulletGP().getExist()) {
 				MagicBall.move();
 			} // vien dan di chuyen
 			else {
@@ -145,7 +145,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Skillshot> skillshots = hero.getSkillshots();
 		for (int j = 0; j < skillshots.size(); j++) {
 			Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
-			if (skillshot.getExist()) {
+			if (skillshot.getBulletGP().getExist()) {
 				skillshot.move();
 			} // vien dan di chuyen
 			else {
@@ -159,7 +159,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Fireball> fireballs = boss.getFireballs();
 		for (int i = 0; i < fireballs.size(); i++) {
 			Fireball fireball = fireballs.get(i);
-			if (fireball.getExist()) {
+			if (fireball.getBulletGP().getExist()) {
 				fireball.move();
 			} else
 				fireballs.remove(i);
@@ -226,11 +226,11 @@ public class Board extends JPanel implements ActionListener {
 
 		List<MagicBall> mbs = hero.getMagicBalls(); // mb : mang cac magic ball cua hero
 		for (MagicBall mb : mbs) {
-			Rectangle khung_mb = mb.getBounds(); // lay khung hinh dan ban ra
+			Rectangle khung_mb = mb.getBulletGP().getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_mb) && monster.isInvincible() == false ) { // va cham dan va quai
-					mb.setExist(false);
+					mb.getBulletGP().setExist(false);
 					monster.setInvincible(true);
 					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
@@ -241,7 +241,7 @@ public class Board extends JPanel implements ActionListener {
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_mb.intersects(bs) && boss.isInvincible() == false) {
 				boss.setHp(boss.getHp() - hero.getAttack());
-				mb.setExist(false);
+				mb.getBulletGP().setExist(false);
 				boss.setInvincible(true);
 			}
 			;
@@ -250,7 +250,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Skillshot> sks = hero.getSkillshots(); // fr : mang cac fire cua hero
 		for (Skillshot sk : sks) {
 			// System.out.println(collisionMonster);
-			Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
+			Rectangle khung_fr2 = sk.getBulletGP().getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 
@@ -277,14 +277,14 @@ public class Board extends JPanel implements ActionListener {
 		if (boss_appared) {
 			List<Fireball> Fireballs = boss.getFireballs(); // xu li va cham stones vs nhan vat
 			for (Fireball fb : Fireballs) {
-				Rectangle fb_rec = fb.getBounds();
+				Rectangle fb_rec = fb.getBulletGP().getBounds();
 				if (hr.intersects(fb_rec) && hero.isInvincible() == false) {
 					// playSE(3);
 					if (hero.getLife() <= 0)
 						hero.getHeroGP().setExist(false);
 					else
 						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense()));
-					fb.setExist(false);
+					fb.getBulletGP().setExist(false);
 					hero.setInvincible(true);
 				}
 			}
@@ -386,13 +386,13 @@ public class Board extends JPanel implements ActionListener {
 
 				List<MagicBall> MagicBalls = hero.getMagicBalls();
 				for (MagicBall MagicBall : MagicBalls) { // ve dan
-					g.drawImage(MagicBall.getImage(), MagicBall.getX(), MagicBall.getY(), this);
+					g.drawImage(MagicBall.getBulletGP().getImage(), MagicBall.getBulletGP().getX(), MagicBall.getBulletGP().getY(), this);
 				}
 
 				// ve skillshot
 				List<Skillshot> skillshots = hero.getSkillshots();
 				for (Skillshot skillshot : skillshots) { // ve dan
-					g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
+					g.drawImage(skillshot.getBulletGP().getImage(), skillshot.getBulletGP().getX(), skillshot.getBulletGP().getY(), this);
 
 				}
 
@@ -417,7 +417,7 @@ public class Board extends JPanel implements ActionListener {
 				}
 				List<Fireball> Fireballs = boss.getFireballs();
 				for (Fireball Fireball : Fireballs) {
-					g.drawImage(Fireball.getImage(), Fireball.getX(), Fireball.getY(), this);
+					g.drawImage(Fireball.getBulletGP().getImage(), Fireball.getBulletGP().getX(), Fireball.getBulletGP().getY(), this);
 				}
 				if (hero.isInvincible() == true) {
 					hero.setInvincibleCounter(hero.getInvincibleCounter() + 1);
