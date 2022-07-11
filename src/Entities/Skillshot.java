@@ -3,13 +3,14 @@ package Entities;
 import Entities.GameObjectDynamic.Direction;
 
 public class Skillshot extends Bullet {
-	private final int bullet_speed = 10;
+	private final int bullet_speed = 5;
 	private final int bullet_length = 600;
 	private int useCost = 1;
 	
 	public Skillshot(int x, int y) {
     	super(x,y);
-    	loadImage("res/textures/img/dan2.png");
+    	loadImage("res/textures/img/dan2.p"
+    			+ "ng");
     	getImageDimension();
     }
     public void move() {
@@ -19,10 +20,10 @@ public class Skillshot extends Bullet {
         if (getObjectDricetion() == Direction.DOWN) y += bullet_speed;
         fly += bullet_speed; // so sánh độ dài đã bay với độ dài đạn
         if (fly>bullet_length) {
-        	setTontai(false);
+        	setExist(false);
         }
         if(x<0||x>600||y<0||y>600) {
-        	setTontai(false);
+        	setExist(false);
         }
     }
     public int getUseCost() {

@@ -10,7 +10,7 @@ import Main.Board;
 public class Boss extends Monster {
 
 
-	private List<Stone> stones;
+	private List<Fireball> fireballs;
 	private int hp;
 	private final int HP_MAX = 100;
 	private int attack = 3;
@@ -26,13 +26,13 @@ public class Boss extends Monster {
 	}
 
 	private void initBoss() {
-		stones = new ArrayList<>();
+		fireballs = new ArrayList<>();
 		getMonsterGP().loadImage("res/textures/img/bossdown.png");
 		getMonsterGP().getImageDimension(); // lấy kích thước ảnh
 		this.hp = HP_MAX;
 	}
 
-	public void toStone() { // quái ném đá
+	public void castFireball() { // quái ném đá
 		int xz = 0, yz = 0;
 		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			xz = getMonsterGP().x + getMonsterGP().width;
@@ -47,14 +47,14 @@ public class Boss extends Monster {
 			xz = getMonsterGP().x + getMonsterGP().width / 2;
 			yz = getMonsterGP().y;
 		}
-		Stone stone_new = new Stone(xz, yz);
-		stone_new.setObjectDricetion(getMonsterGP().getObjectDricetion());;
+		Fireball fireball_new = new Fireball(xz, yz);
+		fireball_new.setObjectDricetion(getMonsterGP().getObjectDricetion());;
 
-		stones.add(stone_new);
+		fireballs.add(fireball_new);
 	}
 
-	public List<Stone> getStones() {
-		return stones;
+	public List<Fireball> getFireballs() {
+		return fireballs;
 	}
 
 	public void move(int heroY) { // hàm move() có tham số >< move() kế thừa từ Monster
@@ -89,15 +89,6 @@ public class Boss extends Monster {
 			// tương ứng với đứng yên)
 			flexible = 0;
 		}
-//		timez += 1;
-//		if (timez == 50) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-//			getMonsterGP().setDirect(rd.nextInt(5) - 2); // random hướng di chuyển (0..5 -2 --> -2 ..2 hướng di chuyển đã quy
-//																										// định 0
-//			// tương ứng với đứng yên)
-//			if (getMonsterGP().getDirect() == 0)
-//				getMonsterGP().setDirect(-1);
-//			timez = 0;
-//		}
 		if (getMonsterGP().x < 1) {
 			getMonsterGP().x = 1;
 		} // ko cho di chuyển tràn khung
@@ -127,7 +118,7 @@ public class Boss extends Monster {
 		}
 		attackSpeed++;
 		if (getMonsterGP().getY() - heroY < getMonsterGP().height && attackSpeed >= 200) {
-			toStone();
+			castFireball();
 			attackSpeed = 0;
 		}
 		;

@@ -21,7 +21,7 @@ public class Monster {
 	}
 
 	private void initMonster() {
-		monsterGP.loadImage("res/textures/img/tauvutru.png"); //khong duoc tao bat cu nhung gi cu the o day
+		monsterGP.loadImage("res/textures/img/monkeyright.png");
 		monsterGP.getImageDimension();
 		monsterGP.setObjectDricetion(Direction.DOWN);
 	}
@@ -86,6 +86,65 @@ public class Monster {
 		}
 	}
 
+	public void move(String right, String left, String up, String down) {
+		if (monsterGP.getObjectDricetion() == Direction.RIGHT) {
+			monsterGP.x += speed;
+			monsterGP.loadImage(right);
+		} else if (monsterGP.getObjectDricetion() == Direction.LEFT) {
+			monsterGP.x -= speed;
+			monsterGP.loadImage(left);
+		} else if (monsterGP.getObjectDricetion() == Direction.UP) {
+			monsterGP.y -= speed;
+			monsterGP.loadImage(up);
+		} else if (monsterGP.getObjectDricetion() == Direction.DOWN) {
+			monsterGP.y += speed;
+			monsterGP.loadImage(down);
+		}
+		
+		Random rd = new Random();
+
+		flexible += 1;
+		if (flexible == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
+		 // random hướng di chuyển 
+			int key = rd.nextInt(4);// định 0
+			switch (key) {
+			case 4:	monsterGP.setObjectDricetion(Direction.DOWN);break;
+			case 1:	monsterGP.setObjectDricetion(Direction.LEFT);break;
+			case 2:	monsterGP.setObjectDricetion(Direction.UP);break;
+			case 3:	monsterGP.setObjectDricetion(Direction.RIGHT);break;
+
+			}
+			// System.out.println(key);
+			// tương ứng với đứng yên)
+			flexible = 0;
+		}
+		if (monsterGP.x < 1) {
+			monsterGP.x = 1;
+		} // ko cho di chuyển tràn khung
+		if (monsterGP.y < 1) {
+			monsterGP.y = 1;
+		}
+		monsterGP.getImageDimension();
+		if (monsterGP.x > Board.getSizeX() - monsterGP.width) {
+			monsterGP.x = Board.getSizeX() - monsterGP.width;
+		}
+		if (monsterGP.y > Board.getSizeY() - monsterGP.height) {
+			monsterGP.y = Board.getSizeY() - monsterGP.height;
+		}
+
+		if (checkMapLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+			monsterGP.x = monsterGP.x + speed;
+		}
+		if (checkMapRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+			monsterGP.x = monsterGP.x - speed;
+		}
+		if (checkMapUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+			monsterGP.y = monsterGP.y + speed;
+		}
+		if (checkMapDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+			monsterGP.y = monsterGP.y - speed;
+		}
+	}
 
 	public boolean checkMapRight(int x, int y, int width, int height) {
 		x = x + width + 1;
@@ -133,6 +192,34 @@ public class Monster {
 			}
 		}
 		return false;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(int maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	public int getFlexible() {
+		return flexible;
+	}
+
+	public void setFlexible(int flexible) {
+		this.flexible = flexible;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public void setDefense(int defense) {
+		this.defense = defense;
 	}
 
 	public int getLife() {

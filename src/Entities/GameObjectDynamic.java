@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 public class GameObjectDynamic extends GameObject {
 	
-	protected boolean tontai; // còn sống 2
+	protected boolean exist; // còn sống 2
 	public enum Direction{
 		UP,DOWN,RIGHT,LEFT
 	}
@@ -14,18 +14,18 @@ public class GameObjectDynamic extends GameObject {
 
 	public GameObjectDynamic(int x, int y) {
 		super(x, y);
-		setTontai(true);
+		setExist(true);
 		// TODO Auto-generated constructor stub
 	}
 
 
 
-	public boolean getTontai() {
-		return tontai;
+	public boolean getExist() {
+		return exist;
 	}
 
-	public void setTontai(boolean x) {
-		this.tontai = x;
+	public void setExist(boolean x) {
+		this.exist = x;
 	}
 
 	public Rectangle getBounds() { // khung bao quanh hình ảnh --> va chạm

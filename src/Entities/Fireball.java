@@ -1,7 +1,9 @@
 package Entities;
 
-public class Stone extends Bullet{
-	public Stone(int x, int y) {
+import Entities.GameObjectDynamic.Direction;
+
+public class Fireball extends Bullet{
+	public Fireball(int x, int y) {
 		super(x, y);
 		loadImage("res/textures/img/dan2.png");
 		getImageDimension();
@@ -15,10 +17,10 @@ public class Stone extends Bullet{
         if (getObjectDricetion() == Direction.DOWN) y += bullet_speed;
         fly += bullet_speed; // so sánh độ dài đã bay với độ dài đạn
         if (fly>bullet_length) {
-        	setTontai(false);
+        	setExist(false);
         }
         if(x<0||x>550||y<0||y>550) {
-        	setTontai(false);
+        	setExist(false);
         }
     }
 

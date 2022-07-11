@@ -12,12 +12,12 @@ import Entities.GameObjectDynamic.Direction;
 
 public class Hero {
 
-	private List<Fire> fires;
+	private List<MagicBall> magicballs;
 	private List<Skillshot> skillshots;
 
 	private int life = 8; // health
 	private int maxLife = 8;
-	private int speed = 4;
+	private int speed = 8;
 	private int maxMana = 12;
 
 	private int mana = 12;
@@ -34,7 +34,7 @@ public class Hero {
 
 	public Hero(int x, int y) {
 		setHeroGP(new GameObjectDynamic(x, y));
-		fires = new ArrayList<>();
+		magicballs = new ArrayList<>();
 		skillshots = new ArrayList<>();
 		heroGP.loadImage("res/textures/img/down.png");
 		heroGP.getImageDimension();
@@ -130,7 +130,7 @@ public class Hero {
 		return false;
 	}
 
-	public void tofire() {
+	public void castMagicBall() {
 		int xz = 0, yz = 0;
 		if (heroGP.getObjectDricetion() == Direction.RIGHT) {
 			xz = heroGP.x + heroGP.width;
@@ -145,9 +145,9 @@ public class Hero {
 			xz = heroGP.x + heroGP.width / 2;
 			yz = heroGP.y;
 		}
-		Fire fire_new = new Fire(xz, yz);
-		fire_new.setObjectDricetion(heroGP.getObjectDricetion());
-		fires.add(fire_new);
+		MagicBall MagicBall_new = new MagicBall(xz, yz);
+		MagicBall_new.setObjectDricetion(heroGP.getObjectDricetion());
+		magicballs.add(MagicBall_new);
 	}
 
 	public void toSkillshot() {
@@ -235,8 +235,8 @@ public class Hero {
 		this.heroGP = heroGP;
 	}
 
-	public List<Fire> getFires() {
-		return fires;
+	public List<MagicBall> getMagicBalls() {
+		return magicballs;
 	}
 
 	public List<Skillshot> getSkillshots() {
