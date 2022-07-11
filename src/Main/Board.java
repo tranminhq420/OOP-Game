@@ -48,6 +48,7 @@ public class Board extends JPanel implements ActionListener {
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
 	private final int[][] position = { // vi tri quai->thay = random
+			
 			{ 0, 0 } };
 	// { 400, 310 }, { 420, 420 }, { 350, 500 }, { 230, 460 }, { 370, 280 },
 	// { 30, 40 }, { 60, 60 }
@@ -97,12 +98,13 @@ public class Board extends JPanel implements ActionListener {
 		if (!ingame) {
 			timer.stop();
 		} // game over ( ko nhan su kien nhan nua )
-		updateFires();
+		updateMagicBalls();
 		updateSkillshots();
 		updateHero();
 		updateMonster();
 		updateBoss();
 		if (door_appared) {
+
 			if (!pathMap.equals("res/worlds/map2.txt")) {
 				map.newGameMap("res/worlds/map2.txt");
 //				m.openFile(pathMap);
@@ -112,24 +114,28 @@ public class Board extends JPanel implements ActionListener {
 		}
 		if (boss_appared) {
 			if (!pathMap.equals("res/worlds/map3.txt")) {
+				hero.getHeroGP().setX(300);
+				hero.getHeroGP().setY(300);
+				System.out.println( pathMap );
+				pathMap = "res/worlds/map3.txt";
 				map.newGameMap("res/worlds/map3.txt");
 			}
-			updateStone();
+			updateFireball();
 		}
 		checkCollisions(); // kiem tra va chạm
 		repaint(); // goi ra paintComponent
 		// System.out.println(hero.getLife());
 	}
 
-	private void updateFires() {
-		List<Fire> fires = hero.getFires();
-		for (int i = 0; i < fires.size(); i++) {
-			Fire fire = fires.get(i); // doi tg 1viendan = mangdan.thui
-			if (fire.getTontai()) {
-				fire.move();
+	private void updateMagicBalls() {
+		List<MagicBall> MagicBalls = hero.getMagicBalls();
+		for (int i = 0; i < MagicBalls.size(); i++) {
+			MagicBall MagicBall = MagicBalls.get(i); // doi tg 1viendan = mangdan.thui
+			if (MagicBall.getExist()) {
+				MagicBall.move();
 			} // vien dan di chuyen
 			else {
-				fires.remove(i);
+				MagicBalls.remove(i);
 			} // xoa vien dan khi ham move
 		}
 
@@ -139,7 +145,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Skillshot> skillshots = hero.getSkillshots();
 		for (int j = 0; j < skillshots.size(); j++) {
 			Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
-			if (skillshot.getTontai()) {
+			if (skillshot.getExist()) {
 				skillshot.move();
 			} // vien dan di chuyen
 			else {
@@ -149,22 +155,22 @@ public class Board extends JPanel implements ActionListener {
 
 	}
 
-	private void updateStone() {
-		List<Stone> stones = boss.getStones();
-		for (int i = 0; i < stones.size(); i++) {
-			Stone stone = stones.get(i);
-			if (stone.getTontai()) {
-				stone.move();
+	private void updateFireball() {
+		List<Fireball> fireballs = boss.getFireballs();
+		for (int i = 0; i < fireballs.size(); i++) {
+			Fireball fireball = fireballs.get(i);
+			if (fireball.getExist()) {
+				fireball.move();
 			} else
-				stones.remove(i);
+				fireballs.remove(i);
 		}
 	}
 
 	private void updateHero() {
-		if (hero.getHeroGP().getTontai()) {
+		if (hero.getHeroGP().getExist()) {
 			hero.move();
 		}
-		if (!hero.getHeroGP().getTontai()) {
+		if (!hero.getHeroGP().getExist()) {
 			ingame = false; 
 		}
 		if( hero.getShotAvailable() < 60 ) {
@@ -193,7 +199,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster m = monsters.get(i);
-			if (m.getMonsterGP().getTontai()) {
+			if (m.getMonsterGP().getExist()) {
 				m.move();
 			} else
 				monsters.remove(i);
@@ -208,34 +214,34 @@ public class Board extends JPanel implements ActionListener {
 				if (hero.isInvincible() == false) {
 					hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
 					if (hero.getLife() <= 0)
-						hero.getHeroGP().setTontai(false);
+						hero.getHeroGP().setExist(false);
 //					monster.setLife(monster.getLife() - 1);
 					if (monster.getLife() <= 0)
-						monster.getMonsterGP().setTontai(false);
+						monster.getMonsterGP().setExist(false);
 					hero.setInvincible(true);
 					// hero.setCollided(true);
 				}
 			}
 		}
 
-		List<Fire> frs = hero.getFires(); // fr : mang cac fire cua hhero
-		for (Fire fr : frs) {
-			Rectangle khung_fr = fr.getBounds(); // lay khung hinh dan ban ra
+		List<MagicBall> mbs = hero.getMagicBalls(); // mb : mang cac magic ball cua hero
+		for (MagicBall mb : mbs) {
+			Rectangle khung_mb = mb.getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
-				if (ms.intersects(khung_fr) && monster.isInvincible() == false ) { // va cham dan va quai
-					fr.setTontai(false);
+				if (ms.intersects(khung_mb) && monster.isInvincible() == false ) { // va cham dan va quai
+					mb.setExist(false);
 					monster.setInvincible(true);
 					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
-						monster.getMonsterGP().setTontai(false);
+						monster.getMonsterGP().setExist(false);
 						}
 				}
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
-			if (khung_fr.intersects(bs) && boss.isInvincible() == false) {
+			if (khung_mb.intersects(bs) && boss.isInvincible() == false) {
 				boss.setHp(boss.getHp() - hero.getAttack());
-				fr.setTontai(false);
+				mb.setExist(false);
 				boss.setInvincible(true);
 			}
 			;
@@ -249,11 +255,11 @@ public class Board extends JPanel implements ActionListener {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
-//					sk.setTontai(false);	
+//					sk.setExist(false);	
 						monster.setLife(monster.getLife() - hero.getSkillAttack());
 						monster.setInvincible(true);
 						if (monster.getLife() <= 0) {
-							monster.getMonsterGP().setTontai(false);
+							monster.getMonsterGP().setExist(false);
 							// playSE(1);
 						}
 				}
@@ -261,7 +267,7 @@ public class Board extends JPanel implements ActionListener {
 
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_fr2.intersects(bs) && boss.isInvincible() == false) {
-				// sk.setTontai(false);
+				// sk.setExist(false);
 				boss.setHp(boss.getHp() - (hero.getSkillAttack() - boss.getDefense()));
 				boss.setInvincible(true);
 			}
@@ -269,16 +275,16 @@ public class Board extends JPanel implements ActionListener {
 		}
 
 		if (boss_appared) {
-			List<Stone> stones = boss.getStones(); // xu li va cham stones vs nhan vat
-			for (Stone st : stones) {
-				Rectangle st_rec = st.getBounds();
-				if (hr.intersects(st_rec) && hero.isInvincible() == false) {
+			List<Fireball> Fireballs = boss.getFireballs(); // xu li va cham stones vs nhan vat
+			for (Fireball fb : Fireballs) {
+				Rectangle fb_rec = fb.getBounds();
+				if (hr.intersects(fb_rec) && hero.isInvincible() == false) {
 					// playSE(3);
 					if (hero.getLife() <= 0)
-						hero.getHeroGP().setTontai(false);
+						hero.getHeroGP().setExist(false);
 					else
 						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense()));
-					st.setTontai(false);
+					fb.setExist(false);
 					hero.setInvincible(true);
 				}
 			}
@@ -287,7 +293,7 @@ public class Board extends JPanel implements ActionListener {
 				if (hero.isInvincible() == false) {
 					hero.setLife(hero.getLife() - 1);
 					if (hero.getLife() <= 0)
-						hero.getHeroGP().setTontai(false);
+						hero.getHeroGP().setExist(false);
 					hero.setInvincible(true);
 				}
 			}
@@ -378,9 +384,9 @@ public class Board extends JPanel implements ActionListener {
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 				
 
-				List<Fire> fires = hero.getFires();
-				for (Fire fire : fires) { // ve dan
-					g.drawImage(fire.getImage(), fire.getX(), fire.getY(), this);
+				List<MagicBall> MagicBalls = hero.getMagicBalls();
+				for (MagicBall MagicBall : MagicBalls) { // ve dan
+					g.drawImage(MagicBall.getImage(), MagicBall.getX(), MagicBall.getY(), this);
 				}
 
 				// ve skillshot
@@ -391,7 +397,7 @@ public class Board extends JPanel implements ActionListener {
 				}
 
 				for (Monster monster : monsters) { // ve quai
-					if (monster.getMonsterGP().getTontai()) {
+					if (monster.getMonsterGP().getExist()) {
 						Integer hpBar = 8;
 						Integer hpBarValue = hpBar * monster.getLife();
 						if( monster.isInvincible() == true ){
@@ -409,9 +415,9 @@ public class Board extends JPanel implements ActionListener {
 						g.fillRect(monster.getMonsterGP().getX(), monster.getMonsterGP().getY() - 15, hpBarValue, 10);
 					}
 				}
-				List<Stone> stones = boss.getStones();
-				for (Stone stone : stones) {
-					g.drawImage(stone.getImage(), stone.getX(), stone.getY(), this);
+				List<Fireball> Fireballs = boss.getFireballs();
+				for (Fireball Fireball : Fireballs) {
+					g.drawImage(Fireball.getImage(), Fireball.getX(), Fireball.getY(), this);
 				}
 				if (hero.isInvincible() == true) {
 					hero.setInvincibleCounter(hero.getInvincibleCounter() + 1);
@@ -523,7 +529,7 @@ public class Board extends JPanel implements ActionListener {
 			int key = e.getKeyCode();
 			if (key == KeyEvent.VK_SPACE) {
 				if( hero.getShotAvailable() == 60){
-					hero.tofire();
+					hero.castMagicBall();
 					hero.setShotAvailable(0);
 				}
 			}
