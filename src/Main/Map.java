@@ -41,7 +41,19 @@ public class Map {
 	}
 
 	public void newGameMap(String pathName) {
-		String map[] = readFile(pathName);
+		String map[] = new String[mapRow];
+		try {
+			// m= new Scanner(new File("src/data/map.txt"));
+			m = new Scanner(new File(pathName));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found !");
+		}
+		while (m.hasNext()) {
+			for (int i = 0; i < mapRow; i++) {
+				map[i] = m.next();
+			}
+		}
+		m.close();
 		int entityIndex;
 		GameObject graphics;
 		ImageIcon entityImage;
@@ -91,26 +103,6 @@ public class Map {
 	public StaticEntity getEntityMap(int x, int y) {
 		return gameMap[x / Board.tileSize][y / Board.tileSize];
 	}
-
-
-	public String[] readFile(String pathName) {
-		String map[] = new String[mapRow];
-		try {
-			// m= new Scanner(new File("src/data/map.txt"));
-			m = new Scanner(new File(pathName));
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found !");
-		}
-		while (m.hasNext()) {
-			for (int i = 0; i < mapRow; i++) {
-				map[i] = m.next();
-			}
-		}
-		m.close();
-		return map;
-	}
-
-
 
 	public int getMapCol() {
 		return mapCol;
