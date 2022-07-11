@@ -131,7 +131,7 @@ public class Board extends JPanel implements ActionListener {
 		List<MagicBall> MagicBalls = magicCat.getMagicBalls();
 		for (int i = 0; i < MagicBalls.size(); i++) {
 			MagicBall MagicBall = MagicBalls.get(i); // doi tg 1viendan = mangdan.thui
-			if (MagicBall.getExist()) {
+			if (MagicBall.getBulletGP().getExist()) {
 				MagicBall.move();
 			} // vien dan di chuyen
 			else {
@@ -145,7 +145,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Skillshot> skillshots = magicCat.getSkillshots();
 		for (int j = 0; j < skillshots.size(); j++) {
 			Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
-			if (skillshot.getExist()) {
+			if (skillshot.getBulletGP().getExist()) {
 				skillshot.move();
 			} // vien dan di chuyen
 			else {
@@ -159,7 +159,7 @@ public class Board extends JPanel implements ActionListener {
 		List<Fireball> fireballs = boss.getFireballs();
 		for (int i = 0; i < fireballs.size(); i++) {
 			Fireball fireball = fireballs.get(i);
-			if (fireball.getExist()) {
+			if (fireball.getBulletGP().getExist()) {
 				fireball.move();
 			} else
 				fireballs.remove(i);
@@ -207,10 +207,10 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void checkCollisions() {
-		Rectangle hr = magicCat.getMagicCatGP().getBounds(); // tao khung bao quanh nv
+		Rectangle mc = magicCat.getMagicCatGP().getBounds(); // tao khung bao quanh nv
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
-			if (hr.intersects(ms)) { // 2 khung cham vao nhau
+			if (mc.intersects(ms)) { // 2 khung cham vao nhau
 				if (magicCat.isInvincible() == false) {
 					magicCat.setLife(magicCat.getLife() - (monster.getAttack() - magicCat.getDefense()));
 					if (magicCat.getLife() <= 0)
@@ -226,11 +226,11 @@ public class Board extends JPanel implements ActionListener {
 
 		List<MagicBall> mbs = magicCat.getMagicBalls(); // mb : mang cac magic ball cua hero
 		for (MagicBall mb : mbs) {
-			Rectangle khung_mb = mb.getBounds(); // lay khung hinh dan ban ra
+			Rectangle khung_mb = mb.getBulletGP().getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 				if (ms.intersects(khung_mb) && monster.isInvincible() == false ) { // va cham dan va quai
-					mb.setExist(false);
+					mb.getBulletGP().setExist(false);
 					monster.setInvincible(true);
 					monster.setLife(monster.getLife() - ( magicCat.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
@@ -240,23 +240,23 @@ public class Board extends JPanel implements ActionListener {
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_mb.intersects(bs) && boss.isInvincible() == false) {
-				boss.setHp(boss.getHp() - magicCat.getAttack());
-				mb.setExist(false);
+				boss.setHp(boss.getHp() - (magicCat.getAttack()-boss.getDefense()) );
+				mb.getBulletGP().setExist(false);
+
 				boss.setInvincible(true);
 			}
-			;
 		}
 
 		List<Skillshot> sks = magicCat.getSkillshots(); // fr : mang cac fire cua hero
 		for (Skillshot sk : sks) {
 			// System.out.println(collisionMonster);
-			Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
+			Rectangle khung_fr2 = sk.getBulletGP().getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
 				Rectangle ms = monster.getMonsterGP().getBounds(); // lay hinh tung con quai
 
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
 //					sk.setExist(false);	
-						monster.setLife(monster.getLife() - magicCat.getSkillAttack());
+						monster.setLife(monster.getLife() - ( magicCat.getSkillAttack()-monster.getDefense()) );
 						monster.setInvincible(true);
 						if (monster.getLife() <= 0) {
 							monster.getMonsterGP().setExist(false);
@@ -277,28 +277,29 @@ public class Board extends JPanel implements ActionListener {
 		if (boss_appared) {
 			List<Fireball> Fireballs = boss.getFireballs(); // xu li va cham stones vs nhan vat
 			for (Fireball fb : Fireballs) {
-				Rectangle fb_rec = fb.getBounds();
-				if (hr.intersects(fb_rec) && magicCat.isInvincible() == false) {
+				Rectangle fb_rec = fb.getBulletGP().getBounds();
+				if (mc.intersects(fb_rec) && magicCat.isInvincible() == false) {
 					// playSE(3);
-					if (magicCat.getLife() <= 0)
+					magicCat.setLife(magicCat.getLife() - (boss.getAttack() - magicCat.getDefense()) ) ;
+					if (magicCat.getLife() <= 0){
 						magicCat.getMagicCatGP().setExist(false);
-					else
-						magicCat.setLife(magicCat.getLife() - (boss.getAttack() - magicCat.getDefense()));
-					fb.setExist(false);
-					magicCat.setInvincible(true);
+					} else {
+						fb.getBulletGP().setExist(false);
+						magicCat.setInvincible(true);
+					}
 				}
-			}
-			Rectangle bs = boss.getMonsterGP().getBounds();
-			if (bs.intersects(hr)) {
-				if (magicCat.isInvincible() == false) {
+				Rectangle bs = boss.getMonsterGP().getBounds();
+				if (bs.intersects(mc) && magicCat.isInvincible() == false) {
 					magicCat.setLife(magicCat.getLife() - 1);
-					if (magicCat.getLife() <= 0)
+					if (magicCat.getLife() <= 0){
 						magicCat.getMagicCatGP().setExist(false);
+						}
 					magicCat.setInvincible(true);
 				}
 			}
 		}
 	}
+	
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -386,13 +387,13 @@ public class Board extends JPanel implements ActionListener {
 
 				List<MagicBall> MagicBalls = magicCat.getMagicBalls();
 				for (MagicBall MagicBall : MagicBalls) { // ve dan
-					g.drawImage(MagicBall.getImage(), MagicBall.getX(), MagicBall.getY(), this);
+					g.drawImage(MagicBall.getBulletGP().getImage(), MagicBall.getBulletGP().getX(), MagicBall.getBulletGP().getY(), this);
 				}
 
 				// ve skillshot
 				List<Skillshot> skillshots = magicCat.getSkillshots();
 				for (Skillshot skillshot : skillshots) { // ve dan
-					g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
+					g.drawImage(skillshot.getBulletGP().getImage(), skillshot.getBulletGP().getX(), skillshot.getBulletGP().getY(), this);
 
 				}
 
@@ -417,7 +418,7 @@ public class Board extends JPanel implements ActionListener {
 				}
 				List<Fireball> Fireballs = boss.getFireballs();
 				for (Fireball Fireball : Fireballs) {
-					g.drawImage(Fireball.getImage(), Fireball.getX(), Fireball.getY(), this);
+					g.drawImage(Fireball.getBulletGP().getImage(), Fireball.getBulletGP().getX(), Fireball.getBulletGP().getY(), this);
 				}
 				if (magicCat.isInvincible() == true) {
 					magicCat.setInvincibleCounter(magicCat.getInvincibleCounter() + 1);

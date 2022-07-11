@@ -6,15 +6,15 @@ import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Monster {
-	private int speed = 1;
-	private int maxLife = 4;
+	private int speed ;
+	private int maxLife;
 	private int life = maxLife;
-	private int attack = 2;
-	private int defense = 2;
-	private boolean invincible=false;
-	private int invincibleCounter=0;
+	private int attack ;
+	private int defense;
+	private boolean invincible;
+	private int invincibleCounter;
 	private GameObjectDynamic monsterGP;
-	private int flexible = 0;
+	private int flexible;
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
 		initMonster();
