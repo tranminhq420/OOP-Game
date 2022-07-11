@@ -10,7 +10,7 @@ import java.util.List;
 
 import Entities.GameObjectDynamic.Direction;
 
-public class Hero {
+public class MagicCat {
 
 	private List<MagicBall> magicballs;
 	private List<Skillshot> skillshots;
@@ -30,59 +30,59 @@ public class Hero {
 	private int shotAvailable = 0;
 	private int skillAvailable = 0;
 	private boolean isCollided;
-	private GameObjectDynamic heroGP;
+	private GameObjectDynamic magicCatGP;
 
-	public Hero(int x, int y) {
-		setHeroGP(new GameObjectDynamic(x, y));
+	public MagicCat(int x, int y) {
+		setMagicCatGP(new GameObjectDynamic(x, y));
 		magicballs = new ArrayList<>();
 		skillshots = new ArrayList<>();
-		heroGP.loadImage("res/textures/img/down.png");
-		heroGP.getImageDimension();
-		heroGP.setObjectDricetion(Direction.DOWN);
+		magicCatGP.loadImage("res/textures/img/down.png");
+		magicCatGP.getImageDimension();
+		magicCatGP.setObjectDricetion(Direction.DOWN);
 	}
 
 	public void move() {
-		if (heroGP.x - speed < 1) {
-			heroGP.x = 1;
+		if (magicCatGP.x - speed < 1) {
+			magicCatGP.x = 1;
 		}
-		if (heroGP.y - speed < 1) {
-			heroGP.y = 1;
-		}
-
-		heroGP.getImageDimension();
-		if (heroGP.x + speed > Board.getSizeX() - heroGP.width) {
-			heroGP.x = Board.getSizeX() - heroGP.width;
-		}
-		if (heroGP.y + speed > Board.getSizeY() - heroGP.height) {
-			heroGP.y = Board.getSizeY() - heroGP.height;
+		if (magicCatGP.y - speed < 1) {
+			magicCatGP.y = 1;
 		}
 
-		if (checkMapLeft(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
-			heroGP.x = heroGP.x + speed;
+		magicCatGP.getImageDimension();
+		if (magicCatGP.x + speed > Board.getSizeX() - magicCatGP.width) {
+			magicCatGP.x = Board.getSizeX() - magicCatGP.width;
 		}
-		if (checkMapRight(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
-			heroGP.x = heroGP.x - speed;
+		if (magicCatGP.y + speed > Board.getSizeY() - magicCatGP.height) {
+			magicCatGP.y = Board.getSizeY() - magicCatGP.height;
 		}
-		if (checkMapUp(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
-			heroGP.y = heroGP.y + speed;
+
+		if (collisionLeft(magicCatGP.x, magicCatGP.y, magicCatGP.width, magicCatGP.height)) {
+			magicCatGP.x = magicCatGP.x + speed;
 		}
-		if (checkMapDown(heroGP.x, heroGP.y, heroGP.width, heroGP.height)) {
-			heroGP.y = heroGP.y - speed;
+		if (collisionRight(magicCatGP.x, magicCatGP.y, magicCatGP.width, magicCatGP.height)) {
+			magicCatGP.x = magicCatGP.x - speed;
+		}
+		if (collisionUp(magicCatGP.x, magicCatGP.y, magicCatGP.width, magicCatGP.height)) {
+			magicCatGP.y = magicCatGP.y + speed;
+		}
+		if (collisionDown(magicCatGP.x, magicCatGP.y, magicCatGP.width, magicCatGP.height)) {
+			magicCatGP.y = magicCatGP.y - speed;
 		}
 
 
 //		Check 4 canh cua nhan vat neu nhu vao trong cua thi xuat hien
-		if (Board.map.getEntityMap(heroGP.x, heroGP.y).getName().equals("New Land Door")
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y).getName().equals("New Land Door")
-				|| Board.map.getEntityMap(heroGP.x, heroGP.y + heroGP.height).getName().equals("New Land Door")
-				|| Board.map.getEntityMap(heroGP.x + heroGP.width, heroGP.y + heroGP.height).getName().equals("New Land Door")
+		if (Board.map.getEntityMap(magicCatGP.x, magicCatGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(magicCatGP.x + magicCatGP.width, magicCatGP.y).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(magicCatGP.x, magicCatGP.y + magicCatGP.height).getName().equals("New Land Door")
+				|| Board.map.getEntityMap(magicCatGP.x + magicCatGP.width, magicCatGP.y + magicCatGP.height).getName().equals("New Land Door")
 						) {
 			Board.setDoor_appared();
 		}
 
 	}
 
-	public boolean checkMapRight(int x, int y, int width, int height) {
+	public boolean collisionRight(int x, int y, int width, int height) {
 		x = x + width + 1;
 		for (int i = 0; i < height; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -94,7 +94,7 @@ public class Hero {
 		return false;
 	}
 
-	public boolean checkMapUp(int x, int y, int width, int height) {
+	public boolean collisionUp(int x, int y, int width, int height) {
 		y = y - 1;
 		for (int i = 0; i < width; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -106,7 +106,7 @@ public class Hero {
 		return false;
 	}
 
-	public boolean checkMapDown(int x, int y, int width, int height) {
+	public boolean collisionDown(int x, int y, int width, int height) {
 		y = y + height + 1;
 		for (int i = 0; i < width; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -118,7 +118,7 @@ public class Hero {
 		return false;
 	}
 
-	public boolean checkMapLeft(int x, int y, int width, int height) {
+	public boolean collisionLeft(int x, int y, int width, int height) {
 		x = x - 1;
 		for (int i = 0; i < height; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -133,77 +133,78 @@ public class Hero {
 	public void castMagicBall() {
 		int xz = 0, yz = 0;
 		GameObjectDynamic bulletGP;
-		if (heroGP.getObjectDricetion() == Direction.RIGHT) {
-			xz = heroGP.x + heroGP.width;
-			yz = heroGP.y + heroGP.height / 2;
-		} else if (heroGP.getObjectDricetion() == Direction.LEFT) {
-			xz = heroGP.x;
-			yz = heroGP.y + heroGP.height / 2;
-		} else if (heroGP.getObjectDricetion() == Direction.DOWN) {
-			xz = heroGP.x + heroGP.width / 2;
-			yz = heroGP.y + heroGP.height;
-		} else if (heroGP.getObjectDricetion() == Direction.UP) {
-			xz = heroGP.x + heroGP.width / 2;
-			yz = heroGP.y;
+		if (magicCatGP.getObjectDricetion() == Direction.RIGHT) {
+			xz = magicCatGP.x + magicCatGP.width;
+			yz = magicCatGP.y + magicCatGP.height / 2;
+		} else if (magicCatGP.getObjectDricetion() == Direction.LEFT) {
+			xz = magicCatGP.x;
+			yz = magicCatGP.y + magicCatGP.height / 2;
+		} else if (magicCatGP.getObjectDricetion() == Direction.DOWN) {
+			xz = magicCatGP.x + magicCatGP.width / 2;
+			yz = magicCatGP.y + magicCatGP.height;
+		} else if (magicCatGP.getObjectDricetion() == Direction.UP) {
+			xz = magicCatGP.x + magicCatGP.width / 2;
+			yz = magicCatGP.y;
 		}
 		bulletGP = new GameObjectDynamic(xz, yz);
 		MagicBall MagicBall_new = new MagicBall(bulletGP);
-		MagicBall_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
+		MagicBall_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 		magicballs.add(MagicBall_new);
 	}
 
-	public void toSkillshot() {		
+	public void castSkillshot() {
 		if (mana > 0) {
 			GameObjectDynamic bulletGP;
 			int xz = 0, yz = 0;
-			if (heroGP.getObjectDricetion() == Direction.RIGHT) {
-				xz = getHeroGP().x + getHeroGP().width;
-				yz = getHeroGP().y + getHeroGP().height / 2;
+			if (magicCatGP.getObjectDricetion() == Direction.RIGHT) {
+				xz = getMagicCatGP().x + getMagicCatGP().width/2;
+				yz = getMagicCatGP().y + getMagicCatGP().height / 2;
 				for (int i = 0; i < Board.getSizeX() - xz -140; i++) {
 					bulletGP = new GameObjectDynamic(xz + i, yz);
 					Skillshot skillshot_new = new Skillshot(bulletGP);
-					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
+					skillshot_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				bulletGP = new GameObjectDynamic(0, 0);
 				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
-			} else if (heroGP.getObjectDricetion() == Direction.LEFT) {
-				xz = getHeroGP().x;
-				yz = getHeroGP().y + getHeroGP().height / 2;
+			} else if (magicCatGP.getObjectDricetion() == Direction.LEFT) {
+				xz = getMagicCatGP().x;
+				yz = getMagicCatGP().y + getMagicCatGP().height / 2;
 				for (int i = 0; i < xz; i++) {
 					bulletGP = new GameObjectDynamic(xz - i, yz);
 					Skillshot skillshot_new = new Skillshot(bulletGP);
-					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
+					skillshot_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				bulletGP = new GameObjectDynamic(0, 0);
 				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
-			} else if (heroGP.getObjectDricetion() == Direction.DOWN) {
-				xz = getHeroGP().x + getHeroGP().width / 2;
-				yz = getHeroGP().y + getHeroGP().height;
+			} else if (magicCatGP.getObjectDricetion() == Direction.DOWN) {
+				xz = getMagicCatGP().x + getMagicCatGP().width / 2;
+				yz = getMagicCatGP().y + getMagicCatGP().height/2;
 				for (int i = 0; i < Board.getSizeY() - yz; i++) {
 					bulletGP = new GameObjectDynamic(xz, yz + i);	 
 					Skillshot skillshot_new = new Skillshot(bulletGP);
-					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
+					skillshot_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				bulletGP = new GameObjectDynamic(0, 0);	 
 				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
-			} else if (heroGP.getObjectDricetion() == Direction.UP) {
-				xz = getHeroGP().x + getHeroGP().width / 3;
-				yz = getHeroGP().y;
+			} else if (magicCatGP.getObjectDricetion() == Direction.UP) {
+				xz = getMagicCatGP().x + getMagicCatGP().width / 3;
+				yz = getMagicCatGP().y;
 				for (int i = 0; i < yz; i++) {
 					bulletGP = new GameObjectDynamic(xz, yz - i);
 					Skillshot skillshot_new = new Skillshot(bulletGP);
-					skillshot_new.bulletGP.setObjectDricetion(heroGP.getObjectDricetion());
+					skillshot_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 					skillshots.add(skillshot_new);
 				}
 				bulletGP = new GameObjectDynamic(0, 0);
 				Skillshot skillshot_new = new Skillshot(bulletGP);
 				mana -= skillshot_new.getUseCost();
+			
 			}
 		}
 
@@ -237,12 +238,12 @@ public class Hero {
 		return skillAttack;
 	}
 
-	public GameObjectDynamic getHeroGP() {
-		return heroGP;
+	public GameObjectDynamic getMagicCatGP() {
+		return magicCatGP;
 	}
 
-	public void setHeroGP(GameObjectDynamic heroGP) {
-		this.heroGP = heroGP;
+	public void setMagicCatGP(GameObjectDynamic magicCatGP) {
+		this.magicCatGP = magicCatGP;
 	}
 
 	public List<MagicBall> getMagicBalls() {

@@ -3,14 +3,13 @@ package Entities;
 import Entities.GameObjectDynamic.Direction;
 
 public class Skillshot extends Bullet {
-	private final int bullet_speed = 5;
+	private final int bullet_speed = 10;
 	private final int bullet_length = 600;
 	private int useCost = 1;
 	
 	public Skillshot(GameObjectDynamic bulletGP) {
         super(bulletGP);
-    	bulletGP.loadImage("res/textures/img/dan2.p"
-    			+ "ng");
+    	bulletGP.loadImage("res/textures/img/laser_attack.png");
         bulletGP.getImageDimension();
     }
     public void move() {

@@ -6,15 +6,15 @@ import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Monster {
-	private int speed = 1;
-	private int maxLife = 4;
+	private int speed ;
+	private int maxLife;
 	private int life = maxLife;
-	private int attack = 2;
-	private int defense = 2;
-	private boolean invincible=false;
-	private int invincibleCounter=0;
+	private int attack ;
+	private int defense;
+	private boolean invincible;
+	private int invincibleCounter;
 	private GameObjectDynamic monsterGP;
-	private int flexible = 0;
+	private int flexible;
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
 		initMonster();
@@ -72,16 +72,16 @@ public class Monster {
 			monsterGP.y = Board.getSizeY() - monsterGP.height;
 		}
 
-		if (checkMapLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.x = monsterGP.x + speed;
 		}
-		if (checkMapRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.x = monsterGP.x - speed;
 		}
-		if (checkMapUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.y = monsterGP.y + speed;
 		}
-		if (checkMapDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.y = monsterGP.y - speed;
 		}
 	}
@@ -132,21 +132,21 @@ public class Monster {
 			monsterGP.y = Board.getSizeY() - monsterGP.height;
 		}
 
-		if (checkMapLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.x = monsterGP.x + speed;
 		}
-		if (checkMapRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.x = monsterGP.x - speed;
 		}
-		if (checkMapUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.y = monsterGP.y + speed;
 		}
-		if (checkMapDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
+		if (collisionDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
 			monsterGP.y = monsterGP.y - speed;
 		}
 	}
 
-	public boolean checkMapRight(int x, int y, int width, int height) {
+	public boolean collisionRight(int x, int y, int width, int height) {
 		x = x + width + 1;
 		for (int i = 0; i < height; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -158,7 +158,7 @@ public class Monster {
 		return false;
 	}
 
-	public boolean checkMapUp(int x, int y, int width, int height) {
+	public boolean collisionUp(int x, int y, int width, int height) {
 		y = y - 1;
 		for (int i = 0; i < width; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -170,7 +170,7 @@ public class Monster {
 		return false;
 	}
 
-	public boolean checkMapDown(int x, int y, int width, int height) {
+	public boolean collisionDown(int x, int y, int width, int height) {
 		y = y + height + 1;
 		for (int i = 0; i < width; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())
@@ -182,7 +182,7 @@ public class Monster {
 		return false;
 	}
 
-	public boolean checkMapLeft(int x, int y, int width, int height) {
+	public boolean collisionLeft(int x, int y, int width, int height) {
 		x = x - 1;
 		for (int i = 0; i < height; i++) {
 			if (Board.map.getEntityMap(x, y).isCollision())

@@ -2,15 +2,23 @@ package Entities;
 
 import Entities.GameObjectDynamic.Direction;
 
+
+// public class Fireball extends Bullet{
+// 	public Fireball(int x, int y) {
+// 		super(x, y);
+// 		loadImage("res/textures/img/fireball.png");
+// 		getImageDimension();
+// 	}
+
 public class Fireball extends Bullet {
-	private final int bullet_speed = 5;
+	private final int bullet_speed = 2;
 	private final int bullet_length = 600;
 	private int useCost = 1;
+
 	
 	public Fireball(GameObjectDynamic bulletGP) {
         super(bulletGP);
-    	bulletGP.loadImage("res/textures/img/dan2.p"
-    			+ "ng");
+    	bulletGP.loadImage("res/textures/img/fireball.png");
         bulletGP.getImageDimension();
     }
     public void move() {
