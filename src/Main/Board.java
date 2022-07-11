@@ -33,7 +33,7 @@ public class Board extends JPanel implements ActionListener {
 	private final int TOADO_Y = 10;
 	private final int DELAY = 10; // toc do quet su kien
 	// protected Image logo;
-	private Hero hero;
+	private MagicCat magicCat;
 	private Boss boss;
 	private Timer timer;
 	private boolean ingame; // danh dau chuyen canh
@@ -42,8 +42,8 @@ public class Board extends JPanel implements ActionListener {
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
 	private static boolean door_appared = false; // het quai thi se lo ra canh cua
-	private final double heroHpBar = 10.66; // thanh mau cua nguoi choi
-	private final double heroManaBar = 6.4;// thanh mana cua nguoi choi
+	private final double magicCatHpBar = 10.66; // thanh mau cua nguoi choi
+	private final double magicCatManaBar = 6.4;// thanh mana cua nguoi choi
 	private String pathMap = ""; // duong dan den Map
 	private List<Monster> monsters; // mang quai
 	private boolean win = false;
@@ -74,7 +74,7 @@ public class Board extends JPanel implements ActionListener {
 		ingame = true;
 		started = false;
 		commandNum = 0;
-		hero = new Hero(TOADO_X, TOADO_Y);
+		magicCat = new MagicCat(TOADO_X, TOADO_Y);
 		initMonsters();
 		boss = new Boss(SIZE_X - 250, SIZE_Y / 2); // khoi tao boss ben phai man hinh
 		timer = new Timer(DELAY, this); // nhan su kien sau 10dvth
@@ -84,7 +84,7 @@ public class Board extends JPanel implements ActionListener {
 	public void initMonsters() {
 		monsters = new ArrayList<>();
 		for (int[] p : position) { // them monster
-			monsters.add(new Monster(p[0], p[1]));
+			monsters.add(new Monkey(p[0], p[1]));
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Board extends JPanel implements ActionListener {
 		} // game over ( ko nhan su kien nhan nua )
 		updateMagicBalls();
 		updateSkillshots();
-		updateHero();
+		updateMagicCat();
 		updateMonster();
 		updateBoss();
 		if (door_appared) {
@@ -114,8 +114,8 @@ public class Board extends JPanel implements ActionListener {
 		}
 		if (boss_appared) {
 			if (!pathMap.equals("res/worlds/map3.txt")) {
-				hero.getHeroGP().setX(300);
-				hero.getHeroGP().setY(300);
+				magicCat.getMagicCatGP().setX(300);
+				magicCat.getMagicCatGP().setY(300);
 				System.out.println( pathMap );
 				pathMap = "res/worlds/map3.txt";
 				map.newGameMap("res/worlds/map3.txt");
@@ -124,11 +124,11 @@ public class Board extends JPanel implements ActionListener {
 		}
 		checkCollisions(); // kiem tra va chạm
 		repaint(); // goi ra paintComponent
-		// System.out.println(hero.getLife());
+		// System.out.println(magicCat.getLife());
 	}
 
 	private void updateMagicBalls() {
-		List<MagicBall> MagicBalls = hero.getMagicBalls();
+		List<MagicBall> MagicBalls = magicCat.getMagicBalls();
 		for (int i = 0; i < MagicBalls.size(); i++) {
 			MagicBall MagicBall = MagicBalls.get(i); // doi tg 1viendan = mangdan.thui
 			if (MagicBall.getExist()) {
@@ -142,7 +142,7 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void updateSkillshots() {
-		List<Skillshot> skillshots = hero.getSkillshots();
+		List<Skillshot> skillshots = magicCat.getSkillshots();
 		for (int j = 0; j < skillshots.size(); j++) {
 			Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
 			if (skillshot.getExist()) {
@@ -166,24 +166,24 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void updateHero() {
-		if (hero.getHeroGP().getExist()) {
-			hero.move();
+	private void updateMagicCat() {
+		if (magicCat.getMagicCatGP().getExist()) {
+			magicCat.move();
 		}
-		if (!hero.getHeroGP().getExist()) {
+		if (!magicCat.getMagicCatGP().getExist()) {
 			ingame = false; 
 		}
-		if( hero.getShotAvailable() < 60 ) {
-			hero.setShotAvailable(hero.getShotAvailable()+1) ;
+		if( magicCat.getShotAvailable() < 60 ) {
+			magicCat.setShotAvailable(magicCat.getShotAvailable()+1) ;
 		}
-		if( hero.getSkillAvailable() < 60 ) {
-			hero.setSkillAvailable(hero.getSkillAvailable()+1) ;
+		if( magicCat.getSkillAvailable() < 60 ) {
+			magicCat.setSkillAvailable(magicCat.getSkillAvailable()+1) ;
 		}
 	}
 
 	private void updateBoss() {
 		if (boss_appared) {
-			boss.move(hero.getHeroGP().getY());
+			boss.move(magicCat.getMagicCatGP().getY());
 			if (boss.getHp() <= 0) {
 				ingame = false;
 				win = true;
@@ -207,24 +207,24 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void checkCollisions() {
-		Rectangle hr = hero.getHeroGP().getBounds(); // tao khung bao quanh nv
+		Rectangle hr = magicCat.getMagicCatGP().getBounds(); // tao khung bao quanh nv
 		for (Monster monster : monsters) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
 			if (hr.intersects(ms)) { // 2 khung cham vao nhau
-				if (hero.isInvincible() == false) {
-					hero.setLife(hero.getLife() - (monster.getAttack() - hero.getDefense()));
-					if (hero.getLife() <= 0)
-						hero.getHeroGP().setExist(false);
+				if (magicCat.isInvincible() == false) {
+					magicCat.setLife(magicCat.getLife() - (monster.getAttack() - magicCat.getDefense()));
+					if (magicCat.getLife() <= 0)
+						magicCat.getMagicCatGP().setExist(false);
 //					monster.setLife(monster.getLife() - 1);
 					if (monster.getLife() <= 0)
 						monster.getMonsterGP().setExist(false);
-					hero.setInvincible(true);
-					// hero.setCollided(true);
+					magicCat.setInvincible(true);
+					// magicCat.setCollided(true);
 				}
 			}
 		}
 
-		List<MagicBall> mbs = hero.getMagicBalls(); // mb : mang cac magic ball cua hero
+		List<MagicBall> mbs = magicCat.getMagicBalls(); // mb : mang cac magic ball cua hero
 		for (MagicBall mb : mbs) {
 			Rectangle khung_mb = mb.getBounds(); // lay khung hinh dan ban ra
 			for (Monster monster : monsters) {
@@ -232,7 +232,7 @@ public class Board extends JPanel implements ActionListener {
 				if (ms.intersects(khung_mb) && monster.isInvincible() == false ) { // va cham dan va quai
 					mb.setExist(false);
 					monster.setInvincible(true);
-					monster.setLife(monster.getLife() - ( hero.getAttack() - monster.getDefense() ) );
+					monster.setLife(monster.getLife() - ( magicCat.getAttack() - monster.getDefense() ) );
 					if (monster.getLife() <= 0) {
 						monster.getMonsterGP().setExist(false);
 						}
@@ -240,14 +240,14 @@ public class Board extends JPanel implements ActionListener {
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_mb.intersects(bs) && boss.isInvincible() == false) {
-				boss.setHp(boss.getHp() - hero.getAttack());
+				boss.setHp(boss.getHp() - magicCat.getAttack());
 				mb.setExist(false);
 				boss.setInvincible(true);
 			}
 			;
 		}
 
-		List<Skillshot> sks = hero.getSkillshots(); // fr : mang cac fire cua hero
+		List<Skillshot> sks = magicCat.getSkillshots(); // fr : mang cac fire cua hero
 		for (Skillshot sk : sks) {
 			// System.out.println(collisionMonster);
 			Rectangle khung_fr2 = sk.getBounds(); // lay khung hinh dan ban ra
@@ -256,7 +256,7 @@ public class Board extends JPanel implements ActionListener {
 
 				if (ms.intersects(khung_fr2) && monster.isInvincible() == false ) { // va cham dan va quai
 //					sk.setExist(false);	
-						monster.setLife(monster.getLife() - hero.getSkillAttack());
+						monster.setLife(monster.getLife() - magicCat.getSkillAttack());
 						monster.setInvincible(true);
 						if (monster.getLife() <= 0) {
 							monster.getMonsterGP().setExist(false);
@@ -268,7 +268,7 @@ public class Board extends JPanel implements ActionListener {
 			Rectangle bs = boss.getMonsterGP().getBounds(); // va cham dan va boss
 			if (khung_fr2.intersects(bs) && boss.isInvincible() == false) {
 				// sk.setExist(false);
-				boss.setHp(boss.getHp() - (hero.getSkillAttack() - boss.getDefense()));
+				boss.setHp(boss.getHp() - (magicCat.getSkillAttack() - boss.getDefense()));
 				boss.setInvincible(true);
 			}
 
@@ -278,23 +278,23 @@ public class Board extends JPanel implements ActionListener {
 			List<Fireball> Fireballs = boss.getFireballs(); // xu li va cham stones vs nhan vat
 			for (Fireball fb : Fireballs) {
 				Rectangle fb_rec = fb.getBounds();
-				if (hr.intersects(fb_rec) && hero.isInvincible() == false) {
+				if (hr.intersects(fb_rec) && magicCat.isInvincible() == false) {
 					// playSE(3);
-					if (hero.getLife() <= 0)
-						hero.getHeroGP().setExist(false);
+					if (magicCat.getLife() <= 0)
+						magicCat.getMagicCatGP().setExist(false);
 					else
-						hero.setLife(hero.getLife() - (boss.getAttack() - hero.getDefense()));
+						magicCat.setLife(magicCat.getLife() - (boss.getAttack() - magicCat.getDefense()));
 					fb.setExist(false);
-					hero.setInvincible(true);
+					magicCat.setInvincible(true);
 				}
 			}
 			Rectangle bs = boss.getMonsterGP().getBounds();
 			if (bs.intersects(hr)) {
-				if (hero.isInvincible() == false) {
-					hero.setLife(hero.getLife() - 1);
-					if (hero.getLife() <= 0)
-						hero.getHeroGP().setExist(false);
-					hero.setInvincible(true);
+				if (magicCat.isInvincible() == false) {
+					magicCat.setLife(magicCat.getLife() - 1);
+					if (magicCat.getLife() <= 0)
+						magicCat.getMagicCatGP().setExist(false);
+					magicCat.setInvincible(true);
 				}
 			}
 		}
@@ -331,7 +331,7 @@ public class Board extends JPanel implements ActionListener {
 		// MAGIC CAT IMG
 		a = SIZE_X / 2 - 52;
 		b += 84;
-		g.drawImage(hero.getHeroGP().getImage(), a, b, 100, 100, null);
+		g.drawImage(magicCat.getMagicCatGP().getImage(), a, b, 100, 100, null);
 
 		// MENU
 		g.setFont(g.getFont().deriveFont(Font.BOLD, 24F));
@@ -375,22 +375,22 @@ public class Board extends JPanel implements ActionListener {
 				FontMetrics fm = getFontMetrics(small);
 				g.setColor(Color.white);
 				g.setFont(small);
-				// g.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this); // ve hero
-				if( hero.isInvincible() == true ){
+				// g.drawImage(magicCat.getMagicCatGP().getImage(), magicCat.getMagicCatGP().getX(), magicCat.getMagicCatGP().getY(), this); // ve hero
+				if( magicCat.isInvincible() == true ){
 					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
 				}
-				g2.drawImage(hero.getHeroGP().getImage(), hero.getHeroGP().getX(), hero.getHeroGP().getY(), this);
+				g2.drawImage(magicCat.getMagicCatGP().getImage(), magicCat.getMagicCatGP().getX(), magicCat.getMagicCatGP().getY(), this);
 				//RESET ALPHA
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 				
 
-				List<MagicBall> MagicBalls = hero.getMagicBalls();
+				List<MagicBall> MagicBalls = magicCat.getMagicBalls();
 				for (MagicBall MagicBall : MagicBalls) { // ve dan
 					g.drawImage(MagicBall.getImage(), MagicBall.getX(), MagicBall.getY(), this);
 				}
 
 				// ve skillshot
-				List<Skillshot> skillshots = hero.getSkillshots();
+				List<Skillshot> skillshots = magicCat.getSkillshots();
 				for (Skillshot skillshot : skillshots) { // ve dan
 					g.drawImage(skillshot.getImage(), skillshot.getX(), skillshot.getY(), this);
 
@@ -419,16 +419,16 @@ public class Board extends JPanel implements ActionListener {
 				for (Fireball Fireball : Fireballs) {
 					g.drawImage(Fireball.getImage(), Fireball.getX(), Fireball.getY(), this);
 				}
-				if (hero.isInvincible() == true) {
-					hero.setInvincibleCounter(hero.getInvincibleCounter() + 1);
-					if (hero.getInvincibleCounter() > 60) {
-						hero.setInvincible(false);
-						hero.setInvincibleCounter(0);
+				if (magicCat.isInvincible() == true) {
+					magicCat.setInvincibleCounter(magicCat.getInvincibleCounter() + 1);
+					if (magicCat.getInvincibleCounter() > 60) {
+						magicCat.setInvincible(false);
+						magicCat.setInvincibleCounter(0);
 					}
 				}
 				if (boss.isInvincible() == true) {
 					boss.setInvincibleCounter(boss.getInvincibleCounter() + 1);
-					if (boss.getInvincibleCounter() > 30) {
+					if (boss.getInvincibleCounter() > 60) {
 						boss.setInvincible(false);
 						boss.setInvincibleCounter(0);
 					}
@@ -485,21 +485,21 @@ public class Board extends JPanel implements ActionListener {
 				g.setColor(Color.white);
 				g.fillRect(SIZE_X - 100-2, SIZE_Y / 4 + 60 -1 ,88,12);
 				g.setColor(Color.red);
-				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60, (int) Math.round(heroHpBar * hero.getLife()), 10);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 60, (int) Math.round(magicCatHpBar * magicCat.getLife()), 10);
 				g.setColor(Color.white);
-				// g.drawString("Speed : " + hero.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
+				// g.drawString("Speed : " + magicCat.getSpeed(), SIZE_X - 100, SIZE_Y / 4 + 80);
 				g.drawString("Mana : ", SIZE_X - 100, SIZE_Y / 4 + 90);
 				g.setColor(Color.white);
 				g.fillRect(SIZE_X - 100-2, SIZE_Y / 4 + 100 -1 ,80,12);
 				g.setColor(Color.blue);
-				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100, (int) Math.round(heroManaBar * hero.getMana()), 10);
+				g.fillRect(SIZE_X - 100, SIZE_Y / 4 + 100, (int) Math.round(magicCatManaBar * magicCat.getMana()), 10);
 				g.setColor(Color.white);
-				g.drawString("Attack : " + hero.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
-				g.drawString("Defense : " + hero.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
-				g.drawString(" : " + hero.getShotAvailable(), SIZE_X - 100, SIZE_Y / 4 + 170);
-				// g.drawString("Collision : " + hero.getCollided(), SIZE_X - 100, SIZE_Y / 4 +
+				g.drawString("Attack : " + magicCat.getAttack(), SIZE_X - 100, SIZE_Y / 4 + 130);
+				g.drawString("Defense : " + magicCat.getDefense(), SIZE_X - 100, SIZE_Y / 4 + 150);
+				g.drawString(" : " + magicCat.getShotAvailable(), SIZE_X - 100, SIZE_Y / 4 + 170);
+				// g.drawString("Collision : " + magicCat.getCollided(), SIZE_X - 100, SIZE_Y / 4 +
 				// 150);
-				// g.drawString("Invincible : " + hero.getInvincibleCounter(), SIZE_X - 100,
+				// g.drawString("Invincible : " + magicCat.getInvincibleCounter(), SIZE_X - 100,
 				// SIZE_Y / 4 + 170);
 
 			} else {
@@ -528,40 +528,40 @@ public class Board extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 			if (key == KeyEvent.VK_SPACE) {
-				if( hero.getShotAvailable() == 60){
-					hero.castMagicBall();
-					hero.setShotAvailable(0);
+				if( magicCat.getShotAvailable() == 60){
+					magicCat.castMagicBall();
+					magicCat.setShotAvailable(0);
 				}
 			}
 			if (key == KeyEvent.VK_A) {
-				if( hero.getMana() > 0 && hero.getSkillAvailable() == 60) {
-					hero.toSkillshot();
-					hero.setSkillAvailable(0);
+				if( magicCat.getMana() > 0 && magicCat.getSkillAvailable() == 60) {
+					magicCat.castSkillshot();
+					magicCat.setSkillAvailable(0);
 				}
 			}
 			if (key == KeyEvent.VK_LEFT) {
-//				hero.setDx(-hero.getSpeed());
-				hero.getHeroGP().setX(hero.getHeroGP().getX() - hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/left.png");
-				hero.getHeroGP().setObjectDricetion(Direction.LEFT);
+//				magicCat.setDx(-magicCat.getSpeed());
+				magicCat.getMagicCatGP().setX(magicCat.getMagicCatGP().getX() - magicCat.getSpeed());
+				magicCat.getMagicCatGP().loadImage("res/textures/img/left.png");
+				magicCat.getMagicCatGP().setObjectDricetion(Direction.LEFT);
 			}
 			if (key == KeyEvent.VK_RIGHT) {
-//				hero.setDx(hero.getSpeed());
-				hero.getHeroGP().setX(hero.getHeroGP().getX() + hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/right.png");
-				hero.getHeroGP().setObjectDricetion(Direction.RIGHT);
+//				magicCat.setDx(magicCat.getSpeed());
+				magicCat.getMagicCatGP().setX(magicCat.getMagicCatGP().getX() + magicCat.getSpeed());
+				magicCat.getMagicCatGP().loadImage("res/textures/img/right.png");
+				magicCat.getMagicCatGP().setObjectDricetion(Direction.RIGHT);
 			}
 			if (key == KeyEvent.VK_UP) {
-//				hero.setDy(-hero.getSpeed());
-				hero.getHeroGP().setY(hero.getHeroGP().getY() - hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/up.png");
-				hero.getHeroGP().setObjectDricetion(Direction.UP);
+//				magicCat.setDy(-magicCat.getSpeed());
+				magicCat.getMagicCatGP().setY(magicCat.getMagicCatGP().getY() - magicCat.getSpeed());
+				magicCat.getMagicCatGP().loadImage("res/textures/img/up.png");
+				magicCat.getMagicCatGP().setObjectDricetion(Direction.UP);
 			}
 			if (key == KeyEvent.VK_DOWN) {
-//				hero.setDy(hero.getSpeed());
-				hero.getHeroGP().setY(hero.getHeroGP().getY() + hero.getSpeed());
-				hero.getHeroGP().loadImage("res/textures/img/down.png");
-				hero.getHeroGP().setObjectDricetion(Direction.DOWN);
+//				magicCat.setDy(magicCat.getSpeed());
+				magicCat.getMagicCatGP().setY(magicCat.getMagicCatGP().getY() + magicCat.getSpeed());
+				magicCat.getMagicCatGP().loadImage("res/textures/img/down.png");
+				magicCat.getMagicCatGP().setObjectDricetion(Direction.DOWN);
 			}
 		}
 

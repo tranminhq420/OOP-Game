@@ -5,7 +5,7 @@ import Entities.GameObjectDynamic.Direction;
 public class Fireball extends Bullet{
 	public Fireball(int x, int y) {
 		super(x, y);
-		loadImage("res/textures/img/dan2.png");
+		loadImage("res/textures/img/fireball.png");
 		getImageDimension();
 	}
 	@Override

@@ -81,7 +81,7 @@ public class Map {
 					gameMap[j][i] = new Grass(graphics, "Rock", true);
 
 				} else if (entityIndex == EntityList.BRIDGE.getValue()) {
-					entityImage = new ImageIcon("res/textures/img/dirt.png");
+					entityImage = new ImageIcon("res/textures/img/bridge.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Bridge", false);
 
@@ -90,7 +90,7 @@ public class Map {
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Earth", false);
 				} else if (entityIndex == EntityList.NEWLANDDOOR.getValue()) {
-					entityImage = new ImageIcon("res/textures/img/ironman.png");
+					entityImage = new ImageIcon("res/textures/img/portal.png");
 					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "New Land Door", false);
 				}

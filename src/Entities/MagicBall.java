@@ -5,7 +5,7 @@ import Entities.GameObjectDynamic.Direction;
 public class MagicBall extends Bullet {
 	public MagicBall(int x, int y) {
     	super(x,y);
-    	loadImage("res/textures/img/magic_bullet.png");
+    	loadImage("res/textures/img/magic_ball.png");
     	getImageDimension();
     }
     public void move() {
