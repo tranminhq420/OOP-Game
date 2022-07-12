@@ -39,6 +39,8 @@ public class Board extends JPanel implements ActionListener {
 	private boolean ingame; // danh dau chuyen canh
 	private boolean started; // danh dau bat dau -> chuyen sang image->game over
 	private double commandNum; // de chuyen trang thai giua play game, option va quit game
+	private boolean showOption = false; //khi an phim ESC hien cac options: continue, newgame, exit
+	private boolean pauseCharacter = false; //nguoi va quai dung yen khi nhan ESC
 	private boolean boss_died = false; // boss chet ->gameover
 	private static boolean boss_appared = false;
 	private static boolean door_appared = false; // het quai thi se lo ra canh cua
@@ -80,7 +82,23 @@ public class Board extends JPanel implements ActionListener {
 		timer = new Timer(DELAY, this); // nhan su kien sau 10dvth
 		timer.start(); // gui toi actionPerformed
 	}
-
+	public void reset() {
+	   	 commandNum = 0;
+		       setFocusable(true);             // xu li su kien
+		       setBackground(Color.BLACK);     // mau nen
+		       setDoubleBuffered(true);
+		       setPreferredSize(new Dimension(SIZE_X, SIZE_Y));
+		       updateMonster();
+		      map = new Map("res/worlds/map.txt");
+		       ingame = true; started = true;
+		      magicCat = new MagicCat(TOADO_X, TOADO_Y);
+		       initMonsters();
+		       if(boss_appared == true) {
+		    	   boss_appared = false;
+		       }
+		       boss = new Boss(SIZE_X-250,SIZE_Y/2); // khoi tao boss ben phai man hinh
+		       timer = new Timer(DELAY, this); // nhan su kien sau 10dvth
+	}
 	public void initMonsters() {
 		monsters = new ArrayList<>();
 		for (int[] p : position) { // them monster
@@ -167,7 +185,7 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void updateMagicCat() {
-		if (magicCat.getMagicCatGP().getExist()) {
+		if (magicCat.getMagicCatGP().getExist() && pauseCharacter == false) {
 			magicCat.move();
 		}
 		if (!magicCat.getMagicCatGP().getExist()) {
@@ -182,11 +200,11 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void updateBoss() {
-		if (boss_appared) {
+		if (boss_appared && pauseCharacter == false) {
 			boss.move(magicCat.getMagicCatGP().getY());
 			if (boss.getHp() <= 0) {
-				ingame = false;
 				win = true;
+				ingame = false;
 			}
 
 		}
@@ -199,10 +217,10 @@ public class Board extends JPanel implements ActionListener {
 		}
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster m = monsters.get(i);
-			if (m.getMonsterGP().getExist()) {
+			if (m.getMonsterGP().getExist() && pauseCharacter == false) {
 				m.move();
-			} else
-				monsters.remove(i);
+			} 
+			if (!m.getMonsterGP().getExist() && pauseCharacter == false) {monsters.remove(i);}
 		}
 	}
 
@@ -314,6 +332,9 @@ public class Board extends JPanel implements ActionListener {
 
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, 50, 50);
+		
+		if (started == false) {  
+			if(showOption == false) {
 
 		// TITLE NAME
 		g.setFont(g.getFont().deriveFont(Font.BOLD, 50F));
@@ -360,7 +381,58 @@ public class Board extends JPanel implements ActionListener {
 		if (commandNum == 2) {
 			g.drawString(">", a - tileSize, b);
 		}
+	  }
+	}
+		if(started == false) {
+			if( showOption == true) {
+			       
+				  pauseCharacter = true;
+				  drawMap(g);
+				  g2.drawImage(magicCat.getMagicCatGP().getImage(), magicCat.getMagicCatGP().getX(), magicCat.getMagicCatGP().getY(), this);
+				  //g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+				  for (Monster monster : monsters) { // ve quai
+						if (monster.getMonsterGP().getExist()) {
+							g2.drawImage(monster.getMonsterGP().getImage(), monster.getMonsterGP().getX(), monster.getMonsterGP().getY(),this);
+						}
+				  }
+		    	  if (boss_appared) {
+		    		  g2.drawImage(boss.getMonsterGP().getImage(), boss.getMonsterGP().getX(), boss.getMonsterGP().getY(), this);}
+		    	  
+		    	  //hien thi cac options
+		    	  
+		    	  String text ="";
+		    	  
+		    	  int a = (SIZE_X - fome.stringWidth(text)) / 2 - 90;
+		  		int b = SIZE_Y / 2 - 200;
+		  		g.setColor(Color.white);
+		  		g.drawString(text, a, b);
+		    	
+		  		text = "CONTINUE";
+		  		 a = getXforCenteredText(text, g);
+		  		 b += 196;
+		  		g.drawString(text, a, b);
+		  		if (commandNum == 0) {
+		  			g.drawString(">", a - 32, b);
+		  		}
 
+		  		text = "NEW GAME";
+		  		a = getXforCenteredText(text, g);
+		  		b += 64;
+		  		g.drawString(text, a, b);
+		  		if (commandNum == 1) {
+		  			g.drawString(">", a - 32, b);
+		  		}
+
+		  		text = "QUIT";
+		  		a = getXforCenteredText(text, g);
+		  		b += 64;
+		  		g.drawString(text, a, b);
+		  		if (commandNum == 2) {
+		  			g.drawString(">", a - 32, b);
+		  		}
+		      
+		  }
+		}
 		if (started == true) {
 			drawMap(g);
 
@@ -540,25 +612,25 @@ public class Board extends JPanel implements ActionListener {
 					magicCat.setSkillAvailable(0);
 				}
 			}
-			if (key == KeyEvent.VK_LEFT) {
+			if (key == KeyEvent.VK_LEFT &&  pauseCharacter == false) {
 //				magicCat.setDx(-magicCat.getSpeed());
 				magicCat.getMagicCatGP().setX(magicCat.getMagicCatGP().getX() - magicCat.getSpeed());
 				magicCat.getMagicCatGP().loadImage("res/textures/img/left.png");
 				magicCat.getMagicCatGP().setObjectDricetion(Direction.LEFT);
 			}
-			if (key == KeyEvent.VK_RIGHT) {
+			if (key == KeyEvent.VK_RIGHT &&  pauseCharacter == false) {
 //				magicCat.setDx(magicCat.getSpeed());
 				magicCat.getMagicCatGP().setX(magicCat.getMagicCatGP().getX() + magicCat.getSpeed());
 				magicCat.getMagicCatGP().loadImage("res/textures/img/right.png");
 				magicCat.getMagicCatGP().setObjectDricetion(Direction.RIGHT);
 			}
-			if (key == KeyEvent.VK_UP) {
+			if (key == KeyEvent.VK_UP &&  pauseCharacter == false) {
 //				magicCat.setDy(-magicCat.getSpeed());
 				magicCat.getMagicCatGP().setY(magicCat.getMagicCatGP().getY() - magicCat.getSpeed());
 				magicCat.getMagicCatGP().loadImage("res/textures/img/up.png");
 				magicCat.getMagicCatGP().setObjectDricetion(Direction.UP);
 			}
-			if (key == KeyEvent.VK_DOWN) {
+			if (key == KeyEvent.VK_DOWN &&  pauseCharacter == false) {
 //				magicCat.setDy(magicCat.getSpeed());
 				magicCat.getMagicCatGP().setY(magicCat.getMagicCatGP().getY() + magicCat.getSpeed());
 				magicCat.getMagicCatGP().loadImage("res/textures/img/down.png");
@@ -595,10 +667,22 @@ public class Board extends JPanel implements ActionListener {
 //				Board.m.openFile("res/worlds/map2.txt");
 //				Board.m.readFile(); // Nho readfile lai 1 lan nua
 //			}
+			
+			if (key == KeyEvent.VK_ESCAPE  &&  started == true) {
+	        	   
+	      		   started = false;
+		        	showOption = true;
+		        
+	         }
+	         
+	         if(started == false && showOption == true) {
+	      		    
+	         }
 		}
 	}
 
 	public void titleState(int code) {
+		if(started == false && showOption == false) {
 		if (code == KeyEvent.VK_UP) {
 			commandNum--;
 			if (commandNum < 0) {
@@ -621,6 +705,37 @@ public class Board extends JPanel implements ActionListener {
 			}
 			if (commandNum == 2) {
 				System.exit(0);
+			}
+		}
+	}
+		if(started == false && showOption == true) {
+			if(code == KeyEvent.VK_UP) {
+				commandNum--;
+				if( commandNum < 0) {
+					commandNum = 2;
+				}
+			}
+			if(code == KeyEvent.VK_DOWN) {
+				commandNum++;
+				if( commandNum > 2) {
+					commandNum = 0;
+				}
+			}
+			
+			if( code == KeyEvent.VK_ENTER) {
+				if( commandNum == 0) {
+					started = true;
+				pauseCharacter = false;
+				}
+				if( commandNum == 1) {
+			      reset();
+				pauseCharacter = false;
+					 
+				}
+				if( commandNum == 2) {
+					System.exit(0);
+				}
+				
 			}
 		}
 	}
