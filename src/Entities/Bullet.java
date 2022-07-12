@@ -1,9 +1,10 @@
 package Entities;
 
 abstract class Bullet {
-	protected final int bullet_length = 250;
-	protected final int bullet_speed =2;
-	protected int fly =0;
+	private int bullet_length;
+	private int bullet_speed;
+	private int useCost;
+	private int fly;
 	protected GameObjectDynamic bulletGP;
     public Bullet(GameObjectDynamic bulletGP) {
 		this.bulletGP = bulletGP;
@@ -22,13 +23,23 @@ abstract class Bullet {
 	public void setFly(int fly) {
 		this.fly = fly;
 	}
+	public void setBullet_length(int bullet_length) {
+		this.bullet_length = bullet_length;
+	}
+	public void setBullet_speed(int bullet_speed) {
+		this.bullet_speed = bullet_speed;
+	}
 	public GameObjectDynamic getBulletGP() {
 		return bulletGP;
 	}
 	public void setBulletGP(GameObjectDynamic bulletGP) {
 		this.bulletGP = bulletGP;
 	}
-
-	
+	public int getUseCost() {
+		return useCost;
+	}
+	public void setUseCost(int useCost) {
+		this.useCost = useCost;
+	}
 
 }

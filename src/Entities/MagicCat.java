@@ -150,6 +150,7 @@ public class MagicCat {
 		MagicBall MagicBall_new = new MagicBall(bulletGP);
 		MagicBall_new.bulletGP.setObjectDricetion(magicCatGP.getObjectDricetion());
 		magicballs.add(MagicBall_new);
+		mana -= MagicBall_new.getUseCost();
 	}
 
 	public void castSkillshot() {

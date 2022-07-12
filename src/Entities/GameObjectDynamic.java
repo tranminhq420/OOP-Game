@@ -6,12 +6,13 @@ import java.awt.Rectangle;
 
 public class GameObjectDynamic extends GameObject {
 	
-	protected boolean exist; // còn sống 2
+	protected boolean exist; // còn sống 
+	private Direction ObjectDricetion; // hướng di chuyển
+
 	public enum Direction{
 		UP,DOWN,RIGHT,LEFT
 	}
-	private Direction ObjectDricetion; // đánh dấu hướng di chuyển -1 1
-
+	
 	public GameObjectDynamic(int x, int y) {
 		super(x, y);
 		setExist(true);
@@ -35,8 +36,6 @@ public class GameObjectDynamic extends GameObject {
 	public Direction getObjectDricetion() {
 		return ObjectDricetion;
 	}
-
-
 
 	public void setObjectDricetion(Direction objectDricetion) {
 		ObjectDricetion = objectDricetion;

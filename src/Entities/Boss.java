@@ -14,13 +14,8 @@ public class Boss extends Monster {
 	private int enrage = 0;
 	private int attackSpeed = 0;
 
-
 	public Boss(int x, int y) {
 		super(x, y);
-		initBoss();
-	}
-
-	private void initBoss() {
 		fireballs = new ArrayList<>();
 		getMonsterGP().loadImage("res/textures/img/bossdown.png");
 		getMonsterGP().getImageDimension(); // lấy kích thước ảnh
