@@ -13,14 +13,11 @@ public class Monster {
 	private int defense;
 	private boolean invincible;
 	private int invincibleCounter;
-	private GameObjectDynamic monsterGP;
 	private int flexible;
+	private GameObjectDynamic monsterGP;
+	
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
-		initMonster();
-	}
-
-	private void initMonster() {
 		monsterGP.loadImage("res/textures/img/monkeyright.png");
 		monsterGP.getImageDimension();
 		monsterGP.setObjectDricetion(Direction.DOWN);
