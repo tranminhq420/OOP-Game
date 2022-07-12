@@ -21,7 +21,7 @@ Open file OOP-Game\source\Main.java to run the game (```Ctrl F11``` on Eclipse o
 
 ## How to play
 - Press :arrow_up: :arrow_down: :arrow_right: :arrow_left: to move
-- Press ```space```
+- Press ```space``` to cast Normal attack
 - Press :a: to cast Special skill
 
 ## Screenshot
