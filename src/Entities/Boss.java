@@ -30,7 +30,7 @@ public class Boss extends Monster {
 
 	public void castFireball() { // quái ném đá
 		int xz = 0, yz = 0;
-		
+
 		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			xz = getMonsterGP().x + getMonsterGP().width;
 			yz = getMonsterGP().y + getMonsterGP().height / 2;
@@ -46,7 +46,8 @@ public class Boss extends Monster {
 		}
 		GameObjectDynamic bulletGP = new GameObjectDynamic(xz, yz);
 		Fireball fireball_new = new Fireball(bulletGP);
-		fireball_new.bulletGP.setObjectDricetion(getMonsterGP().getObjectDricetion());;
+		fireball_new.bulletGP.setObjectDricetion(getMonsterGP().getObjectDricetion());
+		;
 
 		fireballs.add(fireball_new);
 	}
@@ -55,7 +56,7 @@ public class Boss extends Monster {
 		return fireballs;
 	}
 
-	public void move(int heroY) { // hàm move() có tham số >< move() kế thừa từ Monster
+	public void move(int heroY, int heroX) { // hàm move() có tham số >< move() kế thừa từ Monster
 
 		if (getMonsterGP().getObjectDricetion() == Direction.RIGHT) {
 			getMonsterGP().x += getSpeed();
@@ -71,21 +72,29 @@ public class Boss extends Monster {
 			getMonsterGP().loadImage("res/textures/img/eyedown.png");
 		}
 		Random rd = new Random();
-		int find_hero_speed = 1; // cứ sau 20s tìm hero 1 lần
+		int find_hero_speed = 10; // cứ sau 20s tìm hero 1 lần
 
-		setFlexible(getFlexible()+1 );
+		setFlexible(getFlexible() + 1);
 		if (getFlexible() == 20) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-		 // random hướng di chuyển 
-																										// định 0
-			switch (rd.nextInt(4) ) {
-			case 4:	getMonsterGP().setObjectDricetion(Direction.DOWN);break;
-			case 1:	getMonsterGP().setObjectDricetion(Direction.LEFT);break;
-			case 2:	getMonsterGP().setObjectDricetion(Direction.UP);break;
-			case 3:	getMonsterGP().setObjectDricetion(Direction.RIGHT);break;
+			// random hướng di chuyển
+			// định 0
+			switch (rd.nextInt(4)) {
+				case 4:
+					getMonsterGP().setObjectDricetion(Direction.DOWN);
+					break;
+				case 1:
+					getMonsterGP().setObjectDricetion(Direction.LEFT);
+					break;
+				case 2:
+					getMonsterGP().setObjectDricetion(Direction.UP);
+					break;
+				case 3:
+					getMonsterGP().setObjectDricetion(Direction.RIGHT);
+					break;
 
 			}
 			// tương ứng với đứng yên)
-			setFlexible(0); 
+			setFlexible(0);
 		}
 		if (getMonsterGP().x < 1) {
 			getMonsterGP().x = 1;
@@ -102,17 +111,23 @@ public class Boss extends Monster {
 			getMonsterGP().y = Board.getSizeY() - getMonsterGP().height * 2;
 		}
 
-
 		if (enrage < find_hero_speed)
 			enrage++; // số chu kì tìm hero
-		if (enrage == find_hero_speed) {
+		if (enrage <= find_hero_speed) {
 			if (getMonsterGP().getY() - heroY > getSpeed()) {
 				getMonsterGP().y -= getSpeed();
 			}
 			if (getMonsterGP().getY() - heroY < -getSpeed()) {
 				getMonsterGP().y += getSpeed();
 			}
-			enrage = 0;
+			if (getMonsterGP().getX() - heroX > getSpeed()) {
+				getMonsterGP().x -= getSpeed();
+			}
+			if (getMonsterGP().getX() - heroX < -getSpeed()) {
+				getMonsterGP().x += getSpeed();
+			}
+			if (enrage > 30)
+				enrage = 0;
 		}
 		attackSpeed++;
 		if (getMonsterGP().getY() - heroY < getMonsterGP().height && attackSpeed >= 200) {
@@ -133,7 +148,5 @@ public class Boss extends Monster {
 	public int getHpMax() {
 		return HP_MAX;
 	}
-	
-	
-	
+
 }

@@ -6,81 +6,21 @@ import Entities.GameObjectDynamic.Direction;
 import Main.Board;
 
 public class Monster {
-	private int speed ;
+	private int speed;
 	private int maxLife;
 	private int life = maxLife;
-	private int attack ;
+	private int attack;
 	private int defense;
 	private boolean invincible;
 	private int invincibleCounter;
 	private int flexible;
 	private GameObjectDynamic monsterGP;
-	
+
 	public Monster(int x, int y) {
 		setMonsterGP(new GameObjectDynamic(x, y));
 		monsterGP.loadImage("res/textures/img/monkeyright.png");
 		monsterGP.getImageDimension();
 		monsterGP.setObjectDricetion(Direction.DOWN);
-	}
-
-	public void move() {
-		if (monsterGP.getObjectDricetion() == Direction.RIGHT) {
-			monsterGP.x += speed;
-			monsterGP.loadImage("res/textures/img/monkeyright.png");
-		} else if (monsterGP.getObjectDricetion() == Direction.LEFT) {
-			monsterGP.x -= speed;
-			monsterGP.loadImage("res/textures/img/monkeyleft.png");
-		} else if (monsterGP.getObjectDricetion() == Direction.UP) {
-			monsterGP.y -= speed;
-			monsterGP.loadImage("res/textures/img/monkeyup.png");
-		} else if (monsterGP.getObjectDricetion() == Direction.DOWN) {
-			monsterGP.y += speed;
-			monsterGP.loadImage("res/textures/img/monkeydown.png");
-		}
-		
-		Random rd = new Random();
-
-		flexible += 1;
-		if (flexible == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-		 // random hướng di chuyển 
-			int key = rd.nextInt(4);// định 0
-			switch (key) {
-			case 4:	monsterGP.setObjectDricetion(Direction.DOWN);break;
-			case 1:	monsterGP.setObjectDricetion(Direction.LEFT);break;
-			case 2:	monsterGP.setObjectDricetion(Direction.UP);break;
-			case 3:	monsterGP.setObjectDricetion(Direction.RIGHT);break;
-
-			}
-			// System.out.println(key);
-			// tương ứng với đứng yên)
-			flexible = 0;
-		}
-		if (monsterGP.x < 1) {
-			monsterGP.x = 1;
-		} // ko cho di chuyển tràn khung
-		if (monsterGP.y < 1) {
-			monsterGP.y = 1;
-		}
-		monsterGP.getImageDimension();
-		if (monsterGP.x > Board.getSizeX() - monsterGP.width) {
-			monsterGP.x = Board.getSizeX() - monsterGP.width;
-		}
-		if (monsterGP.y > Board.getSizeY() - monsterGP.height) {
-			monsterGP.y = Board.getSizeY() - monsterGP.height;
-		}
-
-		if (collisionLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.x = monsterGP.x + speed;
-		}
-		if (collisionRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.x = monsterGP.x - speed;
-		}
-		if (collisionUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.y = monsterGP.y + speed;
-		}
-		if (collisionDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.y = monsterGP.y - speed;
-		}
 	}
 
 	public void move(String right, String left, String up, String down) {
@@ -97,18 +37,26 @@ public class Monster {
 			monsterGP.y += speed;
 			monsterGP.loadImage(down);
 		}
-		
+
 		Random rd = new Random();
 
 		flexible += 1;
 		if (flexible == 100) { // cứ sau 100 chu kỳ timer.DELAY lại chuyển hướng di chuyển
-		 // random hướng di chuyển 
+			// random hướng di chuyển
 			int key = rd.nextInt(4);// định 0
 			switch (key) {
-			case 4:	monsterGP.setObjectDricetion(Direction.DOWN);break;
-			case 1:	monsterGP.setObjectDricetion(Direction.LEFT);break;
-			case 2:	monsterGP.setObjectDricetion(Direction.UP);break;
-			case 3:	monsterGP.setObjectDricetion(Direction.RIGHT);break;
+				case 4:
+					monsterGP.setObjectDricetion(Direction.DOWN);
+					break;
+				case 1:
+					monsterGP.setObjectDricetion(Direction.LEFT);
+					break;
+				case 2:
+					monsterGP.setObjectDricetion(Direction.UP);
+					break;
+				case 3:
+					monsterGP.setObjectDricetion(Direction.RIGHT);
+					break;
 
 			}
 			// System.out.println(key);
