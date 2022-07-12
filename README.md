@@ -21,6 +21,31 @@ Open file OOP-Game\source\Main.java to run the game (Ctrl F11 on Eclipse or F5 o
 
 ## Screenshot
 Here is some demo screenshots about our game
-![Screenshot 2022-07-08 133516](https://user-images.githubusercontent.com/91653611/177934464-3079e20e-a710-4a63-a0bf-e6a1a0e93ab0.png)
-![Screenshot 2022-07-08 134751](https://user-images.githubusercontent.com/91653611/177934471-9a7d6381-cef3-4659-a8ba-c3054bdf9c92.png)
+- Menu console
+
+![Screenshot 2022-07-12 220721](https://user-images.githubusercontent.com/91653611/178523356-d85c2bb0-3be5-4964-888f-9cb5bbc9f447.png)
+
+- Map and monster
+
+![Screenshot 2022-07-12 215111](https://user-images.githubusercontent.com/91653611/178522196-b378e3eb-9557-4156-a875-92ea44b1a107.png)
+
+- Player and monster collision
+
+![Screenshot 2022-07-12 215139](https://user-images.githubusercontent.com/91653611/178522309-4b901593-8cbe-47a3-93f6-1cdf8d06ef46.png)
+
+- Player cast Magic ball ( normal hit)
+
+![Screenshot 2022-07-12 215204](https://user-images.githubusercontent.com/91653611/178522396-a24a43c9-482e-4614-8a1c-6ab48ee9936d.png)
+
+- Player cast Special skill 
+
+![Screenshot 2022-07-12 215223](https://user-images.githubusercontent.com/91653611/178522443-ef6e90a5-5b37-4332-9908-326108f7e8ec.png)
+
+- Space gate to new map
+
+![Screenshot 2022-07-12 215310](https://user-images.githubusercontent.com/91653611/178522577-0630c516-3b01-476d-bafc-58a9c730ac8c.png)
+
+- Boss appear
+
+![Screenshot 2022-07-12 215252](https://user-images.githubusercontent.com/91653611/178522522-ee65dab9-3df5-4441-b787-5749ebea62ce.png)
 
