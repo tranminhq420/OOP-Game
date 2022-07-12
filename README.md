@@ -17,7 +17,12 @@ You can download the direct ZIP file on github or use the command:
 git clone https://github.com/tranminhq420/OOP-Game.git
 ```
 ## How to run
-Open file OOP-Game\source\Main.java to run the game (Ctrl F11 on Eclipse or F5 on VS Code)
+Open file OOP-Game\source\Main.java to run the game (```Ctrl F11``` on Eclipse or ```F5``` on VS Code after installing Debugger for Java)
+
+## How to play
+- Press :arrow_up: :arrow_down: :arrow_right: :arrow_left: to move
+- Press ```space```
+- Press :a: to cast Special skill
 
 ## Screenshot
 Here is some demo screenshots about our game
