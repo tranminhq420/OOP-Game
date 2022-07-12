@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class Main extends JFrame {
 	public Main() {
-		 add(new Board()); // noi dung
+		 add(new GamePanel()); // noi dung
 	      pack();  // di kem voi setPreferredSize(); tao khung
 	      setResizable(false);
 	      setTitle("Magic Cat");

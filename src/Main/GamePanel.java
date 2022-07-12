@@ -25,10 +25,10 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Board extends JPanel implements ActionListener {
+public class GamePanel extends JPanel implements ActionListener {
 	private static final int SIZE_X = 750;
 	private static final int SIZE_Y = 600;
-	public static final int tileSize = 32; // thay cho so 32 hien tai
+	private static final int tileSize = 32; // thay cho so 32 hien tai
 	private final int TOADO_X = 10;
 	private final int TOADO_Y = 10;
 	private final int DELAY = 10; // toc do quet su kien
@@ -63,11 +63,11 @@ public class Board extends JPanel implements ActionListener {
 
 	Color bgcolor = new Color(207, 207, 207);
 
-	public Board() {
-		initBoard();
+	public GamePanel() {
+		initGamePanel();
 	}
 
-	public void initBoard() {
+	public void initGamePanel() {
 		addKeyListener(new KeyHandler()); // Nhan su kien tu ban phim
 		setFocusable(true); // xu li su kien
 		setBackground(Color.BLACK); // mau nen
@@ -151,7 +151,7 @@ public class Board extends JPanel implements ActionListener {
 		// System.out.println(magicCat.getLife());
 	}
 
-	private void updateMagicBalls() {
+	public void updateMagicBalls() {
 		List<MagicBall> MagicBalls = magicCat.getMagicBalls();
 		for (int i = 0; i < MagicBalls.size(); i++) {
 			MagicBall MagicBall = MagicBalls.get(i); // doi tg 1viendan = mangdan.thui
@@ -165,7 +165,7 @@ public class Board extends JPanel implements ActionListener {
 
 	}
 
-	private void updateSkillshots() {
+	public void updateSkillshots() {
 		List<Skillshot> skillshots = magicCat.getSkillshots();
 		for (int j = 0; j < skillshots.size(); j++) {
 			Skillshot skillshot = skillshots.get(j); // doi tg 1viendan = mangdan.thui
@@ -179,7 +179,7 @@ public class Board extends JPanel implements ActionListener {
 
 	}
 
-	private void updateFireball() {
+	public void updateFireball() {
 		List<Fireball> fireballs = boss.getFireballs();
 		for (int i = 0; i < fireballs.size(); i++) {
 			Fireball fireball = fireballs.get(i);
@@ -190,7 +190,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void updateMagicCat() {
+	public void updateMagicCat() {
 		if (magicCat.getMagicCatGP().getExist() && pauseCharacter == false) {
 			magicCat.move();
 		}
@@ -205,7 +205,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void updateBoss() {
+	public void updateBoss() {
 		if (boss_appared && pauseCharacter == false) {
 			boss.move(magicCat.getMagicCatGP().getY(), magicCat.getMagicCatGP().getX());
 			if (boss.getHp() <= 0) {
@@ -216,7 +216,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void updateMonster() {
+	public void updateMonster() {
 		if (mummys.isEmpty() && monkeys.isEmpty() && boss_died) { // mang quai rong va boss chet
 			ingame = false;
 			return;
@@ -241,7 +241,7 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void checkCollisions() {
+	public void checkCollisions() {
 		Rectangle mc = magicCat.getMagicCatGP().getBounds(); // tao khung bao quanh nv
 		for (Monkey monster : monkeys) { // kiem tra quai dam vao ng choi
 			Rectangle ms = monster.getMonsterGP().getBounds();
@@ -418,7 +418,7 @@ public class Board extends JPanel implements ActionListener {
 				b += 196;
 				g.drawString(text, a, b);
 				if (commandNum == 0) {
-					g.drawString(">", a - tileSize, b);
+					g.drawString(">", a - getTilesize(), b);
 				}
 
 				text = "OPTION";
@@ -426,7 +426,7 @@ public class Board extends JPanel implements ActionListener {
 				b += 64;
 				g.drawString(text, a, b);
 				if (commandNum == 1) {
-					g.drawString(">", a - tileSize, b);
+					g.drawString(">", a - getTilesize(), b);
 				}
 
 				text = "QUIT";
@@ -434,7 +434,7 @@ public class Board extends JPanel implements ActionListener {
 				b += 64;
 				g.drawString(text, a, b);
 				if (commandNum == 2) {
-					g.drawString(">", a - tileSize, b);
+					g.drawString(">", a - getTilesize(), b);
 				}
 			}
 		}
@@ -694,7 +694,7 @@ public class Board extends JPanel implements ActionListener {
 
 		for (int i = 0; i < map.getMapRow(); i++) {
 			for (int j = 0; j < map.getMapCol(); j++) {
-				g.drawImage(map.gameMap[i][j].getGraphics().getImage(), i * tileSize, j * tileSize, null);
+				g.drawImage(map.gameMap[i][j].getGraphics().getImage(), i * getTilesize(), j * getTilesize(), null);
 			}
 		}
 	}
@@ -856,5 +856,9 @@ public class Board extends JPanel implements ActionListener {
 
 	public static int getSizeY() {
 		return SIZE_Y;
+	}
+
+	public static int getTilesize() {
+		return tileSize;
 	}
 }

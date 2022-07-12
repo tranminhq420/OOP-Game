@@ -9,6 +9,8 @@ public class GameObjectDynamic extends GameObject {
 	protected boolean exist; // còn sống 
 	private Direction ObjectDricetion; // hướng di chuyển
 
+	
+
 	public enum Direction{
 		UP,DOWN,RIGHT,LEFT
 	}
@@ -30,7 +32,7 @@ public class GameObjectDynamic extends GameObject {
 	}
 
 	public Rectangle getBounds() { // khung bao quanh hình ảnh --> va chạm
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(getX(), getY(), getWidth(), getHeight());
 	}
 
 	public Direction getObjectDricetion() {

@@ -63,35 +63,35 @@ public class Map {
 
 				if (entityIndex == EntityList.GRASS.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/grass.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Grass", false);
 				} else if (entityIndex == EntityList.TREE.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/tree_grass_1.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Tree", true);
 
 				} else if (entityIndex == EntityList.WATER.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/water.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Water", true);
 
 				} else if (entityIndex == EntityList.ROCK.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/rock_dirt.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Rock", true);
 
 				} else if (entityIndex == EntityList.BRIDGE.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/bridge.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Bridge", false);
 
 				} else if (entityIndex == EntityList.EARTH.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/dirt.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "Earth", false);
 				} else if (entityIndex == EntityList.NEWLANDDOOR.getValue()) {
 					entityImage = new ImageIcon("res/textures/img/portal.png");
-					graphics = new GameObject(i, j, Board.tileSize, Board.tileSize, entityImage.getImage());
+					graphics = new GameObject(i, j, GamePanel.getTilesize(), GamePanel.getTilesize(), entityImage.getImage());
 					gameMap[j][i] = new Grass(graphics, "New Land Door", false);
 				}
 				
@@ -101,7 +101,7 @@ public class Map {
 	}
 
 	public StaticEntity getEntityMap(int x, int y) {
-		return gameMap[x / Board.tileSize][y / Board.tileSize];
+		return gameMap[x / GamePanel.getTilesize()][y / GamePanel.getTilesize()];
 	}
 
 	public int getMapCol() {

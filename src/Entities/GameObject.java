@@ -6,15 +6,15 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class GameObject {
-	protected int x, y, width, height;
-	protected Image image;
+	private int x, y, width, height;
+	private Image image;
 
 
 	public GameObject(int x, int y, int width, int height, Image image) {
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.setWidth(width);
+		this.setHeight(height);
 		this.image = image;
 	}
 
@@ -24,7 +24,7 @@ public class GameObject {
 	}
 
 	public void draw(Graphics2D g2d) {
-		g2d.drawImage(image, x, y, width, height, null);
+		g2d.drawImage(image, x, y, getWidth(), getHeight(), null);
 	}
 
 	public void loadImage(String imageName) {
@@ -33,8 +33,8 @@ public class GameObject {
 	}
 
 	public void getImageDimension() {
-		width = image.getWidth(null);
-		height = image.getHeight(null);
+		setWidth(image.getWidth(null));
+		setHeight(image.getHeight(null));
 	}
 
 	public void setImage(Image image) {
@@ -59,6 +59,22 @@ public class GameObject {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

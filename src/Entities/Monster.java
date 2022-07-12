@@ -1,9 +1,9 @@
 package Entities;
 
-import java.util.Random;
+import java.util.Random; 
 
 import Entities.GameObjectDynamic.Direction;
-import Main.Board;
+import Main.GamePanel;
 
 public class Monster {
 	private int speed;
@@ -25,16 +25,16 @@ public class Monster {
 
 	public void move(String right, String left, String up, String down) {
 		if (monsterGP.getObjectDricetion() == Direction.RIGHT) {
-			monsterGP.x += speed;
+			monsterGP.setX(monsterGP.getX() + speed);
 			monsterGP.loadImage(right);
 		} else if (monsterGP.getObjectDricetion() == Direction.LEFT) {
-			monsterGP.x -= speed;
+			monsterGP.setX(monsterGP.getX() - speed);
 			monsterGP.loadImage(left);
 		} else if (monsterGP.getObjectDricetion() == Direction.UP) {
-			monsterGP.y -= speed;
+			monsterGP.setY(monsterGP.getY() - speed);
 			monsterGP.loadImage(up);
 		} else if (monsterGP.getObjectDricetion() == Direction.DOWN) {
-			monsterGP.y += speed;
+			monsterGP.setY(monsterGP.getY() + speed);
 			monsterGP.loadImage(down);
 		}
 
@@ -63,38 +63,38 @@ public class Monster {
 			// tương ứng với đứng yên)
 			flexible = 0;
 		}
-		if (monsterGP.x < 1) {
-			monsterGP.x = 1;
+		if (monsterGP.getX() < 1) {
+			monsterGP.setX(1);
 		} // ko cho di chuyển tràn khung
-		if (monsterGP.y < 1) {
-			monsterGP.y = 1;
+		if (monsterGP.getY() < 1) {
+			monsterGP.setY(1);
 		}
 		monsterGP.getImageDimension();
-		if (monsterGP.x > Board.getSizeX() - monsterGP.width) {
-			monsterGP.x = Board.getSizeX() - monsterGP.width;
+		if (monsterGP.getX() > GamePanel.getSizeX() - monsterGP.getWidth()) {
+			monsterGP.setX(GamePanel.getSizeX() - monsterGP.getWidth());
 		}
-		if (monsterGP.y > Board.getSizeY() - monsterGP.height) {
-			monsterGP.y = Board.getSizeY() - monsterGP.height;
+		if (monsterGP.getY() > GamePanel.getSizeY() - monsterGP.getHeight()) {
+			monsterGP.setY(GamePanel.getSizeY() - monsterGP.getHeight());
 		}
 
-		if (collisionLeft(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.x = monsterGP.x + speed;
+		if (collisionLeft(monsterGP.getX(), monsterGP.getY(), monsterGP.getWidth(), monsterGP.getHeight())) {
+			monsterGP.setX(monsterGP.getX() + speed);
 		}
-		if (collisionRight(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.x = monsterGP.x - speed;
+		if (collisionRight(monsterGP.getX(), monsterGP.getY(), monsterGP.getWidth(), monsterGP.getHeight())) {
+			monsterGP.setX(monsterGP.getX() - speed);
 		}
-		if (collisionUp(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.y = monsterGP.y + speed;
+		if (collisionUp(monsterGP.getX(), monsterGP.getY(), monsterGP.getWidth(), monsterGP.getHeight())) {
+			monsterGP.setY(monsterGP.getY() + speed);
 		}
-		if (collisionDown(monsterGP.x, monsterGP.y, monsterGP.width, monsterGP.height)) {
-			monsterGP.y = monsterGP.y - speed;
+		if (collisionDown(monsterGP.getX(), monsterGP.getY(), monsterGP.getWidth(), monsterGP.getHeight())) {
+			monsterGP.setY(monsterGP.getY() - speed);
 		}
 	}
 
 	public boolean collisionRight(int x, int y, int width, int height) {
 		x = x + width + 1;
 		for (int i = 0; i < height; i++) {
-			if (Board.map.getEntityMap(x, y).isCollision())
+			if (GamePanel.map.getEntityMap(x, y).isCollision())
 				return true;
 			else {
 				y = y + 1;
@@ -106,7 +106,7 @@ public class Monster {
 	public boolean collisionUp(int x, int y, int width, int height) {
 		y = y - 1;
 		for (int i = 0; i < width; i++) {
-			if (Board.map.getEntityMap(x, y).isCollision())
+			if (GamePanel.map.getEntityMap(x, y).isCollision())
 				return true;
 			else {
 				x = x + 1;
@@ -118,7 +118,7 @@ public class Monster {
 	public boolean collisionDown(int x, int y, int width, int height) {
 		y = y + height + 1;
 		for (int i = 0; i < width; i++) {
-			if (Board.map.getEntityMap(x, y).isCollision())
+			if (GamePanel.map.getEntityMap(x, y).isCollision())
 				return true;
 			else {
 				x = x + 1;
@@ -130,7 +130,7 @@ public class Monster {
 	public boolean collisionLeft(int x, int y, int width, int height) {
 		x = x - 1;
 		for (int i = 0; i < height; i++) {
-			if (Board.map.getEntityMap(x, y).isCollision())
+			if (GamePanel.map.getEntityMap(x, y).isCollision())
 				return true;
 			else {
 				y = y + 1;

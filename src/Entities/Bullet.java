@@ -5,7 +5,7 @@ abstract class Bullet {
 	private int bullet_speed;
 	private int useCost;
 	private int fly;
-	protected GameObjectDynamic bulletGP;
+	private GameObjectDynamic bulletGP;
     public Bullet(GameObjectDynamic bulletGP) {
 		this.bulletGP = bulletGP;
 	}
